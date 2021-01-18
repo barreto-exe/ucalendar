@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:id="@+id/nav_home"
+    android:icon="@drawable/ic_home_white_24dp"
+    android:title="Inicio" />
+    <item
+        android:id="@+id/nav_agenda"
+        android:icon="@drawable/ic_bookmark_border_white_24dp"
+        android:title="Agenda" />
+    <item
+        android:id="@+id/nav_calendario"
+        android:icon="@drawable/ic_event_white_24dp"
+        android:title="Calendario" />
+</menu>
