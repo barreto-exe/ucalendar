@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * @author Luis Barreto
  * @version 0.1
  */
-public class DBOperacion
+public class SqliteOp
 {
     static
     {
@@ -61,7 +61,7 @@ public class DBOperacion
     /**
      * Instancia objeto con query vacío.
      */
-    public DBOperacion()
+    public SqliteOp()
     {
         this.query = "";
         parametros = new ArrayList<Object>();
@@ -72,7 +72,7 @@ public class DBOperacion
      *
      * @param query es la consulta a realizar en la base de datos.
      */
-    public DBOperacion(String query)
+    public SqliteOp(String query)
     {
         this.query = query;
         parametros = new ArrayList<Object>();
@@ -222,7 +222,7 @@ public class DBOperacion
         if(existe)
         {
             String query = "SELECT version_bbdd FROM configuracion";
-            DBOperacion op = new DBOperacion(query);
+            SqliteOp op = new SqliteOp(query);
             DBMatriz resultado = op.consultar();
 
             resultado.leer();
