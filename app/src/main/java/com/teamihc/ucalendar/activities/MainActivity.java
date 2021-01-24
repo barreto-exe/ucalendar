@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity
 
     }
     
-    public void ingresosesion(View v)
+    public void ingresoSesion(View v)
     {
         Intent i = new Intent(MainActivity.this, InicioSesion.class);
         startActivity(i);

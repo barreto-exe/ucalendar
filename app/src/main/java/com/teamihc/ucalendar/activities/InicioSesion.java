@@ -17,7 +17,7 @@ public class InicioSesion extends AppCompatActivity
         setContentView(R.layout.activity_inicio_sesion);
     }
     
-    public void ingresar(View view)
+    public void btnIngresar_click(View view)
     {
         Intent i = new Intent(InicioSesion.this, MainActivity.class);
         startActivity(i);

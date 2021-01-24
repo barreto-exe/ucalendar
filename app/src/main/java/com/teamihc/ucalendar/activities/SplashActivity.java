@@ -11,7 +11,8 @@ import com.teamihc.ucalendar.backend.basedatos.SqliteOp;
 
 public class SplashActivity extends AppCompatActivity
 {
-    int SPLASH_TIEMPO = 3500; //el splash se va a mostrar por 3.5 segundos
+    //int SPLASH_TIEMPO = 3500; //el splash se va a mostrar por 3.5 segundos
+    int SPLASH_TIEMPO = 0; //el splash se va a mostrar por 3.5 segundos
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
