@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.teamihc.ucalendar.R;
+import com.teamihc.ucalendar.backend.basedatos.DBOperacion;
 
 import android.os.Handler;
 
@@ -14,6 +15,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DBOperacion.verificarBaseDatos(getAssets());
         setContentView(R.layout.activity_splash);
 
         new Handler().postDelayed(new Runnable(){
