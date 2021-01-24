@@ -1,4 +1,4 @@
-package com.teamihc.ucalendar.Activities;
+package com.teamihc.ucalendar.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,9 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.teamihc.ucalendar.Fragments.AgendaFragment;
-import com.teamihc.ucalendar.Fragments.CalendarioFragment;
-import com.teamihc.ucalendar.Fragments.InicioFragment;
+import com.teamihc.ucalendar.fragments.AgendaFragment;
+import com.teamihc.ucalendar.fragments.CalendarioFragment;
+import com.teamihc.ucalendar.fragments.InicioFragment;
 import com.teamihc.ucalendar.R;
 
 public class MainActivity extends AppCompatActivity

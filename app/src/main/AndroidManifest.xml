@@ -9,9 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.UCalendar">
-        <activity android:name=".Activities.MainActivity"></activity>
-        <activity android:name=".Activities.InicioSesion" />
-        <activity android:name=".Activities.SplashActivity"> //cambie el main por el splash
+        <activity android:name=".activities.MainActivity"></activity>
+        <activity android:name=".activities.InicioSesion" />
+        <activity android:name=".activities.SplashActivity"> //cambie el main por el splash
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

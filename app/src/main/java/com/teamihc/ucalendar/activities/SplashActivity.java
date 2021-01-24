@@ -1,4 +1,4 @@
-package com.teamihc.ucalendar.Activities;
+package com.teamihc.ucalendar.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
