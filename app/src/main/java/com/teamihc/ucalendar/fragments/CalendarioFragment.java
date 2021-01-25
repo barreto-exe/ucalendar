@@ -1,4 +1,4 @@
-package com.teamihc.ucalendar.Fragments;
+package com.teamihc.ucalendar.fragments;
 
 
 import android.os.Bundle;
