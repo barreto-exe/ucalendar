@@ -48,11 +48,11 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnCerrarSesion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        android:onClick="ingresoSesion"
+        android:text="@string/cerrar_sesion"
+        android:onClick="btnCerrarSesion_click"
         app:layout_constraintBottom_toBottomOf="@+id/layout_principal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

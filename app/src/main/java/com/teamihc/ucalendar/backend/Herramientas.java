@@ -50,7 +50,7 @@ public class Herramientas
     }
     
     //<editor-fold desc="Servicios">
-    public static final String URLServiciosWeb = "http://191.232.237.126//servicios";
+    public static final String URLServiciosWeb = "http://191.232.237.126/servicios";
     
     public static String URLServicio(String nombreServicio)
     {

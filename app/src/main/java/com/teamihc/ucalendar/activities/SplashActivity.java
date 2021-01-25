@@ -7,6 +7,7 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.teamihc.ucalendar.R;
+import com.teamihc.ucalendar.backend.basedatos.Configuraciones;
 import com.teamihc.ucalendar.backend.basedatos.SqliteOp;
 
 public class SplashActivity extends AppCompatActivity
@@ -26,9 +27,17 @@ public class SplashActivity extends AppCompatActivity
             @Override
             public void run()
             {
-                //esto lo copie de internet sabrá dios que hace
-                Intent intentSplash = new Intent(SplashActivity.this, MainActivity.class);
-                startActivity(intentSplash);
+                Boolean sesionIniciada = !Configuraciones.getCorreoSesion().isEmpty();
+                Intent intent;
+                if(sesionIniciada)
+                {
+                    intent = new Intent(SplashActivity.this, MainActivity.class);
+                }
+                else
+                {
+                    intent = new Intent(SplashActivity.this, InicioSesion.class);
+                }
+                startActivity(intent);
                 finish();
             }
         }, SPLASH_TIEMPO);

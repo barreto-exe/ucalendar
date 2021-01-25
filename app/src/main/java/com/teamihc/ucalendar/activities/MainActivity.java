@@ -13,6 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.teamihc.ucalendar.R;
+import com.teamihc.ucalendar.backend.basedatos.Configuraciones;
 import com.teamihc.ucalendar.fragments.AgendaFragment;
 import com.teamihc.ucalendar.fragments.CalendarioFragment;
 import com.teamihc.ucalendar.fragments.InicioFragment;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity
 {
     private Toolbar toolbar;
     Dialog dialog;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -34,8 +36,9 @@ public class MainActivity extends AppCompatActivity
 
     }
     
-    public void ingresoSesion(View v)
+    public void btnCerrarSesion_click(View v)
     {
+        Configuraciones.setCorreoSesion("");
         Intent i = new Intent(MainActivity.this, InicioSesion.class);
         startActivity(i);
     }

@@ -15,6 +15,7 @@ import com.android.volley.toolbox.Volley;
 import com.teamihc.ucalendar.activities.InicioSesion;
 import com.teamihc.ucalendar.activities.MainActivity;
 import com.teamihc.ucalendar.backend.Herramientas;
+import com.teamihc.ucalendar.backend.basedatos.Configuraciones;
 import com.teamihc.ucalendar.backend.entidades.enums.Sexo;
 
 import java.util.Date;
@@ -71,6 +72,8 @@ public class Usuario
                             {
                                 Intent i = new Intent(context, MainActivity.class);
                                 context.startActivity(i);
+                                
+                                Configuraciones.setCorreoSesion(datosPersonales.getCorreo());
                                 
                                 mensaje = "Inicio de sesión exitoso.";
                             }

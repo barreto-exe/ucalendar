@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">UCalendar</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="iniciar_sesion" translatable="false">Iniciar Sesión</string>
+    <string name="iniciar_sesion">Iniciar Sesión</string>
     <string name="correo">Correo</string>
     <string name="contrasena">Contraseña</string>
     <string name="ingresar">Ingresar</string>
+    <string name="cerrar_sesion">Cerrar sesión</string>
 </resources>
