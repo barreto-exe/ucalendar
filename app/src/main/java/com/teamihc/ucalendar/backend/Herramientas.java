@@ -17,12 +17,15 @@ import androidx.core.content.FileProvider;
 
 import com.teamihc.ucalendar.BuildConfig;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -33,6 +36,29 @@ import java.util.Date;
  */
 public class Herramientas
 {
+    public static String encriptarMd5(String string)
+    {
+        try
+        {
+            return DigestUtils.md5(string.getBytes("UTF-8")).toString().toUpperCase();
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            e.printStackTrace();
+            return "";
+        }
+    }
+    
+    //<editor-fold desc="Servicios">
+    public static final String URLServiciosWeb = "http://191.232.237.126//servicios";
+    
+    public static String URLServicio(String nombreServicio)
+    {
+        return URLServiciosWeb + "/" + nombreServicio + ".php";
+    }
+    //</editor-fold>
+    
+    //<editor-fold desc="Formatos">
     public static final String FORMATO_FECHA_STRING = "yyyy/MM/dd";
     public static final String FORMATO_FECHA_FRONT_STRING = "dd/MM/yyyy";
     public static final String FORMATO_TIEMPO_STRING = "HH:mm:ss";
@@ -73,35 +99,33 @@ public class Herramientas
         String dia = new SimpleDateFormat("EEEE").format(fecha);
         return dia.substring(0,1).toUpperCase() + dia.substring(1) + ", " + FORMATO_FECHA_FRONT.format(fecha);
     }
-    
     public static String formatearMoneda(float monto)
     {
         if (monto == 0)
             return "0";
         return FOMATO_MONEDA.format(monto);
     }
-    
     public static String formatearMonedaBs(float monto)
     {
         if (monto == 0)
             return SIMBOLO_BS + " 0";
         return SIMBOLO_BS + " " + FOMATO_MONEDA.format(monto);
     }
-    
     public static String formatearMonedaDolar(float monto)
     {
         if (monto == 0)
             return SIMBOLO_D + " 0";
         return SIMBOLO_D + " " + FOMATO_MONEDA.format(monto);
     }
-    
     public static String formatearPorcentaje(float porcentaje)
     {
         if (porcentaje == 0)
             return "0%";
         return FOMATO_PORCENTAJE.format(porcentaje / 100);
     }
+    //</editor-fold>
     
+    //<editor-fold desc="Métodos copy">
     /**
      * Copia un archivo de la carpeta assets del apk a la carpeta /data/data del teléfono.
      *
@@ -135,7 +159,6 @@ public class Herramientas
             Log.e("tag", "I/O Exception", ex);
         }
     }
-    
     private static void copyFile(String filename, AssetManager assetManager)
     {
         InputStream in = null;
@@ -165,10 +188,9 @@ public class Herramientas
         }
         
     }
+    //</editor-fold>
     
-    //================================CAPTURAR FOTOS============================================
-    
-    
+    //<editor-fold desc="Capturar Fotos">
     public static File createImageFile(Activity activity) throws IOException
     {
         // Create an image file name
@@ -218,12 +240,10 @@ public class Herramientas
             }
         }
     }
-    
     public static String obtenerPathDeCamara()
     {
         return imagen_path;
     }
-    
     public static void imagenDesdeGaleria(Activity activity)
     {
         Intent selectPictureIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -267,7 +287,6 @@ public class Herramientas
         }
         return new_file.getAbsolutePath();
     }
-    
     static void copy(InputStream source, OutputStream target) throws IOException
     {
         byte[] buf = new byte[8192];
@@ -277,8 +296,9 @@ public class Herramientas
             target.write(buf, 0, length);
         }
     }
-    //================================CONSULTAR FOTOS============================================
+    //</editor-fold>
     
+    //<editor-fold desc="Consultar Fotos">
     public static Uri getImageUriFromPath(String photoPath)
     {
         if (photoPath.equals(""))
@@ -288,7 +308,6 @@ public class Herramientas
         File f = new File(photoPath);
         return Uri.fromFile(f);
     }
-    
     public static int calculateInSampleSize(int width, int heigth)
     {
         final int reqWidth = 300;
@@ -306,7 +325,6 @@ public class Herramientas
         
         return inSampleSize;
     }
-    
     public static Bitmap getCompressedBitmapImage(String photoPath)
     {
         
@@ -327,4 +345,5 @@ public class Herramientas
         Bitmap bitmap = BitmapFactory.decodeFile(photoPath, options);
         return bitmap;
     }
+    //</editor-fold>
 }
