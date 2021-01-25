@@ -7,11 +7,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.teamihc.ucalendar.R;
@@ -30,16 +30,25 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        inicializarComponentes();
+        
+        getFragmentManager().beginTransaction().replace(R.id.layout_principal, new InicioFragment()).commit();
+    }
     
+    public void inicializarComponentes()
+    {
+        //Toolbar
         toolbar = (Toolbar) findViewById(R.id.view_top_bar);
         setSupportActionBar(toolbar);
-    
+        
+        //Bottom bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.nav_bar);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         dialog = new Dialog(this);
     }
     
-    public void cerrarSesion()
+    private void cerrarSesion()
     {
         Configuraciones.setCorreoSesion("");
         Intent i = new Intent(MainActivity.this, InicioSesion.class);
@@ -53,7 +62,6 @@ public class MainActivity extends AppCompatActivity
         inflater.inflate(R.menu.top_bar, menu);
         return true;
     }
-    
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -66,7 +74,6 @@ public class MainActivity extends AppCompatActivity
         }
         return true;
     }
-    
     private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener()
     {
         @Override
@@ -95,4 +102,5 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
     };
+    
 }
