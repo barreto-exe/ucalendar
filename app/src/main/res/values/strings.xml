@@ -6,4 +6,18 @@
     <string name="contrasena">Contraseña</string>
     <string name="ingresar">Ingresar</string>
     <string name="cerrar_sesion">Cerrar sesión</string>
+    <string name="lugar">Lugar:</string>
+    <string name="anfiteatro_de_biblioteca">Anfiteatro de Biblioteca</string>
+    <string name="descripci_n_del_evento">Descripción del evento:</string>
+    <string name="aqu_va_una_explicac_on_del_evento_detalles_que_no_se_encuentran_en_el_flyer_aqu_va_una_explicac_on_del_evento_detalles_que_no_se_encuentran_en_el_flyer">Aquí va una explicacíon del evento, detalles que no se encuentran en el flyer...Aquí va una explicacíon del evento, detalles que no se encuentran en el flyer</string>
+    <string name="fecha">Fecha:</string>
+    <string name="hora">Hora:</string>
+    <string name="_4_00_pm_6_00_pm">4:00 pm - 6:00 pm</string>
+    <string name="mi_rcoles_25_de_enero_del_2021">Miércoles, 25 de enero del 2021</string>
+    <string name="todo">TODO</string>
+    <string name="_9_me_gusta">9 me gusta</string>
+    <string name="escuela_de_ingenier_a_inform_tica">Escuela de Ingeniería Informática</string>
+    <string name="_10_interesados">10 interesados</string>
+    <string name="organizado_por">Creado por: </string>
+    <string name="nombre_del_evento">Nombre del evento</string>
 </resources>

@@ -14,14 +14,14 @@ public class SplashActivity extends AppCompatActivity
 {
     //int SPLASH_TIEMPO = 3500; //el splash se va a mostrar por 3.5 segundos
     int SPLASH_TIEMPO = 0; //el splash se va a mostrar por 3.5 segundos
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         SqliteOp.verificarBaseDatos(getAssets());
         setContentView(R.layout.activity_splash);
-        
+
         new Handler().postDelayed(new Runnable()
         {
             @Override
@@ -35,7 +35,7 @@ public class SplashActivity extends AppCompatActivity
                 }
                 else
                 {
-                    intent = new Intent(SplashActivity.this, InicioSesion.class);
+                    intent = new Intent(SplashActivity.this, InicioSesionActivity.class);
                 }
                 startActivity(intent);
                 finish();
