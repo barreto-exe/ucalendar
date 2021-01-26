@@ -3,6 +3,7 @@ package com.teamihc.ucalendar.fragments;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,24 +11,31 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.teamihc.ucalendar.R;
 import com.teamihc.ucalendar.activities.DetallesEventoActivity;
+import com.teamihc.ucalendar.adapters.FeedRVAdapter;
 
 public class InicioFragment extends Fragment
 {
     private SwipeRefreshLayout swipeRefresh;
     private Button testVerMas;
     private ImageView testImg;
-    
+    private RecyclerView recyclerView;
+    private FeedRVAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_inicio, container, false);
+       /* recyclerView = (RecyclerView) view.findViewById(R.id.recyclerFeed);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
+        recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);*/
         return view;
     }
     

@@ -1,118 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:id="@+id/infoEventoFeed">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            app:civ_border_width="1dp"
-            app:civ_border_color="#FF000000"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="8dp"
-            android:src="@drawable/foto" />
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="8dp"
+                android:src="@drawable/foto"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="1dp"
+                android:id="@+id/fotoperfil"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="Concierto Wallows :D"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:id="@+id/nombreEvento"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="CEINF"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:id="@+id/nombreCreador"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_test"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@color/ucab_green_light"
+            android:scaleType="centerCrop"
+            android:src="@drawable/wallows"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Concierto Wallows :D"
-                android:textColor="@color/black"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="CEINF"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
 
+            <ToggleButton
+                android:id="@+id/btnLike"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/selector_btn_like"
+                android:backgroundTint="@color/black"
+                android:checked="false"
+                android:text=""
+                android:textOff=""
+                android:textOn="" />
+
+            <ToggleButton
+                android:id="@+id/btnGuardar"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/selector_btn_guardar"
+                android:backgroundTint="@color/black"
+                android:checked="false"
+                android:text=""
+                android:textOff=""
+                android:textOn="" />
         </LinearLayout>
-    </LinearLayout>
 
-    <ImageView
-        android:id="@+id/img_test"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="@color/ucab_green_light"
-        android:scaleType="centerCrop"
-        android:src="@drawable/wallows" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="14dp"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal">
-
-        <ToggleButton
-            android:id="@+id/btnLike"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:background="@drawable/selector_btn_like"
-            android:backgroundTint="@color/black"
-            android:checked="false"
-            android:text=""
-            android:textOff=""
-            android:textOn="" />
-
-        <ToggleButton
-            android:id="@+id/btnGuardar"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/selector_btn_guardar"
-            android:backgroundTint="@color/black"
-            android:checked="false"
-            android:text=""
-            android:textOff=""
-            android:textOn="" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="4dp"
-        android:orientation="vertical">
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="9 ME GUSTA - 14 INTERESADOS"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="4dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:text="Resumen de la descripción. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
-            android:textSize="14sp" />
-        <Button
-            android:id="@+id/btnVerMas"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ver_mas"/>
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="9 ME GUSTA - 14 INTERESADOS"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:id="@+id/cantInteresados"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="Resumen de la descripción. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
+                android:textSize="14sp"
+                android:id="@+id/descripcion"/>
+
+            <Button
+                android:id="@+id/btnVerMas"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ver_mas" />
+        </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>
