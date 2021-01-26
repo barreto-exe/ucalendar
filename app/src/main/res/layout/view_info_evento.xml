@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent">
@@ -11,14 +9,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="48dp"
             android:layout_height="48dp"
             app:civ_border_width="1dp"
             app:civ_border_color="#FF000000"
-            android:layout_margin="8dp"
-            android:src="@drawable/foto"/>
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="8dp"
+            android:src="@drawable/foto" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,5 +51,67 @@
         android:background="@color/ucab_green_light"
         android:scaleType="centerCrop"
         android:src="@drawable/wallows" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="14dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <ToggleButton
+            android:id="@+id/btn_like"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/selector_btn_like"
+            android:backgroundTint="@color/black"
+            android:checked="false"
+            android:text=""
+            android:textOff=""
+            android:textOn="" />
+
+        <ToggleButton
+            android:id="@+id/btn_guardar"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/selector_btn_guardar"
+            android:backgroundTint="@color/black"
+            android:checked="false"
+            android:text=""
+            android:textOff=""
+            android:textOn="" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="4dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="9 ME GUSTA - 14 INTERESADOS"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Resumen de la descripción. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
+            android:textSize="14sp" />
+        <Button
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ver_mas"/>
+    </LinearLayout>
 
 </LinearLayout>
