@@ -60,7 +60,7 @@
         android:orientation="horizontal">
 
         <ToggleButton
-            android:id="@+id/btn_like"
+            android:id="@+id/btnLike"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:background="@drawable/selector_btn_like"
@@ -71,7 +71,7 @@
             android:textOn="" />
 
         <ToggleButton
-            android:id="@+id/btn_guardar"
+            android:id="@+id/btnGuardar"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginStart="8dp"
@@ -108,6 +108,7 @@
             android:text="Resumen de la descripción. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
             android:textSize="14sp" />
         <Button
+            android:id="@+id/btnVerMas"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

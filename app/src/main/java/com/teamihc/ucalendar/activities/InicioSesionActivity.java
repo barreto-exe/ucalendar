@@ -40,10 +40,10 @@ public class InicioSesionActivity extends AppCompatActivity
     public void btnIngresar_click(View view)
     {
         Usuario usuario = new Usuario
-                (
-                        txtCorreo.getText().toString(),
-                        txtPassword.getText().toString()
-                );
+        (
+                txtCorreo.getText().toString(),
+                txtPassword.getText().toString()
+        );
 
         usuario.validar(this, MainActivity.class);
     }

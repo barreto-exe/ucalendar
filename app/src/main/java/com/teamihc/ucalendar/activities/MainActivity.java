@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity
     private void cerrarSesion()
     {
         Configuraciones.setCorreoSesion("");
-        Intent i = new Intent(MainActivity.this, InicioSesion.class);
+        Intent i = new Intent(MainActivity.this, InicioSesionActivity.class);
         startActivity(i);
     }
     
@@ -102,5 +103,4 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
     };
-    
 }
