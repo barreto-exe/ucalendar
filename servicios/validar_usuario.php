@@ -8,7 +8,7 @@ $u_pass = $_POST['password'];
 // $u_user = "test";
 // $u_pass = "test";
 
-$query = "SELECT * FROM usuarios WHERE correo = ? AND password = ?";
+$query = "SELECT 1 FROM usuarios WHERE correo = ? AND password = ?";
 
 $sentencia = $conexion->prepare($query);
 $sentencia->bind_param('ss',$u_user,$u_pass);
