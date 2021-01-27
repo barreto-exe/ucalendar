@@ -20,30 +20,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Usuario
+public class Usuario extends Persona
 {
-    Persona datosPersonales;
     String passEncriptada;
-    Boolean esCreador;
-
-    public Usuario(String nombres, String apellidos, String correo, String passDesencriptada, Date fechaNacimiento, Sexo sexo, String rol, Boolean esCreador)
-    {
-        this.datosPersonales = new Persona();
-        this.datosPersonales.setCorreo(correo);
-        this.datosPersonales.setFechaNacimiento(fechaNacimiento);
-        this.datosPersonales.setSexo(sexo);
-        this.datosPersonales.setRol(rol);
-        this.datosPersonales.setNombres(nombres);
-        this.datosPersonales.setApellidos(apellidos);
-        this.esCreador = esCreador;
-        //this.passEncriptada = Herramientas.encriptarMd5(passDesencriptada);
-        this.passEncriptada = passDesencriptada;
-    }
 
     public Usuario(String correo, String passDesencriptada)
     {
-        this.datosPersonales = new Persona();
-        this.datosPersonales.setCorreo(correo);
+        this.correo = correo;
         //this.passEncriptada = Herramientas.encriptarMd5(passDesencriptada);
         this.passEncriptada = passDesencriptada;
     }
@@ -68,10 +51,10 @@ public class Usuario
                             String mensaje;
                             if(!response.isEmpty())
                             {
-                                Intent i = new Intent(context, MainActivity.class);
+                                Intent i = new Intent(context, destino);
                                 context.startActivity(i);
                                 
-                                Configuraciones.setCorreoSesion(datosPersonales.getCorreo());
+                                Configuraciones.setCorreoSesion(correo);
                                 
                                 mensaje = "Inicio de sesión exitoso.";
                             }
@@ -97,7 +80,7 @@ public class Usuario
                 protected Map<String, String> getParams()
                 {
                     Map<String, String> parametros = new HashMap<>();
-                    parametros.put("correo", datosPersonales.getCorreo());
+                    parametros.put("correo", correo);
                     parametros.put("password", passEncriptada);
                     return parametros;
                 }
