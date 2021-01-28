@@ -95,7 +95,7 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
             });
             
             //Evento de guardar
-            btnLike.setChecked(evento.getTieneGuardado());
+            btnGuardar.setChecked(evento.getTieneGuardado());
             btnGuardar.setOnClickListener(new View.OnClickListener()
             {
                 @Override
