@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.teamihc.ucalendar.R;
 import com.teamihc.ucalendar.activities.DetallesEventoActivity;
 import com.teamihc.ucalendar.adapters.FeedRVAdapter;
+import com.teamihc.ucalendar.backend.basedatos.Configuraciones;
 import com.teamihc.ucalendar.backend.entidades.Evento;
 
 import java.util.ArrayList;

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapter> implements View.OnClickListener
+public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapter>
 {
     ArrayList<Evento> eventos;
     View.OnClickListener listener;
@@ -35,14 +35,15 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
     public FeedAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_info_evento, parent, false);
-        view.setOnClickListener(this);
-        return new FeedAdapter(view);
+        return new FeedAdapter(view, this);
     }
     
     @Override
     public void onBindViewHolder(@NonNull FeedAdapter holder, int position)
     {
-        holder.asignarDatos(eventos.get(position));
+        Evento evento = eventos.get(position);
+        evento.setPosicionLista(position);
+        holder.asignarDatos(evento);
     }
     
     @Override
@@ -51,18 +52,14 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
         return eventos.size();
     }
     
-    @Override
-    public void onClick(View v)
-    {
-    
-    }
-    
     
     public class FeedAdapter extends RecyclerView.ViewHolder
     {
         private View view;
         CardView cardView;
     
+        FeedRVAdapter adapter;
+        
         TextView nombreEvento;
         TextView nombreCreador;
         TextView descripcion;
@@ -73,16 +70,41 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
         ToggleButton btnGuardar;
         Button btnVerMas;
         
-        public FeedAdapter(@NonNull View itemView)
+        public FeedAdapter(@NonNull View itemView, FeedRVAdapter adapter)
         {
             super(itemView);
             view = itemView;
             cardView = (CardView) itemView.findViewById(R.id.infoEventoFeed);
+            this.adapter = adapter;
         }
         
         public void asignarDatos(Evento evento)
         {
             inicializarComponentes();
+    
+            //Evento de like
+            btnLike.setChecked(evento.getTieneLike());
+            btnLike.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    evento.toggleLike();
+                    adapter.notifyItemChanged(evento.getPosicionLista());
+                }
+            });
+            
+            //Evento de guardar
+            btnLike.setChecked(evento.getTieneGuardado());
+            btnGuardar.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    evento.toggleGuardar();
+                    adapter.notifyItemChanged(evento.getPosicionLista());
+                }
+            });
             
             nombreEvento.setText(evento.getNombre());
             nombreCreador.setText(evento.getNombreCreador());
@@ -104,7 +126,7 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
             btnGuardar = (ToggleButton) cardView.findViewById(R.id.btnGuardar);
             btnVerMas = (Button) cardView.findViewById(R.id.btnVerMas);
             
-            //Atachar botón de evento a doble tap
+            //Atachar botón de like al doble tap de la imagen
             imgEvento.setToggleButton(btnLike);
         }
     }

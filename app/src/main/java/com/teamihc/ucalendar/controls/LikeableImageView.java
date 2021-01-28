@@ -68,7 +68,7 @@ public class LikeableImageView extends androidx.appcompat.widget.AppCompatImageV
         {
             if(getToggleButton() != null)
             {
-                getToggleButton().toggle();
+                getToggleButton().performClick();
             }
             return true;
         }

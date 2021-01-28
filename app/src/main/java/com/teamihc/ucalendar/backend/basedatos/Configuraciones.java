@@ -14,6 +14,15 @@ public class Configuraciones
     {
         actualizarConfiguracion("correo", correoSesion);
     }
+    public static int getIdUsuarioSesion()
+    {
+        return (int) consultarConfiguracion("id_usuario_sesion");
+    }
+    public static void setIdUsuarioSesion(int idUsuarioSesion)
+    {
+        actualizarConfiguracion("id_usuario_sesion", idUsuarioSesion);
+    }
+    
     
     
     private static Object consultarConfiguracion(String nombreConfig)

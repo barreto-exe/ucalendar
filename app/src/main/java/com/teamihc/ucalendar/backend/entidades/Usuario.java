@@ -11,6 +11,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.teamihc.ucalendar.activities.MainActivity;
 import com.teamihc.ucalendar.backend.Herramientas;
 import com.teamihc.ucalendar.backend.basedatos.Configuraciones;
@@ -22,8 +24,19 @@ import java.util.Map;
 
 public class Usuario extends Persona
 {
-    String passEncriptada;
+    private int idUsuario;
+    private String passEncriptada;
 
+    
+    public Usuario(int idUsuario, String correo, String passDesencriptada)
+    {
+        this.idUsuario = idUsuario;
+        this.correo = correo;
+        //this.passEncriptada = Herramientas.encriptarMd5(passDesencriptada);
+        this.passEncriptada = passDesencriptada;
+    }
+    
+    
     public Usuario(String correo, String passDesencriptada)
     {
         this.correo = correo;
@@ -53,8 +66,13 @@ public class Usuario extends Persona
                             {
                                 Intent i = new Intent(context, destino);
                                 context.startActivity(i);
+    
+                                //Recibir info de usuario logueado
+                                Gson g = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+                                Usuario u = g.fromJson(response, Usuario.class);
                                 
-                                Configuraciones.setCorreoSesion(correo);
+                                Configuraciones.setCorreoSesion(u.correo);
+                                Configuraciones.setIdUsuarioSesion(u.idUsuario);
                                 
                                 mensaje = "Inicio de sesión exitoso.";
                             }
