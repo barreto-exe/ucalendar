@@ -4,7 +4,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.teamihc.ucalendar.R;
 import com.teamihc.ucalendar.backend.entidades.Evento;
+import com.teamihc.ucalendar.controls.LikeableImageView;
 
 import java.util.ArrayList;
 
@@ -32,7 +32,6 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
     @Override
     public FeedAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-//        View view = inflater.inflate((R.layout.view_info_evento), parent, false);
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_info_evento, parent, false);
         view.setOnClickListener(this);
         return new FeedAdapter(view);
@@ -74,7 +73,13 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
             TextView nombreEvento = (TextView) cardView.findViewById(R.id.nombreEvento);
             TextView nombreCreador = (TextView) cardView.findViewById(R.id.nombreCreador);
             TextView descripcion = (TextView) cardView.findViewById(R.id.descripcion);
-            ImageView imgEvento = (ImageView) cardView.findViewById(R.id.imgEvento);
+            LikeableImageView imgEvento = (LikeableImageView) cardView.findViewById(R.id.imgEvento);
+            TextView cantInteresados = (TextView) cardView.findViewById(R.id.cantInteresados);
+            ToggleButton btnLike = (ToggleButton) cardView.findViewById(R.id.btnLike);
+            ToggleButton btnGuardar = (ToggleButton) cardView.findViewById(R.id.btnGuardar);
+            Button btnVerMas = (Button) cardView.findViewById(R.id.btnVerMas);
+            
+            imgEvento.setToggleButton(btnLike);
             
             nombreEvento.setText(evento.getNombre());
             nombreCreador.setText(evento.getIdCreador() + "");
@@ -82,10 +87,6 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
             Glide.with(view).load(evento.getFoto()).into(imgEvento);
             
             
-            TextView cantInteresados = (TextView) cardView.findViewById(R.id.cantInteresados);
-            ToggleButton btnLike = (ToggleButton) cardView.findViewById(R.id.btnLike);
-            ToggleButton btnGuardar = (ToggleButton) cardView.findViewById(R.id.btnGuardar);
-            Button btnVerMas = (Button) cardView.findViewById(R.id.btnVerMas);
         }
     }
 }

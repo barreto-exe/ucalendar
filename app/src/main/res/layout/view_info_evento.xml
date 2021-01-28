@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
@@ -57,7 +57,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <ImageView
+        <com.teamihc.ucalendar.controls.LikeableImageView
             android:id="@+id/imgEvento"
             android:layout_width="match_parent"
             android:layout_height="300dp"
@@ -68,11 +68,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="14dp"
+            android:layout_marginHorizontal="12dp"
             android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
-            <ToggleButton
+            <com.teamihc.ucalendar.controls.AnimatedToggleButton
                 android:id="@+id/btnLike"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
@@ -83,7 +83,7 @@
                 android:textOff=""
                 android:textOn="" />
 
-            <ToggleButton
+            <com.teamihc.ucalendar.controls.AnimatedToggleButton
                 android:id="@+id/btnGuardar"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
@@ -110,8 +110,8 @@
                 android:maxLines="1"
                 android:text="9 ME GUSTA - 14 INTERESADOS"
                 android:textColor="@color/black"
-                android:textSize="18sp"
-                android:id="@+id/cantInteresados"/>
+                android:textSize="16sp"
+                android:id="@+id/cantLikesInteresados"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -126,6 +126,7 @@
             <Button
                 android:id="@+id/btnVerMas"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_marginBottom="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/ver_mas" />
