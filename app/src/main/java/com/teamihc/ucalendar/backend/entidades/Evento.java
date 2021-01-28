@@ -220,7 +220,7 @@ public class Evento
         else
         {
             cantidadLikes--;
-            servicio = "recibir_dislike";
+            servicio = "recibir_like_borrado";
         }
     
         SolicitudHTTP solicitud = new SolicitudHTTP(context, servicio)
@@ -239,15 +239,30 @@ public class Evento
     public void toggleGuardar(Context context)
     {
         tieneGuardado ^= true;
+        String servicio;
         
         if(tieneGuardado)
         {
             cantidadGuardados++;
+            servicio = "recibir_guardar";
         }
         else
         {
             cantidadGuardados--;
+            servicio = "recibir_guardar_borrado";
         }
+    
+        SolicitudHTTP solicitud = new SolicitudHTTP(context, servicio)
+        {
+            @Override
+            public void eventoRespuestaHTTP(String response)
+            {
+                //No hacer nada
+            }
+        };
+        solicitud.getParametros().put("idUsuario", Configuraciones.getIdUsuarioSesion() + "");
+        solicitud.getParametros().put("idEvento", idEvento + "");
+        solicitud.ejecutar();
     }
     
     
