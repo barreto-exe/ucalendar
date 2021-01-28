@@ -1,6 +1,7 @@
 package com.teamihc.ucalendar.backend.entidades;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -10,8 +11,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.teamihc.ucalendar.backend.Herramientas;
-import com.teamihc.ucalendar.fragments.InicioFragment;
 import com.teamihc.ucalendar.fragments.MuestraEventos;
 
 import java.util.ArrayList;
@@ -21,25 +22,29 @@ public class Evento
 {
     private String nombre;
     private String descripcion;
+    private int cantidadLikes;
+    private int cantidadGuardados;
     private Date fechaInicio;
     private Date fechaFinal;
     private String lugar;
-    private int idCreador;
     private String color;
-    private int cantidadLikes;
     private String foto;
+    private String fotoCreador;
+    private String nombreCreador;
     
-    public Evento(String nombre, String descripcion, Date fechaInicio, Date fechaFinal, String lugar, int idCreador, String color, int cantidadLikes, String foto)
+    public Evento(String nombre, String descripcion, int cantidadLikes, int cantidadGuardados, Date fechaInicio, Date fechaFinal, String lugar, String color, String foto, String fotoCreador, String nombreCreador)
     {
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.cantidadLikes = cantidadLikes;
+        this.cantidadGuardados = cantidadGuardados;
         this.fechaInicio = fechaInicio;
         this.fechaFinal = fechaFinal;
         this.lugar = lugar;
-        this.idCreador = idCreador;
         this.color = color;
-        this.cantidadLikes = cantidadLikes;
         this.foto = foto;
+        this.fotoCreador = fotoCreador;
+        this.nombreCreador = nombreCreador;
     }
     
     public static void obtenerEventos(Context context, MuestraEventos muestraEventos)
@@ -61,19 +66,26 @@ public class Evento
                 @Override
                 public void onResponse(String response)
                 {
-                    //Recibir arreglo de eventos
-                    Gson g = new Gson();
-                    Evento[] test = g.fromJson(response, Evento[].class);
-
-                    //Convertirlo en lista
-                    ArrayList<Evento> listaEventos = new ArrayList<>();
-                    for (Evento evento : test)
+                    try
                     {
-                        listaEventos.add(evento);
-                    }
+                        //Recibir arreglo de eventos
+                        Gson g = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+                        Evento[] test = g.fromJson(response, Evento[].class);
     
-                    //Actualizar eventos mostrados en el inicio
-                    muestraEventos.setEventos(listaEventos);
+                        //Convertirlo en lista
+                        ArrayList<Evento> listaEventos = new ArrayList<>();
+                        for (Evento evento : test)
+                        {
+                            listaEventos.add(evento);
+                        }
+    
+                        //Actualizar eventos mostrados en el inicio
+                        muestraEventos.setEventos(listaEventos);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.e("json", e.getMessage());
+                    }
                 }
             },
             
@@ -142,16 +154,6 @@ public class Evento
         this.lugar = lugar;
     }
     
-    public int getIdCreador()
-    {
-        return idCreador;
-    }
-    
-    public void setIdCreador(int idCreador)
-    {
-        this.idCreador = idCreador;
-    }
-    
     public String getColor()
     {
         return color;
@@ -180,6 +182,36 @@ public class Evento
     public void setFoto(String foto)
     {
         this.foto = foto;
+    }
+    
+    public int getCantidadGuardados()
+    {
+        return cantidadGuardados;
+    }
+    
+    public void setCantidadGuardados(int cantidadGuardados)
+    {
+        this.cantidadGuardados = cantidadGuardados;
+    }
+    
+    public String getFotoCreador()
+    {
+        return fotoCreador;
+    }
+    
+    public void setFotoCreador(String fotoCreador)
+    {
+        this.fotoCreador = fotoCreador;
+    }
+    
+    public String getNombreCreador()
+    {
+        return nombreCreador;
+    }
+    
+    public void setNombreCreador(String nombreCreador)
+    {
+        this.nombreCreador = nombreCreador;
     }
     
     @Override

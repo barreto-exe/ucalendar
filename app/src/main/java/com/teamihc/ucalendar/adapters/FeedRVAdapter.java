@@ -82,7 +82,7 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
             imgEvento.setToggleButton(btnLike);
             
             nombreEvento.setText(evento.getNombre());
-            nombreCreador.setText(evento.getIdCreador() + "");
+            nombreCreador.setText(evento.getNombreCreador());
             descripcion.setText(evento.getDescripcion());
             Glide.with(view).load(evento.getFoto()).into(imgEvento);
             

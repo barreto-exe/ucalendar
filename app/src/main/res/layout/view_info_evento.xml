@@ -22,7 +22,7 @@
                 android:layout_height="48dp"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginVertical="8dp"
-                android:src="@drawable/foto"
+                android:src="@color/ucab_green_dark"
                 app:civ_border_color="#FF000000"
                 app:civ_border_width="1dp"
                 android:id="@+id/fotoperfil"/>
@@ -62,8 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:background="@color/ucab_green_light"
-            android:scaleType="centerCrop"
-            android:src="@drawable/wallows"/>
+            android:scaleType="centerCrop"/>
 
         <LinearLayout
             android:layout_width="match_parent"
