@@ -25,7 +25,7 @@
                 android:src="@color/ucab_green_dark"
                 app:civ_border_color="#FF000000"
                 app:civ_border_width="1dp"
-                android:id="@+id/fotoperfil"/>
+                android:id="@+id/imgCreador"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

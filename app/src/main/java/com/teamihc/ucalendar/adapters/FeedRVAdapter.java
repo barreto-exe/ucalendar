@@ -18,6 +18,8 @@ import com.teamihc.ucalendar.controls.LikeableImageView;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapter> implements View.OnClickListener
 {
     ArrayList<Evento> eventos;
@@ -60,6 +62,16 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
     {
         private View view;
         CardView cardView;
+    
+        TextView nombreEvento;
+        TextView nombreCreador;
+        TextView descripcion;
+        TextView cantLikeInteresados;
+        LikeableImageView imgEvento;
+        CircleImageView imgCreador;
+        ToggleButton btnLike;
+        ToggleButton btnGuardar;
+        Button btnVerMas;
         
         public FeedAdapter(@NonNull View itemView)
         {
@@ -70,23 +82,30 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
         
         public void asignarDatos(Evento evento)
         {
-            TextView nombreEvento = (TextView) cardView.findViewById(R.id.nombreEvento);
-            TextView nombreCreador = (TextView) cardView.findViewById(R.id.nombreCreador);
-            TextView descripcion = (TextView) cardView.findViewById(R.id.descripcion);
-            LikeableImageView imgEvento = (LikeableImageView) cardView.findViewById(R.id.imgEvento);
-            TextView cantInteresados = (TextView) cardView.findViewById(R.id.cantInteresados);
-            ToggleButton btnLike = (ToggleButton) cardView.findViewById(R.id.btnLike);
-            ToggleButton btnGuardar = (ToggleButton) cardView.findViewById(R.id.btnGuardar);
-            Button btnVerMas = (Button) cardView.findViewById(R.id.btnVerMas);
-            
-            imgEvento.setToggleButton(btnLike);
+            inicializarComponentes();
             
             nombreEvento.setText(evento.getNombre());
             nombreCreador.setText(evento.getNombreCreador());
             descripcion.setText(evento.getDescripcion());
             Glide.with(view).load(evento.getFoto()).into(imgEvento);
+            Glide.with(view).load(evento.getFotoCreador()).into(imgCreador);
+            cantLikeInteresados.setText(evento.getCantidadLikes() + " ME GUSTA - " + evento.getCantidadGuardados() + " INTERESADOS");
+        }
+        
+        private void inicializarComponentes()
+        {
+            nombreEvento = (TextView) cardView.findViewById(R.id.nombreEvento);
+            nombreCreador = (TextView) cardView.findViewById(R.id.nombreCreador);
+            descripcion = (TextView) cardView.findViewById(R.id.descripcion);
+            cantLikeInteresados = (TextView) cardView.findViewById(R.id.cantLikesInteresados);
+            imgEvento = (LikeableImageView) cardView.findViewById(R.id.imgEvento);
+            imgCreador = (CircleImageView) cardView.findViewById(R.id.imgCreador);
+            btnLike = (ToggleButton) cardView.findViewById(R.id.btnLike);
+            btnGuardar = (ToggleButton) cardView.findViewById(R.id.btnGuardar);
+            btnVerMas = (Button) cardView.findViewById(R.id.btnVerMas);
             
-            
+            //Atachar botón de evento a doble tap
+            imgEvento.setToggleButton(btnLike);
         }
     }
 }
