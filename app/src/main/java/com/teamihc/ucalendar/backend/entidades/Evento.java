@@ -207,22 +207,36 @@ public class Evento
         solicitud.ejecutar();
     }
     
-    public void toggleLike()
+    public void toggleLike(Context context)
     {
         tieneLike ^= true;
         
+        String servicio;
         if(tieneLike)
         {
             cantidadLikes++;
+            servicio = "recibir_like";
         }
         else
         {
             cantidadLikes--;
+            servicio = "recibir_dislike";
         }
     
+        SolicitudHTTP solicitud = new SolicitudHTTP(context, servicio)
+        {
+            @Override
+            public void eventoRespuestaHTTP(String response)
+            {
+                //No hacer nada
+            }
+        };
+        solicitud.getParametros().put("idUsuario", Configuraciones.getIdUsuarioSesion() + "");
+        solicitud.getParametros().put("idEvento", idEvento + "");
+        solicitud.ejecutar();
     }
     
-    public void toggleGuardar()
+    public void toggleGuardar(Context context)
     {
         tieneGuardado ^= true;
         

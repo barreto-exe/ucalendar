@@ -89,7 +89,7 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
                 @Override
                 public void onClick(View v)
                 {
-                    evento.toggleLike();
+                    evento.toggleLike(v.getContext());
                     adapter.notifyItemChanged(evento.getPosicionLista());
                 }
             });
@@ -101,7 +101,7 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
                 @Override
                 public void onClick(View v)
                 {
-                    evento.toggleGuardar();
+                    evento.toggleGuardar(v.getContext());
                     adapter.notifyItemChanged(evento.getPosicionLista());
                 }
             });
