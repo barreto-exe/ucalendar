@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.teamihc.ucalendar.adapters.FeedRVAdapter;
 import com.teamihc.ucalendar.backend.Herramientas;
+import com.teamihc.ucalendar.backend.SolicitudHTTP;
 import com.teamihc.ucalendar.backend.basedatos.Configuraciones;
 import com.teamihc.ucalendar.fragments.MuestraEventos;
 
@@ -60,7 +61,6 @@ public class Evento
     }
     
     //<editor-fold desc="Getters & Setters">
-    
     public Boolean getTieneLike()
     {
         return tieneLike;
@@ -183,70 +183,28 @@ public class Evento
     
     public static void obtenerEventos(Context context, MuestraEventos muestraEventos)
     {
-        //Creando una solicitud http
-        StringRequest stringRequest =
-        new StringRequest
-        ( //Inicio constructor
-            
-            //Método en que se hace la solicitud
-            Request.Method.POST,
-            
-            //Indicar el servicio que procesa la solicitud
-            Herramientas.URLServicio("obtener_eventos"),
-            
-            //Receptor de respuesta
-            new Response.Listener<String>()
-            {
-                @Override
-                public void onResponse(String response)
-                {
-                    try
-                    {
-                        //Recibir arreglo de eventos
-                        Gson g = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-                        Evento[] test = g.fromJson(response, Evento[].class);
-    
-                        //Convertirlo en lista
-                        ArrayList<Evento> listaEventos = new ArrayList<>();
-                        for (Evento evento : test)
-                        {
-                            listaEventos.add(evento);
-                        }
-    
-                        //Actualizar eventos mostrados en el inicio
-                        muestraEventos.setEventos(listaEventos);
-                    }
-                    catch (Exception e)
-                    {
-                        Log.e("json", e.getMessage());
-                    }
-                }
-            },
-            
-            //Receptor de error
-            new Response.ErrorListener()
-            {
-                @Override
-                public void onErrorResponse(VolleyError error)
-                {
-                    Toast.makeText(context,"Ha ocurrido un error. \n" + error.getMessage(),Toast.LENGTH_SHORT).show();
-                }
-            }
-        ) //Fin constructor
+        SolicitudHTTP solicitud = new SolicitudHTTP(context, "obtener_eventos")
         {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError
+            public void eventoRespuestaHTTP(String respuesta)
             {
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("id_usuario_sesion", Configuraciones.getIdUsuarioSesion() + "");
-                return parametros;
+                //Recibir arreglo de eventos
+                Gson g = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+                Evento[] test = g.fromJson(respuesta, Evento[].class);
+    
+                //Convertirlo en lista
+                ArrayList<Evento> listaEventos = new ArrayList<>();
+                for (Evento evento : test)
+                {
+                    listaEventos.add(evento);
+                }
+    
+                //Actualizar eventos mostrados en el inicio
+                muestraEventos.setEventos(listaEventos);
             }
         };
-        
-        
-    
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
-        requestQueue.add(stringRequest);
+        solicitud.getParametros().put("id_usuario_sesion", Configuraciones.getIdUsuarioSesion() + "");
+        solicitud.ejecutar();
     }
     
     public void toggleLike()
@@ -261,6 +219,7 @@ public class Evento
         {
             cantidadLikes--;
         }
+    
     }
     
     public void toggleGuardar()

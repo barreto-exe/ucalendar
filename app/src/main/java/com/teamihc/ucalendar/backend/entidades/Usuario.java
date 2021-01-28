@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.teamihc.ucalendar.activities.MainActivity;
 import com.teamihc.ucalendar.backend.Herramientas;
+import com.teamihc.ucalendar.backend.SolicitudHTTP;
 import com.teamihc.ucalendar.backend.basedatos.Configuraciones;
 import com.teamihc.ucalendar.backend.entidades.enums.Sexo;
 
@@ -51,60 +52,37 @@ public class Usuario extends Persona
      */
     public void validar(Context context, Class<?> destino)
     {
-        StringRequest stringRequest =
-            new StringRequest
-                (
-                    Request.Method.POST,
-                    Herramientas.URLServicio("validar_usuario"),
-                    new Response.Listener<String>()
-                    {
-                        @Override
-                        public void onResponse(String response)
-                        {
-                            String mensaje;
-                            if(!response.isEmpty())
-                            {
-                                Intent i = new Intent(context, destino);
-                                context.startActivity(i);
-    
-                                //Recibir info de usuario logueado
-                                Gson g = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-                                Usuario u = g.fromJson(response, Usuario.class);
-                                
-                                Configuraciones.setCorreoSesion(u.correo);
-                                Configuraciones.setIdUsuarioSesion(u.idUsuario);
-                                
-                                mensaje = "Inicio de sesión exitoso.";
-                            }
-                            else
-                            {
-                                mensaje = "Usuario y contraseña incorrectos.";
-                            }
-    
-                            Toast.makeText(context, mensaje,Toast.LENGTH_SHORT).show();
-                        }
-                    },
-                    new Response.ErrorListener()
-                    {
-                        @Override
-                        public void onErrorResponse(VolleyError error)
-                        {
-                            Toast.makeText(context,"Ha ocurrido un error. \n" + error.getMessage(),Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                )
+        SolicitudHTTP solicitud = new SolicitudHTTP(context, "validar_usuario")
+        {
+            @Override
+            public void eventoRespuestaHTTP(String response)
             {
-                @Override
-                protected Map<String, String> getParams()
+                String mensaje;
+                if(!response.isEmpty())
                 {
-                    Map<String, String> parametros = new HashMap<>();
-                    parametros.put("correo", correo);
-                    parametros.put("password", passEncriptada);
-                    return parametros;
+                    //Abrir app
+                    Intent i = new Intent(context, destino);
+                    context.startActivity(i);
+        
+                    //Recibir info de usuario logueado
+                    Gson g = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+                    Usuario u = g.fromJson(response, Usuario.class);
+        
+                    //Guardar datos de usuario
+                    Configuraciones.setCorreoSesion(u.correo);
+                    Configuraciones.setIdUsuarioSesion(u.idUsuario);
+        
+                    mensaje = "Inicio de sesión exitoso.";
                 }
-            };
-    
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
-        requestQueue.add(stringRequest);
+                else
+                {
+                    mensaje = "Usuario y contraseña incorrectos.";
+                }
+                Toast.makeText(context, mensaje,Toast.LENGTH_SHORT).show();
+            }
+        };
+        solicitud.getParametros().put("correo", correo);
+        solicitud.getParametros().put("password", passEncriptada);
+        solicitud.ejecutar();
     }
 }
