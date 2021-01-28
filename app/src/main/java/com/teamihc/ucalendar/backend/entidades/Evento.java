@@ -92,6 +92,96 @@ public class Evento
         requestQueue.add(stringRequest);
     }
     
+    public String getNombre()
+    {
+        return nombre;
+    }
+    
+    public void setNombre(String nombre)
+    {
+        this.nombre = nombre;
+    }
+    
+    public String getDescripcion()
+    {
+        return descripcion;
+    }
+    
+    public void setDescripcion(String descripcion)
+    {
+        this.descripcion = descripcion;
+    }
+    
+    public Date getFechaInicio()
+    {
+        return fechaInicio;
+    }
+    
+    public void setFechaInicio(Date fechaInicio)
+    {
+        this.fechaInicio = fechaInicio;
+    }
+    
+    public Date getFechaFinal()
+    {
+        return fechaFinal;
+    }
+    
+    public void setFechaFinal(Date fechaFinal)
+    {
+        this.fechaFinal = fechaFinal;
+    }
+    
+    public String getLugar()
+    {
+        return lugar;
+    }
+    
+    public void setLugar(String lugar)
+    {
+        this.lugar = lugar;
+    }
+    
+    public int getIdCreador()
+    {
+        return idCreador;
+    }
+    
+    public void setIdCreador(int idCreador)
+    {
+        this.idCreador = idCreador;
+    }
+    
+    public String getColor()
+    {
+        return color;
+    }
+    
+    public void setColor(String color)
+    {
+        this.color = color;
+    }
+    
+    public int getCantidadLikes()
+    {
+        return cantidadLikes;
+    }
+    
+    public void setCantidadLikes(int cantidadLikes)
+    {
+        this.cantidadLikes = cantidadLikes;
+    }
+    
+    public String getFoto()
+    {
+        return foto;
+    }
+    
+    public void setFoto(String foto)
+    {
+        this.foto = foto;
+    }
+    
     @Override
     public String toString()
     {

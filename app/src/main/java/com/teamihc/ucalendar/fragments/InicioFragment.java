@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -23,17 +24,24 @@ import java.util.ArrayList;
 
 public class InicioFragment extends Fragment implements MuestraEventos
 {
+    //Adapter y lista ya vienen inicializadas
+    private FeedRVAdapter adapter;
     public ArrayList<Evento> eventos;
     public void setEventos(ArrayList<Evento> eventos)
     {
         this.eventos = eventos;
+        adapter = new FeedRVAdapter(this.eventos);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        
+//        adapter = new FeedRVAdapter(eventos);
+//        recyclerView.setAdapter(adapter);
+//        this.eventos = eventos;
     }
     
     private SwipeRefreshLayout swipeRefresh;
-    private Button testVerMas;
-    private ImageView testImg;
     private RecyclerView recyclerView;
-    private FeedRVAdapter adapter;
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -65,34 +73,22 @@ public class InicioFragment extends Fragment implements MuestraEventos
                 }
             }
         );
-        
-        //Imagen
-        testImg = getView().findViewById(R.id.img_test);
     
-        //Botón ver más
-        testVerMas = getView().findViewById(R.id.test_card).findViewById(R.id.btnVerMas);
-        testVerMas.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Intent i = new Intent(getActivity(), DetallesEventoActivity.class);
-                startActivity(i);
-            }
-        });
-        
-        
         //Recycler
-        eventos = new ArrayList<>();
-       /* recyclerView = (RecyclerView) view.findViewById(R.id.recyclerFeed);
+        recyclerView = (RecyclerView) getActivity().findViewById(R.id.recyclerFeed);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
-        recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);*/
+        recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
+        
+        eventos = new ArrayList<>();
+        adapter = new FeedRVAdapter(eventos);
+        recyclerView.setAdapter(adapter);
+        
+        //Aquí se inicializa ArrayList eventos
+        Evento.obtenerEventos(getActivity(), this);
     }
     
     private void refrescarEventos()
     {
-        Evento.obtenerEventos(getActivity(), this);
-        
         //Mostrar cargar por 1seg
         Thread t = new Thread(new Runnable()
         {
@@ -111,5 +107,7 @@ public class InicioFragment extends Fragment implements MuestraEventos
             }
         });
         t.start();
+        
+        Evento.obtenerEventos(getActivity(), this);
     }
 }

@@ -1,5 +1,6 @@
 package com.teamihc.ucalendar.fragments;
 
+import com.teamihc.ucalendar.adapters.FeedRVAdapter;
 import com.teamihc.ucalendar.backend.entidades.Evento;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
  */
 public interface MuestraEventos
 {
-    ArrayList<Evento> eventos = new ArrayList<>();
+    FeedRVAdapter adapter = null;
+    ArrayList<Evento> eventos = null;
     void setEventos(ArrayList<Evento> eventos);
 }
