@@ -106,6 +106,8 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
                 }
             });
             
+            //Botón ver más
+            
             nombreEvento.setText(evento.getNombre());
             nombreCreador.setText(evento.getNombreCreador());
             descripcion.setText(evento.getDescripcion());
@@ -118,8 +120,8 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
         {
             nombreEvento = (TextView) cardView.findViewById(R.id.nombreEvento);
             nombreCreador = (TextView) cardView.findViewById(R.id.nombreCreador);
-            descripcion = (TextView) cardView.findViewById(R.id.descripcion);
-            cantLikeInteresados = (TextView) cardView.findViewById(R.id.cantLikesInteresados);
+            descripcion = (TextView) cardView.findViewById(R.id.txtDescripcion);
+            cantLikeInteresados = (TextView) cardView.findViewById(R.id.txtCantLikesInteresados);
             imgEvento = (LikeableImageView) cardView.findViewById(R.id.imgEvento);
             imgCreador = (CircleImageView) cardView.findViewById(R.id.imgCreador);
             btnLike = (ToggleButton) cardView.findViewById(R.id.btnLike);
