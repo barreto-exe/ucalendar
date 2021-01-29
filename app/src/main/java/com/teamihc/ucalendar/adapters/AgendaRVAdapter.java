@@ -8,7 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class AgendaRVAdapter{/*
+public class AgendaRVAdapter{
+    /*
         extends RecyclerView.Adapter<AgendaRVAdapter.AgendaAdapter>
         implements View.OnClickListener{
 
@@ -30,7 +31,7 @@ public class AgendaRVAdapter{/*
     @Override
     public AgendaAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View view = inflater.inflate((R.layout.view_info_evento), parent, false);
+        View view =  LayoutInflater.from(parent.getContext()).inflate((R.layout.view_info_evento), parent, false);
         view.setOnClickListener(this);
         return new AgendaAdapter(view);
     }
