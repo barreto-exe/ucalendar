@@ -18,6 +18,7 @@ import com.teamihc.ucalendar.adapters.FeedRVAdapter;
 import com.teamihc.ucalendar.backend.Herramientas;
 import com.teamihc.ucalendar.backend.SolicitudHTTP;
 import com.teamihc.ucalendar.backend.basedatos.Configuraciones;
+import com.teamihc.ucalendar.backend.basedatos.SqliteOp;
 import com.teamihc.ucalendar.fragments.MuestraEventos;
 
 import java.util.ArrayList;
@@ -245,11 +246,13 @@ public class Evento
         {
             cantidadGuardados++;
             servicio = "recibir_guardar";
+            guardar();
         }
         else
         {
             cantidadGuardados--;
             servicio = "recibir_guardar_borrado";
+            eliminarGuardado();
         }
     
         SolicitudHTTP solicitud = new SolicitudHTTP(context, servicio)
@@ -265,6 +268,42 @@ public class Evento
         solicitud.ejecutar();
     }
     
+    private void guardar()
+    {
+        String query =
+            "INSERT INTO eventos " +
+            "(id_evento, nombre, descripcion, fecha_inicio, fecha_final, lugar, color, " +
+            "cantidad_likes, cantidad_guardados, foto, fotoCreador, nombreCreador) " +
+            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?); ";
+        SqliteOp op = new SqliteOp(query);
+        op.pasarParametro(idEvento);
+        op.pasarParametro(nombre);
+        op.pasarParametro(descripcion);
+        op.pasarParametro(Herramientas.formatearFechaTiempoBBDD(fechaInicio));
+        op.pasarParametro(Herramientas.formatearFechaTiempoBBDD(fechaFinal));
+        op.pasarParametro(lugar);
+        op.pasarParametro(color);
+        op.pasarParametro(cantidadLikes);
+        op.pasarParametro(cantidadGuardados);
+        op.pasarParametro(foto);
+        op.pasarParametro(fotoCreador);
+        op.pasarParametro(nombreCreador);
+        op.ejecutar();
+        
+        query = "INSERT INTO guardados VALUES (?)";
+        op = new SqliteOp(query);
+        op.pasarParametro(idEvento);
+        op.ejecutar();
+    }
+    
+    private void eliminarGuardado()
+    {
+        String query =
+            "DELETE FROM guardados WHERE id_evento = ?";
+        SqliteOp op = new SqliteOp(query);
+        op.pasarParametro(idEvento);
+        op.ejecutar();
+    }
     
     @Override
     public String toString()
