@@ -47,4 +47,5 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.15' //Hashing md5
     implementation 'androidx.legacy:legacy-support-v4:1.0.0' //Refresh gesture
     implementation 'com.google.code.gson:gson:2.8.6' //Objetos JSON
+    implementation 'com.github.sundeepk:compact-calendar-view:3.0.0' //Componente calendario
 }

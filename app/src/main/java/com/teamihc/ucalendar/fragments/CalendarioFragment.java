@@ -7,19 +7,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.widget.TextView;
 
 import com.teamihc.ucalendar.R;
-import com.teamihc.ucalendar.adapters.CalendarioRVAdapter;
-import com.teamihc.ucalendar.backend.entidades.Evento;
-
-import java.util.ArrayList;
 
 public class CalendarioFragment extends Fragment
 {
+    CompactCalendarView calendarView;
+    TextView txtMesActual, calendarioIzquierda, calendarioDerecha;
+    
     private RecyclerView recyclerView;
     private CalendarioRVAdapter adapter;
     private ArrayList<Evento> listaEventos;
@@ -35,12 +31,57 @@ public class CalendarioFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_calendario, container, false);
         return view;
     }
-
+    
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-
+        inicializarComponentes();
+    }
+    
+    private void inicializarComponentes()
+    {
+        txtMesActual = getView().findViewById(R.id.txtMesActual);
+        calendarView = getView().findViewById(R.id.calendarView);
+        calendarView.setFirstDayOfWeek(Calendar.SUNDAY);
+        calendarView.setUseThreeLetterAbbreviation(true);
+        calendarView.setListener(new CompactCalendarView.CompactCalendarViewListener()
+        {
+            @Override
+            public void onDayClick(Date dateClicked)
+            {
+            }
+            @Override
+            public void onMonthScroll(Date firstDayOfNewMonth)
+            {
+                //Actualizar nombre de mes y año
+                txtMesActual.setText(Herramientas.formatearMesYearCalendario(firstDayOfNewMonth));
+            }
+        });
+    
+        calendarioIzquierda = getView().findViewById(R.id.calendarioIzquierda);
+        calendarioIzquierda.setText("<");
+        calendarioIzquierda.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                calendarView.scrollLeft();
+            }
+        });
+        calendarioDerecha = getView().findViewById(R.id.calendarioDerecha);
+        calendarioDerecha.setText(">");
+        calendarioDerecha.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                calendarView.scrollRight();
+            }
+        });
+        
+        //Colocar nombre de mes y año actual
+        txtMesActual.setText(Herramientas.formatearMesYearCalendario(calendarView.getFirstDayOfCurrentMonth()));
         // RecyclerView
         recyclerView = getView().findViewById(R.id.eventosDelmes);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
