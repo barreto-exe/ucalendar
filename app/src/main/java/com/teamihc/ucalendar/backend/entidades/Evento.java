@@ -1,20 +1,9 @@
 package com.teamihc.ucalendar.backend.entidades;
 
 import android.content.Context;
-import android.text.BoringLayout;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.teamihc.ucalendar.adapters.FeedRVAdapter;
 import com.teamihc.ucalendar.backend.Herramientas;
 import com.teamihc.ucalendar.backend.SolicitudHTTP;
 import com.teamihc.ucalendar.backend.basedatos.Configuraciones;
@@ -23,8 +12,6 @@ import com.teamihc.ucalendar.fragments.MuestraEventos;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Evento
 {
@@ -182,9 +169,15 @@ public class Evento
     }
     //</editor-fold>
     
-    public static void obtenerEventos(Context context, MuestraEventos muestraEventos)
+    public static void obtenerEventos(Context context, MuestraEventos muestraEventos, Boolean soloGuardados)
     {
-        SolicitudHTTP solicitud = new SolicitudHTTP(context, "obtener_eventos")
+        String servicio = "obtener_eventos";
+        if(soloGuardados)
+        {
+            servicio += "_guardados";
+        }
+        
+        SolicitudHTTP solicitud = new SolicitudHTTP(context, servicio)
         {
             @Override
             public void eventoRespuestaHTTP(String respuesta)
@@ -198,6 +191,13 @@ public class Evento
                 for (Evento evento : test)
                 {
                     listaEventos.add(evento);
+                    
+                    //Si tiene guardado, refrescar en BBDD local
+                    if(evento.tieneGuardado)
+                    {
+                        evento.eliminarBBDD();
+                        evento.guardarInteres();
+                    }
                 }
     
                 //Actualizar eventos mostrados en el inicio
@@ -236,7 +236,6 @@ public class Evento
         solicitud.getParametros().put("idEvento", idEvento + "");
         solicitud.ejecutar();
     }
-    
     public void toggleGuardar(Context context)
     {
         tieneGuardado ^= true;
@@ -246,7 +245,7 @@ public class Evento
         {
             cantidadGuardados++;
             servicio = "recibir_guardar";
-            guardar();
+            guardarInteres();
         }
         else
         {
@@ -268,7 +267,27 @@ public class Evento
         solicitud.ejecutar();
     }
     
-    private void guardar()
+    private void guardarInteres()
+    {
+        registrarBBDD();
+        
+        String query = "INSERT INTO guardados VALUES (?)";
+        SqliteOp op = new SqliteOp(query);
+        op.pasarParametro(idEvento);
+        op.ejecutar();
+    }
+    private void eliminarGuardado()
+    {
+        eliminarBBDD();
+        
+        String query =
+            "DELETE FROM guardados WHERE id_evento = ?";
+        SqliteOp op = new SqliteOp(query);
+        op.pasarParametro(idEvento);
+        op.ejecutar();
+    }
+    
+    public void registrarBBDD()
     {
         String query =
             "INSERT INTO eventos " +
@@ -289,17 +308,10 @@ public class Evento
         op.pasarParametro(fotoCreador);
         op.pasarParametro(nombreCreador);
         op.ejecutar();
-        
-        query = "INSERT INTO guardados VALUES (?)";
-        op = new SqliteOp(query);
-        op.pasarParametro(idEvento);
-        op.ejecutar();
     }
-    
-    private void eliminarGuardado()
+    public void eliminarBBDD()
     {
-        String query =
-            "DELETE FROM guardados WHERE id_evento = ?";
+        String query = "DELETE FROM eventos WHERE id_evento = ?";
         SqliteOp op = new SqliteOp(query);
         op.pasarParametro(idEvento);
         op.ejecutar();

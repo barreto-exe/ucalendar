@@ -85,7 +85,7 @@ public class InicioFragment extends Fragment implements MuestraEventos
         recyclerView.setAdapter(adapter);
         
         //Aquí se inicializa ArrayList eventos
-        Evento.obtenerEventos(getActivity(), this);
+        Evento.obtenerEventos(getActivity(), this, false);
     }
     
     private void refrescarEventos()
@@ -109,6 +109,6 @@ public class InicioFragment extends Fragment implements MuestraEventos
         });
         t.start();
         
-        Evento.obtenerEventos(getActivity(), this);
+        Evento.obtenerEventos(getActivity(), this, false);
     }
 }
