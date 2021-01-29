@@ -1,5 +1,6 @@
 package com.teamihc.ucalendar.adapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,10 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.teamihc.ucalendar.R;
+import com.teamihc.ucalendar.activities.DetallesEventoActivity;
+import com.teamihc.ucalendar.activities.MainActivity;
 import com.teamihc.ucalendar.backend.entidades.Evento;
 import com.teamihc.ucalendar.controls.LikeableImageView;
 
@@ -24,6 +28,7 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
 {
     ArrayList<Evento> eventos;
     View.OnClickListener listener;
+    private int p;
     
     public FeedRVAdapter(ArrayList<Evento> eventos)
     {
@@ -35,6 +40,7 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
     public FeedAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_info_evento, parent, false);
+        p = 0;
         return new FeedAdapter(view, this);
     }
     
@@ -44,6 +50,7 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
         Evento evento = eventos.get(position);
         evento.setPosicionLista(position);
         holder.asignarDatos(evento);
+        p = position;
     }
     
     @Override
@@ -56,7 +63,7 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
     public class FeedAdapter extends RecyclerView.ViewHolder
     {
         private View view;
-        CardView cardView;
+        private CardView cardView;
     
         FeedRVAdapter adapter;
         
@@ -81,7 +88,6 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
         public void asignarDatos(Evento evento)
         {
             inicializarComponentes();
-    
             //Evento de like
             btnLike.setChecked(evento.getTieneLike());
             btnLike.setOnClickListener(new View.OnClickListener()
@@ -107,6 +113,19 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
             });
             
             //Botón ver más
+            btnVerMas.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    MainActivity mainActivity = ((MainActivity) view.getContext());
+                    Intent intent = new Intent(mainActivity, DetallesEventoActivity.class);
+                    Gson g = new Gson();
+                    String eventoJson = g.toJson(eventos.get(p));
+                    intent.putExtra("evento", eventoJson);
+                    mainActivity.startActivity(intent);
+                }
+            });
             
             nombreEvento.setText(evento.getNombre());
             nombreCreador.setText(evento.getNombreCreador());

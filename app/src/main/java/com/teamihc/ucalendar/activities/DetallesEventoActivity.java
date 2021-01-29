@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.teamihc.ucalendar.R;
 import com.teamihc.ucalendar.backend.entidades.Evento;
 
@@ -19,9 +20,9 @@ public class DetallesEventoActivity extends AppCompatActivity
     private TextView txtDescripcion;
     private Button btnVerMas;
     
-    public DetallesEventoActivity(Evento evento)
+    public DetallesEventoActivity()
     {
-        this.evento = evento;
+        evento = null;
     }
     
     @Override
@@ -29,6 +30,9 @@ public class DetallesEventoActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_evento);
+        String eventoJson = getIntent().getExtras().getString("evento");
+        Gson g = new Gson();
+        evento = g.fromJson(eventoJson, Evento.class);
         toolbar = findViewById(R.id.toolbardetalles);
         setSupportActionBar(toolbar);
 
@@ -36,7 +40,9 @@ public class DetallesEventoActivity extends AppCompatActivity
         
         inicializarComponentes();
     }
-    
+
+
+
     private void inicializarComponentes()
     {
         txtDescripcion = findViewById(R.id.txtDescripcion);
