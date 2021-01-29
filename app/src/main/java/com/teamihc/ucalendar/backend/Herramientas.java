@@ -94,6 +94,13 @@ public class Herramientas
         String dia = new SimpleDateFormat("EEEE").format(fecha);
         return dia.substring(0, 1).toUpperCase() + dia.substring(1) + ", " + FORMATO_FECHA_FRONT.format(fecha);
     }
+    
+    public static String formatearMesYearCalendario(Date fecha)
+    {
+        String dia = new SimpleDateFormat("MMMM yyyy").format(fecha);
+        return dia.substring(0, 1).toUpperCase() + dia.substring(1);
+    }
+    
     public static String formatearHoraFront(Date hora)
     {
         return FORMATO_TIEMPO_FRONT.format(hora);

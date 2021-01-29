@@ -34,10 +34,6 @@ public class InicioFragment extends Fragment implements MuestraEventos
         adapter = new FeedRVAdapter(this.eventos);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        
-//        adapter = new FeedRVAdapter(eventos);
-//        recyclerView.setAdapter(adapter);
-//        this.eventos = eventos;
     }
     
     private SwipeRefreshLayout swipeRefresh;
