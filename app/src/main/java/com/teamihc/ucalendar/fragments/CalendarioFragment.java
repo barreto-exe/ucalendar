@@ -9,7 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.teamihc.ucalendar.R;
+import com.teamihc.ucalendar.adapters.CalendarioRVAdapter;
+import com.teamihc.ucalendar.backend.Herramientas;
+import com.teamihc.ucalendar.backend.entidades.Evento;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 public class CalendarioFragment extends Fragment
 {
@@ -82,12 +93,14 @@ public class CalendarioFragment extends Fragment
         
         //Colocar nombre de mes y año actual
         txtMesActual.setText(Herramientas.formatearMesYearCalendario(calendarView.getFirstDayOfCurrentMonth()));
+        
         // RecyclerView
         recyclerView = getView().findViewById(R.id.eventosDelmes);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
         recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
 
         listaEventos = new ArrayList<Evento>();
+        
         // Insertar función que carga en la lista los eventos actualizados
         adapter = new CalendarioRVAdapter(listaEventos);
         recyclerView.setAdapter(adapter);
