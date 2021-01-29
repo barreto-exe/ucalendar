@@ -25,9 +25,11 @@ import java.util.ArrayList;
 
 public class InicioFragment extends Fragment implements MuestraEventos
 {
-    //Adapter y lista ya vienen inicializadas
+    private SwipeRefreshLayout swipeRefresh;
+    private RecyclerView recyclerView;
     private FeedRVAdapter adapter;
     public ArrayList<Evento> eventos;
+    
     public void setEventos(ArrayList<Evento> eventos)
     {
         this.eventos = eventos;
@@ -36,12 +38,8 @@ public class InicioFragment extends Fragment implements MuestraEventos
         adapter.notifyDataSetChanged();
     }
     
-    private SwipeRefreshLayout swipeRefresh;
-    private RecyclerView recyclerView;
-    
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_inicio, container, false);

@@ -11,7 +11,6 @@ import java.util.ArrayList;
  */
 public interface MuestraEventos
 {
-    FeedRVAdapter adapter = null;
-    ArrayList<Evento> eventos = null;
-    void setEventos(ArrayList<Evento> eventos);
+    public ArrayList<Evento> eventos = null;
+    public void setEventos(ArrayList<Evento> eventos);
 }

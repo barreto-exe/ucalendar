@@ -1,8 +1,10 @@
 package com.teamihc.ucalendar.adapters;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -15,56 +17,72 @@ import java.util.ArrayList;
 
 public class CalendarioRVAdapter
         extends RecyclerView.Adapter<CalendarioRVAdapter.CalendarioAdapter>
-        implements View.OnClickListener{
-
-    private ArrayList<Evento> listaEventos;
+{
+    
+    private ArrayList<Evento> eventos;
     private CardView cardView;
-
-    public CalendarioRVAdapter(ArrayList<Evento> listaEventos)
+    
+    public CalendarioRVAdapter(ArrayList<Evento> eventos)
     {
-        this.listaEventos = listaEventos;
+        this.eventos = eventos;
     }
-
-    @Override
-    public void onClick(View view) {
-        // Falta programar el cambio de pantalla
-    }
-
+    
     @NonNull
     @Override
-    public CalendarioAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_info_evento, parent, false);
-        view.setOnClickListener(this);
+    public CalendarioAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_evento_calendario, parent, false);
         return new CalendarioAdapter(view);
     }
-
+    
     @Override
-    public void onBindViewHolder(@NonNull CalendarioAdapter holder, int position) {
-        holder.asignarDatos(listaEventos.get(position));
+    public void onBindViewHolder(@NonNull CalendarioAdapter holder, int position)
+    {
+        holder.asignarDatos(eventos.get(position));
     }
-
+    
     @Override
-    public int getItemCount() { return listaEventos.size(); }
-
+    public int getItemCount()
+    {
+        return eventos.size();
+    }
+    
     public class CalendarioAdapter extends RecyclerView.ViewHolder
     {
         private View view;
-
+        TextView txtFechaEvento, txtNombreEvento;
+        CardView cardColor;
+        
         public CalendarioAdapter(@NonNull View itemView)
         {
             super(itemView);
             view = itemView;
-            //cardView = (CardView) itemView.findViewById(R.id.info_evento_agenda);
+            cardView = (CardView) itemView.findViewById(R.id.infoEventoCalendario);
         }
-
+        
         public void asignarDatos(Evento evento)
         {
-            // Aquí se llena el CardView cuando esté listo uwu
+            inicializarComponentes();
+            
+            txtFechaEvento.setText(evento.getFechaInicio() + "");
+            txtNombreEvento.setText(evento.getNombre());
+            cardColor.setCardBackgroundColor(Color.parseColor(evento.getColor()));
+            cardColor.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    //Aquí el cambio de pantalla!!!
+                }
+            });
+        }
+        
+        private void inicializarComponentes()
+        {
+            txtFechaEvento = cardView.findViewById(R.id.txtFechaEvento);
+            txtNombreEvento = cardView.findViewById(R.id.txtNombreEvento);
+            cardColor = cardView.findViewById(R.id.cardColor);
+            
         }
     }
-
-    /*@Override
-    public void onClick(View view) {
-        // Falta programar el cambio de pantalla
-    }*/
 }

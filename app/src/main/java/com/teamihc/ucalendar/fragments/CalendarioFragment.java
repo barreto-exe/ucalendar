@@ -2,6 +2,7 @@ package com.teamihc.ucalendar.fragments;
 
 
 import android.app.Fragment;
+import android.graphics.Color;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,29 +15,41 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
+import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.teamihc.ucalendar.R;
 import com.teamihc.ucalendar.adapters.CalendarioRVAdapter;
+import com.teamihc.ucalendar.adapters.FeedRVAdapter;
 import com.teamihc.ucalendar.backend.Herramientas;
 import com.teamihc.ucalendar.backend.entidades.Evento;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
-public class CalendarioFragment extends Fragment
+public class CalendarioFragment extends Fragment implements MuestraEventos
 {
-    CompactCalendarView calendarView;
-    TextView txtMesActual, calendarioIzquierda, calendarioDerecha;
-    
+    private CompactCalendarView calendarView;
+    private TextView txtMesActual, calendarioIzquierda, calendarioDerecha;
     private RecyclerView recyclerView;
     private CalendarioRVAdapter adapter;
-    private ArrayList<Evento> listaEventos;
-
-    // Crear un Layout con una imagen de bienvenida para cuando el usuario no tenga guardado ningún evento
-    //private LinearLayout bienvenida;
+    public ArrayList<Evento> eventos;
+    
+    public void setEventos(ArrayList<Evento> eventos)
+    {
+        this.eventos = eventos;
+        adapter = new CalendarioRVAdapter(this.eventos);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        
+        for(Evento e : eventos)
+        {
+            //Agregar puntito en el calendario con su respectivo color
+            calendarView.addEvent(new Event(Color.parseColor(e.getColor()), e.getFechaInicio().getTime()));
+        }
+    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_calendario, container, false);
@@ -52,6 +65,7 @@ public class CalendarioFragment extends Fragment
     
     private void inicializarComponentes()
     {
+        //Datos calendario
         txtMesActual = getView().findViewById(R.id.txtMesActual);
         calendarView = getView().findViewById(R.id.calendarView);
         calendarView.setFirstDayOfWeek(Calendar.SUNDAY);
@@ -70,6 +84,7 @@ public class CalendarioFragment extends Fragment
             }
         });
     
+        //Botón izquierdo calendario
         calendarioIzquierda = getView().findViewById(R.id.calendarioIzquierda);
         calendarioIzquierda.setText("<");
         calendarioIzquierda.setOnClickListener(new View.OnClickListener()
@@ -80,6 +95,7 @@ public class CalendarioFragment extends Fragment
                 calendarView.scrollLeft();
             }
         });
+        //Botón derecho calendario
         calendarioDerecha = getView().findViewById(R.id.calendarioDerecha);
         calendarioDerecha.setText(">");
         calendarioDerecha.setOnClickListener(new View.OnClickListener()
@@ -94,15 +110,17 @@ public class CalendarioFragment extends Fragment
         //Colocar nombre de mes y año actual
         txtMesActual.setText(Herramientas.formatearMesYearCalendario(calendarView.getFirstDayOfCurrentMonth()));
         
-        // RecyclerView
+        //RecyclerView
         recyclerView = getView().findViewById(R.id.eventosDelmes);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
         recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
 
-        listaEventos = new ArrayList<Evento>();
-        
-        // Insertar función que carga en la lista los eventos actualizados
-        adapter = new CalendarioRVAdapter(listaEventos);
+        //Datos Recycler
+        eventos = new ArrayList<>();
+        adapter = new CalendarioRVAdapter(eventos);
         recyclerView.setAdapter(adapter);
+    
+        //Aquí se inicializa ArrayList eventos
+        Evento.obtenerEventos(getActivity(), this, false);
     }
 }

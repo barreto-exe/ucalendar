@@ -56,7 +56,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
                         android:layout_marginStart="10dp"
-                        android:text="@string/fecha"
+                        android:text="@string/fecha_dos_puntos"
                         android:textColor="@color/text"
                         android:textSize="18sp" />
 
@@ -90,7 +90,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
                         android:layout_marginStart="10dp"
-                        android:text="@string/hora"
+                        android:text="@string/hora_dos_puntos"
                         android:textColor="@color/text"
                         android:textSize="18sp" />
 
