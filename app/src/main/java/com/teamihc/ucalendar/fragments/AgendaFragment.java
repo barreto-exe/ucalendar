@@ -15,6 +15,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.teamihc.ucalendar.R;
 import com.teamihc.ucalendar.adapters.AgendaRVAdapter;
 import com.teamihc.ucalendar.adapters.FeedRVAdapter;
+import com.teamihc.ucalendar.backend.entidades.Evento;
 
 import java.util.ArrayList;
 
@@ -58,7 +59,7 @@ public class AgendaFragment extends Fragment
         recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
 
 
-        listaEventosGuardado = new ArrayList<Articulo>();
+        listaEventosGuardado = new ArrayList<Evento>();
         // Insertar función que carga en la lista los eventos actualizados
         adapter = new AgendaRVAdapter(listaEventosGuardados);
         recyclerView.setAdapter(adapter);
@@ -79,7 +80,7 @@ public class AgendaFragment extends Fragment
                                 listaEventosGuardados.clear();
                                 adapter.notifyDataSetChanged();
 
-                                // Insertar función que carga en la lista los eventos actualizados
+                                refrescarEventos();
 
                                 adapter = new AgendaRVAdapter(listaEventosGuardados, R.layout.view_info_evento_agenda);
                                 recyclerView.setAdapter(adapter);
@@ -91,7 +92,33 @@ public class AgendaFragment extends Fragment
                 );
     }
 
-    /* //Método que verifica si hay evetos guardados o no
+    /*
+    private void refrescarEventos()
+    {
+        //Mostrar cargar por 1seg
+        Thread t = new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    Thread.sleep(1000);
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+                swipeRefresh.setRefreshing(false);
+            }
+        });
+        t.start();
+
+        Evento.obtenerEventos(getActivity(), this);
+    }
+}
+
+     //Método que verifica si hay evetos guardados o no
        //para mostrar la imagen de bienvenida o el recycler con los eventos
     private void ColocarBienvenida()
     {
