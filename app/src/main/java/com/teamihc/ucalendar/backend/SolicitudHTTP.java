@@ -90,7 +90,9 @@ public abstract class SolicitudHTTP
                 @Override
                 public void onErrorResponse(VolleyError error)
                 {
-                    Toast.makeText(context,"Ha ocurrido un error. \n" + error.getMessage(),Toast.LENGTH_SHORT).show();
+                    eventoRespuestaErrorHTTP();
+                    //Toast.makeText(context,"Ha ocurrido un error. \n" + error.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"Ha ocurrido un error de conexión.",Toast.LENGTH_SHORT).show();
                 }
             }
         ) //Fin constructor
@@ -107,4 +109,6 @@ public abstract class SolicitudHTTP
     }
     
     public abstract void eventoRespuestaHTTP(String response);
+    
+    public abstract void eventoRespuestaErrorHTTP();
 }

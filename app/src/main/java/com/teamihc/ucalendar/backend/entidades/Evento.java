@@ -204,6 +204,12 @@ public class Evento implements Serializable
                 //Actualizar eventos mostrados en el inicio
                 muestraEventos.setEventos(listaEventos);
             }
+    
+            @Override
+            public void eventoRespuestaErrorHTTP()
+            {
+            
+            }
         };
         solicitud.getParametros().put("id_usuario_sesion", Configuraciones.getIdUsuarioSesion() + "");
         solicitud.ejecutar();
@@ -231,6 +237,12 @@ public class Evento implements Serializable
             public void eventoRespuestaHTTP(String response)
             {
                 //No hacer nada
+            }
+    
+            @Override
+            public void eventoRespuestaErrorHTTP()
+            {
+        
             }
         };
         solicitud.getParametros().put("idUsuario", Configuraciones.getIdUsuarioSesion() + "");
@@ -261,6 +273,12 @@ public class Evento implements Serializable
             public void eventoRespuestaHTTP(String response)
             {
                 //No hacer nada
+            }
+    
+            @Override
+            public void eventoRespuestaErrorHTTP()
+            {
+        
             }
         };
         solicitud.getParametros().put("idUsuario", Configuraciones.getIdUsuarioSesion() + "");

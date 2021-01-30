@@ -80,6 +80,12 @@ public class Usuario extends Persona
                 }
                 Toast.makeText(context, mensaje,Toast.LENGTH_SHORT).show();
             }
+    
+            @Override
+            public void eventoRespuestaErrorHTTP()
+            {
+        
+            }
         };
         solicitud.getParametros().put("correo", correo);
         solicitud.getParametros().put("password", passEncriptada);
