@@ -144,7 +144,7 @@ public class DetallesEventoActivity extends AppCompatActivity
         txtCantLikeInteresados.setText(evento.getCantidadLikes() + " ME GUSTA - " + evento.getCantidadGuardados() + " INTERESADOS");
         if(FeedRVAdapter.feedActual != null)
         {
-            FeedRVAdapter.feedActual.notifyItemChanged(evento.getPosicionLista(), evento);
+            FeedRVAdapter.feedActual.actualizaInfoEvento(evento);
         }
     }
 }
