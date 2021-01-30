@@ -114,5 +114,8 @@ public class DetallesEventoActivity extends AppCompatActivity
                 txtCantLikeInteresados.setText(evento.getCantidadLikes() + " ME GUSTA - " + evento.getCantidadGuardados() + " INTERESADOS");
             }
         });
+
+        //Atachar botón de like al doble tap de la imagen
+        imgEvento.setToggleButton(btnLike);
     }
 }
