@@ -27,7 +27,7 @@ import com.teamihc.ucalendar.backend.entidades.Evento;
 
 import java.util.ArrayList;
 
-public class InicioFragment extends Fragment implements MuestraEventos, View.OnClickListener
+public class InicioFragment extends Fragment implements MuestraEventos
 {
     private SwipeRefreshLayout swipeRefresh;
     private RecyclerView recyclerView;
@@ -108,18 +108,5 @@ public class InicioFragment extends Fragment implements MuestraEventos, View.OnC
         t.start();
         
         Evento.obtenerEventos(getActivity(), this, false);
-    }
-
-    @Override
-    public void onClick(View view) {
-        TextView position = view.findViewById(R.id.position);
-        int p = Integer.parseInt(position.getText().toString());
-        Gson g = new Gson();
-        String eventoJson = g.toJson(eventos.get(p));
-
-        MainActivity mainActivity = ((MainActivity) view.getContext());
-        Intent intent = new Intent(mainActivity, DetallesEventoActivity.class);
-        intent.putExtra("evento", eventoJson);
-        mainActivity.startActivity(intent);
     }
 }

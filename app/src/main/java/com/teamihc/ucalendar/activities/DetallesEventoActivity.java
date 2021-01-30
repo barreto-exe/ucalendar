@@ -10,8 +10,8 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.teamihc.ucalendar.R;
+import com.teamihc.ucalendar.adapters.FeedRVAdapter;
 import com.teamihc.ucalendar.backend.Herramientas;
 import com.teamihc.ucalendar.backend.entidades.Evento;
 import com.teamihc.ucalendar.controls.LikeableImageView;
@@ -23,6 +23,7 @@ public class DetallesEventoActivity extends AppCompatActivity
 {
     private Toolbar toolbar;
     private Evento evento;
+    private FeedRVAdapter feedAdapter;
     private Button btnVerMas;
 
     private TextView txtNombreEvento;
@@ -48,21 +49,25 @@ public class DetallesEventoActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_evento);
-        String eventoJson = getIntent().getExtras().getString("evento");
-        Gson g = new Gson();
-        evento = g.fromJson(eventoJson, Evento.class);
+    
         toolbar = findViewById(R.id.toolbardetalles);
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        
+    
+        inicializarParametrosIntent();
         inicializarComponentes();
+        inicializarInformacion();
+        inicializarEventos();
     }
 
-
-
+    private void inicializarParametrosIntent()
+    {
+        evento = (Evento) getIntent().getExtras().getSerializable("evento");
+        feedAdapter = (FeedRVAdapter) getIntent().getExtras().getSerializable("adapter");
+    }
     private void inicializarComponentes()
     {
+        //Inicializar
         txtNombreEvento = findViewById(R.id.nombreEvento);
         txtNombreCreador = findViewById(R.id.nombreCreador);
         txtDescripcion = findViewById(R.id.txtDescripcion);
@@ -76,10 +81,17 @@ public class DetallesEventoActivity extends AppCompatActivity
         btnVerMas = findViewById(R.id.btnVerMas);
         btnLike = findViewById(R.id.btnLike);
         btnGuardar = findViewById(R.id.btnGuardar);
-
+    
+        //Atachar botón de like al doble tap de la imagen
+        imgEvento.setToggleButton(btnLike);
+        
+        //Hacer invisibles elementos del cardview
         txtDescripcion.setVisibility(View.GONE);
         btnVerMas.setVisibility(View.GONE);
-
+    }
+    private void inicializarInformacion()
+    {
+        //Insertar información
         txtNombreEvento.setText(evento.getNombre());
         txtNombreCreador.setText(evento.getNombreCreador());
         txtFecha.setText(Herramientas.formatearDiaFechaFront(evento.getFechaInicio()));
@@ -87,10 +99,12 @@ public class DetallesEventoActivity extends AppCompatActivity
         txtLugar.setText(evento.getLugar());
         txtDescripcionDetallada.setText(evento.getDescripcion());
         txtCantLikeInteresados.setText(evento.getCantidadLikes() + " ME GUSTA - " + evento.getCantidadGuardados() + " INTERESADOS");
-
+    
         Glide.with(this).load(evento.getFoto()).into(imgEvento);
         Glide.with(this).load(evento.getFotoCreador()).into(imgCreador);
-
+    }
+    private void inicializarEventos()
+    {
         //Evento de like
         btnLike.setChecked(evento.getTieneLike());
         btnLike.setOnClickListener(new View.OnClickListener()
@@ -99,10 +113,10 @@ public class DetallesEventoActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 evento.toggleLike(v.getContext());
-                txtCantLikeInteresados.setText(evento.getCantidadLikes() + " ME GUSTA - " + evento.getCantidadGuardados() + " INTERESADOS");
+                actualizarLikeInteresados();
             }
         });
-
+    
         //Evento de guardar
         btnGuardar.setChecked(evento.getTieneGuardado());
         btnGuardar.setOnClickListener(new View.OnClickListener()
@@ -111,12 +125,10 @@ public class DetallesEventoActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 evento.toggleGuardar(v.getContext());
-                txtCantLikeInteresados.setText(evento.getCantidadLikes() + " ME GUSTA - " + evento.getCantidadGuardados() + " INTERESADOS");
+                actualizarLikeInteresados();
             }
         });
-
-        //Atachar botón de like al doble tap de la imagen
-        imgEvento.setToggleButton(btnLike);
+    
         //Salir de la ventana
         toolbar.setNavigationOnClickListener(new View.OnClickListener()
         {
@@ -126,5 +138,13 @@ public class DetallesEventoActivity extends AppCompatActivity
                 finish();
             }
         });
+    }
+    private void actualizarLikeInteresados()
+    {
+        txtCantLikeInteresados.setText(evento.getCantidadLikes() + " ME GUSTA - " + evento.getCantidadGuardados() + " INTERESADOS");
+        if(FeedRVAdapter.feedActual != null)
+        {
+            FeedRVAdapter.feedActual.notifyItemChanged(evento.getPosicionLista(), evento);
+        }
     }
 }

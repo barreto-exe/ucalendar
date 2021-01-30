@@ -10,10 +10,11 @@ import com.teamihc.ucalendar.backend.basedatos.Configuraciones;
 import com.teamihc.ucalendar.backend.basedatos.SqliteOp;
 import com.teamihc.ucalendar.fragments.MuestraEventos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Evento
+public class Evento implements Serializable
 {
     private int posicionLista;
     private int idEvento;
