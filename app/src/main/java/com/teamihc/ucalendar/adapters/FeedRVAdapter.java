@@ -28,7 +28,6 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
 {
     ArrayList<Evento> eventos;
     View.OnClickListener listener;
-    private int p;
     
     public FeedRVAdapter(ArrayList<Evento> eventos)
     {
@@ -40,7 +39,6 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
     public FeedAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_info_evento, parent, false);
-        p = 0;
         return new FeedAdapter(view, this);
     }
     
@@ -50,7 +48,6 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
         Evento evento = eventos.get(position);
         evento.setPosicionLista(position);
         holder.asignarDatos(evento);
-        p = position;
     }
     
     @Override
@@ -71,6 +68,7 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
         TextView nombreCreador;
         TextView descripcion;
         TextView cantLikeInteresados;
+        TextView posicion;
         LikeableImageView imgEvento;
         CircleImageView imgCreador;
         ToggleButton btnLike;
@@ -121,7 +119,8 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
                     MainActivity mainActivity = ((MainActivity) view.getContext());
                     Intent intent = new Intent(mainActivity, DetallesEventoActivity.class);
                     Gson g = new Gson();
-                    String eventoJson = g.toJson(eventos.get(p));
+                    int pos = Integer.parseInt(posicion.getText().toString());
+                    String eventoJson = g.toJson(eventos.get(pos));
                     intent.putExtra("evento", eventoJson);
                     mainActivity.startActivity(intent);
                 }
@@ -130,6 +129,7 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
             nombreEvento.setText(evento.getNombre());
             nombreCreador.setText(evento.getNombreCreador());
             descripcion.setText(evento.getDescripcion());
+            posicion.setText(Integer.toString(evento.getPosicionLista()));
             Glide.with(view).load(evento.getFoto()).into(imgEvento);
             Glide.with(view).load(evento.getFotoCreador()).into(imgCreador);
             cantLikeInteresados.setText(evento.getCantidadLikes() + " ME GUSTA - " + evento.getCantidadGuardados() + " INTERESADOS");
@@ -141,6 +141,7 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
             nombreCreador = (TextView) cardView.findViewById(R.id.nombreCreador);
             descripcion = (TextView) cardView.findViewById(R.id.txtDescripcion);
             cantLikeInteresados = (TextView) cardView.findViewById(R.id.txtCantLikesInteresados);
+            posicion = (TextView) cardView.findViewById(R.id.posicion);
             imgEvento = (LikeableImageView) cardView.findViewById(R.id.imgEvento);
             imgCreador = (CircleImageView) cardView.findViewById(R.id.imgCreador);
             btnLike = (ToggleButton) cardView.findViewById(R.id.btnLike);

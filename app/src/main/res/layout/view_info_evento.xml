@@ -54,6 +54,13 @@
                         android:textSize="16sp"
                         android:id="@+id/nombreCreador"/>
 
+                    <TextView
+                        android:id="@+id/posicion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="p"
+                        android:visibility="gone" />
+
                 </LinearLayout>
             </LinearLayout>
 
