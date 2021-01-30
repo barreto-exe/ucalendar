@@ -11,6 +11,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.teamihc.ucalendar.R;
+import com.teamihc.ucalendar.backend.Herramientas;
 import com.teamihc.ucalendar.backend.entidades.Evento;
 
 import java.util.ArrayList;
@@ -51,20 +52,20 @@ public class CalendarioRVAdapter
     {
         private View view;
         TextView txtFechaEvento, txtNombreEvento;
-        CardView cardColor;
+        CardView cardColor, cardInfoEventoCalendario;
         
         public CalendarioAdapter(@NonNull View itemView)
         {
             super(itemView);
             view = itemView;
-            cardView = (CardView) itemView.findViewById(R.id.infoEventoCalendario);
+            cardView = (CardView) itemView.findViewById(R.id.cardInfoEventoCalendario);
         }
         
         public void asignarDatos(Evento evento)
         {
             inicializarComponentes();
             
-            txtFechaEvento.setText(evento.getFechaInicio() + "");
+            txtFechaEvento.setText(Herramientas.formatearDiaFechaCalendario(evento.getFechaInicio()));
             txtNombreEvento.setText(evento.getNombre());
             cardColor.setCardBackgroundColor(Color.parseColor(evento.getColor()));
             cardColor.setOnClickListener(new View.OnClickListener()
@@ -75,6 +76,9 @@ public class CalendarioRVAdapter
                     //Aquí el cambio de pantalla!!!
                 }
             });
+            
+            cardInfoEventoCalendario.setCardBackgroundColor(Color.argb(0,0,0,0));
+            cardInfoEventoCalendario.setElevation(0);
         }
         
         private void inicializarComponentes()
@@ -82,7 +86,7 @@ public class CalendarioRVAdapter
             txtFechaEvento = cardView.findViewById(R.id.txtFechaEvento);
             txtNombreEvento = cardView.findViewById(R.id.txtNombreEvento);
             cardColor = cardView.findViewById(R.id.cardColor);
-            
+            cardInfoEventoCalendario = cardView.findViewById(R.id.cardInfoEventoCalendario);
         }
     }
 }

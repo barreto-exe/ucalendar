@@ -4,6 +4,7 @@ package com.teamihc.ucalendar.fragments;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.icu.util.Calendar;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.teamihc.ucalendar.adapters.FeedRVAdapter;
 import com.teamihc.ucalendar.backend.Herramientas;
 import com.teamihc.ucalendar.backend.entidades.Evento;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -32,20 +34,38 @@ public class CalendarioFragment extends Fragment implements MuestraEventos
     private TextView txtMesActual, calendarioIzquierda, calendarioDerecha;
     private RecyclerView recyclerView;
     private CalendarioRVAdapter adapter;
-    public ArrayList<Evento> eventos;
+    public ArrayList<Evento> eventos, eventosMesSeleccionado = new ArrayList<>();
     
     public void setEventos(ArrayList<Evento> eventos)
     {
         this.eventos = eventos;
-        adapter = new CalendarioRVAdapter(this.eventos);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-        
+        actualizarEventosMostrados();
+    }
+    
+    private void actualizarEventosMostrados()
+    {
+        this.eventosMesSeleccionado.clear();
+    
+        //Borrar eventos del mes para refrescar
+        calendarView.removeAllEvents();
+    
+        //Indagar eventos
         for(Evento e : eventos)
         {
-            //Agregar puntito en el calendario con su respectivo color
-            calendarView.addEvent(new Event(Color.parseColor(e.getColor()), e.getFechaInicio().getTime()));
+            //Agregar al adapter sólo si el evento ocurre dentro del mes
+            if(e.getFechaInicio().getMonth() == calendarView.getFirstDayOfCurrentMonth().getMonth())
+            {
+                //Agregar puntito en el calendario con su respectivo color
+                calendarView.addEvent(new Event(Color.parseColor(e.getColor()), e.getFechaInicio().getTime()));
+    
+                //Agregar evento a la lista recycler
+                this.eventosMesSeleccionado.add(e);
+            }
         }
+    
+        adapter = new CalendarioRVAdapter(this.eventosMesSeleccionado);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -75,12 +95,20 @@ public class CalendarioFragment extends Fragment implements MuestraEventos
             @Override
             public void onDayClick(Date dateClicked)
             {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                {
+                    Date fechaActual = Calendar.getInstance().getTime();
+                    calendarView.setCurrentDate(fechaActual);
+                    txtMesActual.setText(Herramientas.formatearMesYearCalendario(fechaActual));
+                }
             }
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth)
             {
                 //Actualizar nombre de mes y año
                 txtMesActual.setText(Herramientas.formatearMesYearCalendario(firstDayOfNewMonth));
+    
+                actualizarEventosMostrados();
             }
         });
     
