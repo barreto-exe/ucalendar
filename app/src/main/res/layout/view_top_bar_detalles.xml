@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
+    android:layout_height="wrap_content"
+    app:title="@string/evento"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:titleTextColor="@color/white"
     android:background="@color/ucab_green"
     android:id="@+id/topbardetalles">
 

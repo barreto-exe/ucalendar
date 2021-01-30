@@ -68,7 +68,6 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
         TextView nombreCreador;
         TextView descripcion;
         TextView cantLikeInteresados;
-        TextView posicion;
         LikeableImageView imgEvento;
         CircleImageView imgCreador;
         ToggleButton btnLike;
@@ -119,8 +118,7 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
                     MainActivity mainActivity = ((MainActivity) view.getContext());
                     Intent intent = new Intent(mainActivity, DetallesEventoActivity.class);
                     Gson g = new Gson();
-                    int pos = Integer.parseInt(posicion.getText().toString());
-                    String eventoJson = g.toJson(eventos.get(pos));
+                    String eventoJson = g.toJson(evento);
                     intent.putExtra("evento", eventoJson);
                     mainActivity.startActivity(intent);
                 }
@@ -129,7 +127,6 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
             nombreEvento.setText(evento.getNombre());
             nombreCreador.setText(evento.getNombreCreador());
             descripcion.setText(evento.getDescripcion());
-            posicion.setText(Integer.toString(evento.getPosicionLista()));
             Glide.with(view).load(evento.getFoto()).into(imgEvento);
             Glide.with(view).load(evento.getFotoCreador()).into(imgCreador);
             cantLikeInteresados.setText(evento.getCantidadLikes() + " ME GUSTA - " + evento.getCantidadGuardados() + " INTERESADOS");
@@ -141,7 +138,6 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
             nombreCreador = (TextView) cardView.findViewById(R.id.nombreCreador);
             descripcion = (TextView) cardView.findViewById(R.id.txtDescripcion);
             cantLikeInteresados = (TextView) cardView.findViewById(R.id.txtCantLikesInteresados);
-            posicion = (TextView) cardView.findViewById(R.id.posicion);
             imgEvento = (LikeableImageView) cardView.findViewById(R.id.imgEvento);
             imgCreador = (CircleImageView) cardView.findViewById(R.id.imgCreador);
             btnLike = (ToggleButton) cardView.findViewById(R.id.btnLike);

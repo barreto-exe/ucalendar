@@ -24,4 +24,5 @@
     <string name="eventos_del_mes">Eventos del mes</string>
     <string name="fecha">Fecha</string>
     <string name="descripcion">Descripción</string>
+    <string name="evento">Evento</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.teamihc.ucalendar.adapters;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.teamihc.ucalendar.R;
+import com.teamihc.ucalendar.activities.DetallesEventoActivity;
+import com.teamihc.ucalendar.activities.MainActivity;
 import com.teamihc.ucalendar.backend.Herramientas;
 import com.teamihc.ucalendar.backend.entidades.Evento;
 
@@ -39,7 +43,9 @@ public class CalendarioRVAdapter
     @Override
     public void onBindViewHolder(@NonNull CalendarioAdapter holder, int position)
     {
-        holder.asignarDatos(eventos.get(position));
+        Evento evento = eventos.get(position);
+        evento.setPosicionLista(position);
+        holder.asignarDatos(evento);
     }
     
     @Override
@@ -73,7 +79,12 @@ public class CalendarioRVAdapter
                 @Override
                 public void onClick(View v)
                 {
-                    //Aquí el cambio de pantalla!!!
+                    MainActivity mainActivity = ((MainActivity) view.getContext());
+                    Intent intent = new Intent(mainActivity, DetallesEventoActivity.class);
+                    Gson g = new Gson();
+                    String eventoJson = g.toJson(evento);
+                    intent.putExtra("evento", eventoJson);
+                    mainActivity.startActivity(intent);
                 }
             });
             
