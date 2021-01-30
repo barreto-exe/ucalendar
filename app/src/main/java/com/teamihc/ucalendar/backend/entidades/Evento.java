@@ -16,12 +16,12 @@ import com.teamihc.ucalendar.backend.basedatos.Configuraciones;
 import com.teamihc.ucalendar.backend.basedatos.SqliteOp;
 import com.teamihc.ucalendar.fragments.MuestraEventos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
 import static com.teamihc.ucalendar.helper.NotificacionHelper.CANAL_ID;
-
-public class Evento
+public class Evento implements Serializable
 {
     private int posicionLista;
     private int idEvento;
@@ -212,6 +212,12 @@ public class Evento
                 //Actualizar eventos mostrados en el inicio
                 muestraEventos.setEventos(listaEventos);
             }
+    
+            @Override
+            public void eventoRespuestaErrorHTTP()
+            {
+            
+            }
         };
         solicitud.getParametros().put("id_usuario_sesion", Configuraciones.getIdUsuarioSesion() + "");
         solicitud.ejecutar();
@@ -239,6 +245,12 @@ public class Evento
             public void eventoRespuestaHTTP(String response)
             {
                 //No hacer nada
+            }
+    
+            @Override
+            public void eventoRespuestaErrorHTTP()
+            {
+        
             }
         };
         solicitud.getParametros().put("idUsuario", Configuraciones.getIdUsuarioSesion() + "");
@@ -270,6 +282,12 @@ public class Evento
             public void eventoRespuestaHTTP(String response)
             {
                 //No hacer nada
+            }
+    
+            @Override
+            public void eventoRespuestaErrorHTTP()
+            {
+        
             }
         };
         solicitud.getParametros().put("idUsuario", Configuraciones.getIdUsuarioSesion() + "");

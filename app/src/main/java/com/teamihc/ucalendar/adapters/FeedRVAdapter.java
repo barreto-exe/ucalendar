@@ -22,18 +22,27 @@ import com.teamihc.ucalendar.activities.MainActivity;
 import com.teamihc.ucalendar.backend.entidades.Evento;
 import com.teamihc.ucalendar.controls.LikeableImageView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapter>
+public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapter> implements Serializable
 {
+    public static FeedRVAdapter feedActual;
     ArrayList<Evento> eventos;
     View.OnClickListener listener;
     
     public FeedRVAdapter(ArrayList<Evento> eventos)
     {
         this.eventos = eventos;
+        feedActual = this;
+    }
+    
+    public void actualizaInfoEvento(Evento eventoActualizado)
+    {
+        eventos.set(eventoActualizado.getPosicionLista(), eventoActualizado);
+        notifyItemChanged(eventoActualizado.getPosicionLista(), eventoActualizado);
     }
     
     @NonNull
@@ -95,7 +104,7 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
                 public void onClick(View v)
                 {
                     evento.toggleLike(v.getContext());
-                    adapter.notifyItemChanged(evento.getPosicionLista());
+                    adapter.notifyItemChanged(evento.getPosicionLista(), evento);
                 }
             });
             
@@ -107,7 +116,7 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
                 public void onClick(View v)
                 {
                     evento.toggleGuardar(v.getContext());
-                    adapter.notifyItemChanged(evento.getPosicionLista());
+                    adapter.notifyItemChanged(evento.getPosicionLista(), evento);
                 }
             });
             
@@ -119,10 +128,9 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
                 {
                     MainActivity mainActivity = ((MainActivity) view.getContext());
                     Intent intent = new Intent(mainActivity, DetallesEventoActivity.class);
-                    Gson g = new Gson();
-                    String eventoJson = g.toJson(evento);
-                    intent.putExtra("evento", eventoJson);
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mainActivity,cardView, ViewCompat.getTransitionName(cardView));
+                    intent.putExtra("evento", evento);
+                    
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mainActivity, cardView, ViewCompat.getTransitionName(cardView));
                     mainActivity.startActivity(intent,options.toBundle());
                 }
             });
