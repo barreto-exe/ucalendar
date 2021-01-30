@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.teamihc.ucalendar.R;
 import com.teamihc.ucalendar.backend.Herramientas;
+import com.teamihc.ucalendar.backend.Notificaciones;
 import com.teamihc.ucalendar.backend.SolicitudHTTP;
 import com.teamihc.ucalendar.backend.basedatos.Configuraciones;
 import com.teamihc.ucalendar.backend.basedatos.SqliteOp;
@@ -37,7 +38,6 @@ public class Evento implements Serializable
     private String fotoCreador;
     private String nombreCreador;
     private Boolean tieneLike, tieneGuardado;
-    private NotificationManagerCompat notificationManager;
     
     public Evento(int idEvento, String nombre, String descripcion, int cantidadLikes, int cantidadGuardados, Date fechaInicio, Date fechaFinal, String lugar, String color, String foto, String fotoCreador, String nombreCreador, Boolean tieneLike, Boolean tieneGuardado)
     {
@@ -267,7 +267,7 @@ public class Evento implements Serializable
             cantidadGuardados++;
             servicio = "recibir_guardar";
             guardarInteres();
-            crearNotificacion(context);
+            crearNotificacion();
         }
         else
         {
@@ -345,6 +345,21 @@ public class Evento implements Serializable
         op.ejecutar();
     }
     
+
+    public void crearNotificacion()
+    {
+        Notification notification = new androidx.core.app.NotificationCompat.Builder(Notificaciones.getContext(), CANAL_ID).
+                setSmallIcon(R.drawable.ucalendar_logo).
+                setContentTitle(nombre).
+                setContentText(descripcion).
+                setPriority(NotificationCompat.PRIORITY_DEFAULT).
+                setCategory(NotificationCompat.CATEGORY_EVENT).
+                setColor(Color.GREEN).build();
+    
+        Notificaciones.getManager().notify(1, notification);
+    }
+    
+    
     @Override
     public String toString()
     {
@@ -353,19 +368,5 @@ public class Evento implements Serializable
                 ", fechaInicio=" + fechaInicio +
                 '}';
     }
-
-
-    public void crearNotificacion(Context context)
-    {
-        notificationManager = NotificationManagerCompat.from(context);
-        Notification notification = new androidx.core.app.NotificationCompat.Builder(context, CANAL_ID).
-                setSmallIcon(R.drawable.ucalendar_logo).
-                setContentTitle(nombre).
-                setContentText(descripcion).
-                setPriority(NotificationCompat.PRIORITY_DEFAULT).
-                setCategory(NotificationCompat.CATEGORY_EVENT).
-                setColor(Color.GREEN).build();
-
-        notificationManager.notify(1, notification);
-    }
+    
 }

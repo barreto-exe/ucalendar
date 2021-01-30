@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.teamihc.ucalendar.R;
 import com.teamihc.ucalendar.backend.Herramientas;
+import com.teamihc.ucalendar.backend.Notificaciones;
 import com.teamihc.ucalendar.backend.basedatos.Configuraciones;
 import com.teamihc.ucalendar.backend.basedatos.SqliteOp;
 
@@ -20,10 +21,8 @@ public class SplashActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        
-        SqliteOp.verificarBaseDatos(getAssets());
-        Herramientas.inicializarFormatos();
-        
+        inicializarApp();
+    
         setContentView(R.layout.activity_splash);
 
         new Handler().postDelayed(new Runnable()
@@ -45,5 +44,12 @@ public class SplashActivity extends AppCompatActivity
                 finish();
             }
         }, SPLASH_TIEMPO);
+    }
+    
+    private void inicializarApp()
+    {
+        SqliteOp.verificarBaseDatos(getAssets());
+        Herramientas.inicializarFormatos();
+        Notificaciones.inicializarManager(this);
     }
 }
