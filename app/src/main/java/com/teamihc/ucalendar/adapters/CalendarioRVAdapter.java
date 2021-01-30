@@ -81,11 +81,8 @@ public class CalendarioRVAdapter
                 {
                     MainActivity mainActivity = ((MainActivity) view.getContext());
                     Intent intent = new Intent(mainActivity, DetallesEventoActivity.class);
-                    Gson g = new Gson();
-                    String eventoJson = g.toJson(evento);
-                    intent.putExtra("evento", eventoJson);
+                    intent.putExtra("evento", evento);
                     mainActivity.startActivity(intent);
-
                 }
             });
 
