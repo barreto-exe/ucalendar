@@ -10,6 +10,8 @@ import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -120,7 +122,8 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
                     Gson g = new Gson();
                     String eventoJson = g.toJson(evento);
                     intent.putExtra("evento", eventoJson);
-                    mainActivity.startActivity(intent);
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mainActivity,cardView, ViewCompat.getTransitionName(cardView));
+                    mainActivity.startActivity(intent,options.toBundle());
                 }
             });
             

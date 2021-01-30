@@ -7,12 +7,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.teamihc.ucalendar.R;
@@ -25,7 +23,7 @@ public class MainActivity extends AppCompatActivity
 {
     private Toolbar toolbar;
     private Dialog dialog;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

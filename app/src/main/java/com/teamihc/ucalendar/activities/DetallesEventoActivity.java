@@ -117,5 +117,14 @@ public class DetallesEventoActivity extends AppCompatActivity
 
         //Atachar botón de like al doble tap de la imagen
         imgEvento.setToggleButton(btnLike);
+        //Salir de la ventana
+        toolbar.setNavigationOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                finish();
+            }
+        });
     }
 }

@@ -23,15 +23,15 @@ import java.util.ArrayList;
 public class CalendarioRVAdapter
         extends RecyclerView.Adapter<CalendarioRVAdapter.CalendarioAdapter>
 {
-    
+
     private ArrayList<Evento> eventos;
     private CardView cardView;
-    
+
     public CalendarioRVAdapter(ArrayList<Evento> eventos)
     {
         this.eventos = eventos;
     }
-    
+
     @NonNull
     @Override
     public CalendarioAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
@@ -39,7 +39,7 @@ public class CalendarioRVAdapter
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_evento_calendario, parent, false);
         return new CalendarioAdapter(view);
     }
-    
+
     @Override
     public void onBindViewHolder(@NonNull CalendarioAdapter holder, int position)
     {
@@ -47,30 +47,30 @@ public class CalendarioRVAdapter
         evento.setPosicionLista(position);
         holder.asignarDatos(evento);
     }
-    
+
     @Override
     public int getItemCount()
     {
         return eventos.size();
     }
-    
+
     public class CalendarioAdapter extends RecyclerView.ViewHolder
     {
         private View view;
         TextView txtFechaEvento, txtNombreEvento;
         CardView cardColor, cardInfoEventoCalendario;
-        
+
         public CalendarioAdapter(@NonNull View itemView)
         {
             super(itemView);
             view = itemView;
             cardView = (CardView) itemView.findViewById(R.id.cardInfoEventoCalendario);
         }
-        
+
         public void asignarDatos(Evento evento)
         {
             inicializarComponentes();
-            
+
             txtFechaEvento.setText(Herramientas.formatearDiaFechaCalendario(evento.getFechaInicio()));
             txtNombreEvento.setText(evento.getNombre());
             cardColor.setCardBackgroundColor(Color.parseColor(evento.getColor()));
@@ -85,13 +85,14 @@ public class CalendarioRVAdapter
                     String eventoJson = g.toJson(evento);
                     intent.putExtra("evento", eventoJson);
                     mainActivity.startActivity(intent);
+
                 }
             });
-            
+
             cardInfoEventoCalendario.setCardBackgroundColor(Color.argb(0,0,0,0));
             cardInfoEventoCalendario.setElevation(0);
         }
-        
+
         private void inicializarComponentes()
         {
             txtFechaEvento = cardView.findViewById(R.id.txtFechaEvento);

@@ -14,5 +14,6 @@
 
         <!-- Customize your theme here. -->
         <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
 </resources>
