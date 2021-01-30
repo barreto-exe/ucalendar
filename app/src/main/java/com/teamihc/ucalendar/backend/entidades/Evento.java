@@ -1,9 +1,15 @@
 package com.teamihc.ucalendar.backend.entidades;
 
+import android.app.Notification;
 import android.content.Context;
+import android.graphics.Color;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.teamihc.ucalendar.R;
 import com.teamihc.ucalendar.backend.Herramientas;
 import com.teamihc.ucalendar.backend.SolicitudHTTP;
 import com.teamihc.ucalendar.backend.basedatos.Configuraciones;
@@ -12,6 +18,8 @@ import com.teamihc.ucalendar.fragments.MuestraEventos;
 
 import java.util.ArrayList;
 import java.util.Date;
+
+import static com.teamihc.ucalendar.helper.NotificacionHelper.CANAL_ID;
 
 public class Evento
 {
@@ -29,6 +37,7 @@ public class Evento
     private String fotoCreador;
     private String nombreCreador;
     private Boolean tieneLike, tieneGuardado;
+    private NotificationManagerCompat notificationManager;
     
     public Evento(int idEvento, String nombre, String descripcion, int cantidadLikes, int cantidadGuardados, Date fechaInicio, Date fechaFinal, String lugar, String color, String foto, String fotoCreador, String nombreCreador, Boolean tieneLike, Boolean tieneGuardado)
     {
@@ -246,6 +255,7 @@ public class Evento
             cantidadGuardados++;
             servicio = "recibir_guardar";
             guardarInteres();
+            crearNotificacion(context);
         }
         else
         {
@@ -324,5 +334,20 @@ public class Evento
                 "nombre='" + nombre + '\'' +
                 ", fechaInicio=" + fechaInicio +
                 '}';
+    }
+
+
+    public void crearNotificacion(Context context)
+    {
+        notificationManager = NotificationManagerCompat.from(context);
+        Notification notification = new androidx.core.app.NotificationCompat.Builder(context, CANAL_ID).
+                setSmallIcon(R.drawable.ucalendar_logo).
+                setContentTitle(nombre).
+                setContentText(descripcion).
+                setPriority(NotificationCompat.PRIORITY_DEFAULT).
+                setCategory(NotificationCompat.CATEGORY_EVENT).
+                setColor(Color.GREEN).build();
+
+        notificationManager.notify(1, notification);
     }
 }

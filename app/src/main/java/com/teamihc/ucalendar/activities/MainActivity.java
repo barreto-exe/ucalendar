@@ -18,6 +18,7 @@ import com.teamihc.ucalendar.backend.basedatos.Configuraciones;
 import com.teamihc.ucalendar.fragments.AgendaFragment;
 import com.teamihc.ucalendar.fragments.CalendarioFragment;
 import com.teamihc.ucalendar.fragments.InicioFragment;
+import com.teamihc.ucalendar.helper.NotificacionHelper;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -34,7 +35,15 @@ public class MainActivity extends AppCompatActivity
         
         getFragmentManager().beginTransaction().replace(R.id.layout_principal, new InicioFragment()).commit();
     }
-    
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        NotificacionHelper notificacionHelper = new NotificacionHelper(this);
+        notificacionHelper.crearCanales();
+    }
+
     public void inicializarComponentes()
     {
         //Toolbar
@@ -101,4 +110,6 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
     };
+
+
 }
