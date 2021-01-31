@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static com.teamihc.ucalendar.helper.NotificacionHelper.CANAL_ID;
+import static com.teamihc.ucalendar.helper.NotificacionHelper.KEY_GROUP;
+
 public class Evento implements Serializable
 {
     private int posicionLista;
@@ -348,12 +350,14 @@ public class Evento implements Serializable
 
     public void crearNotificacion()
     {
+
         Notification notification = new androidx.core.app.NotificationCompat.Builder(Notificaciones.getContext(), CANAL_ID).
                 setSmallIcon(R.drawable.ucalendar_logo).
                 setContentTitle(nombre).
                 setContentText(descripcion).
                 setPriority(NotificationCompat.PRIORITY_DEFAULT).
                 setCategory(NotificationCompat.CATEGORY_EVENT).
+                setGroup(KEY_GROUP).
                 setColor(Color.GREEN).build();
     
         Notificaciones.getManager().notify(1, notification);
