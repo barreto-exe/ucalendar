@@ -34,6 +34,11 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name=".notificaciones.AlarmReceiver"
+            android:enabled="true"/>
+
+        <service android:name=".notificaciones.NotificationService"
+            android:enabled="true"/>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

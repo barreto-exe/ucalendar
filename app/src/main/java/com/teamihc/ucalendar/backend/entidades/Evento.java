@@ -1,11 +1,7 @@
 package com.teamihc.ucalendar.backend.entidades;
 
-import android.app.Notification;
 import android.content.Context;
-import android.graphics.Color;
-
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
+import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,13 +12,12 @@ import com.teamihc.ucalendar.backend.SolicitudHTTP;
 import com.teamihc.ucalendar.backend.basedatos.Configuraciones;
 import com.teamihc.ucalendar.backend.basedatos.SqliteOp;
 import com.teamihc.ucalendar.fragments.MuestraEventos;
+import com.teamihc.ucalendar.notificaciones.AlarmCreator;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-
-import static com.teamihc.ucalendar.helper.NotificacionHelper.CANAL_ID;
-import static com.teamihc.ucalendar.helper.NotificacionHelper.KEY_GROUP;
 
 public class Evento implements Serializable
 {
@@ -40,6 +35,7 @@ public class Evento implements Serializable
     private String fotoCreador;
     private String nombreCreador;
     private Boolean tieneLike, tieneGuardado;
+    private SharedPreferences settings;
     
     public Evento(int idEvento, String nombre, String descripcion, int cantidadLikes, int cantidadGuardados, Date fechaInicio, Date fechaFinal, String lugar, String color, String foto, String fotoCreador, String nombreCreador, Boolean tieneLike, Boolean tieneGuardado)
     {
@@ -269,7 +265,7 @@ public class Evento implements Serializable
             cantidadGuardados++;
             servicio = "recibir_guardar";
             guardarInteres();
-            crearNotificacion();
+            crearNotificacion(context);
         }
         else
         {
@@ -348,19 +344,23 @@ public class Evento implements Serializable
     }
     
 
-    public void crearNotificacion()
+    public void crearNotificacion(Context context)
     {
+        Calendar c = Calendar.getInstance();
+        //c.setTime(getFechaInicio());
 
-        Notification notification = new androidx.core.app.NotificationCompat.Builder(Notificaciones.getContext(), CANAL_ID).
-                setSmallIcon(R.drawable.ucalendar_logo).
-                setContentTitle(nombre).
-                setContentText(descripcion).
-                setPriority(NotificationCompat.PRIORITY_DEFAULT).
-                setCategory(NotificationCompat.CATEGORY_EVENT).
-                setGroup(KEY_GROUP).
-                setColor(Color.GREEN).build();
-    
-        Notificaciones.getManager().notify(1, notification);
+        c.set(Calendar.HOUR_OF_DAY, 14);
+        c.set(Calendar.MINUTE, 19);
+
+        SharedPreferences settings = context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = settings.edit();
+        //SAVE ALARM TIME TO USE IT IN CASE OF REBOOT
+        edit.putInt("alarmID", getIdEvento());
+        edit.putLong("alarmTime", c.getTimeInMillis());
+
+        edit.commit();
+
+        AlarmCreator.setAlarm(getIdEvento(), c.getTimeInMillis(), Notificaciones.getContext(), this);
     }
     
     
