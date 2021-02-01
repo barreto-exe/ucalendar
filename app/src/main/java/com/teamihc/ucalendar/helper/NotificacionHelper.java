@@ -15,6 +15,7 @@ public class NotificacionHelper extends ContextWrapper
     public static final String CANAL_ID = "perSio";
     public static final String CANAL_NOMBRE = "mucho presio";
     public static final String CANAL_DESCRIPCION = "team_ihc.es.lo.mejor";
+    public static final String KEY_GROUP = "EVENTOS GUARDADOS UCALENDAR";
 
     private NotificationManager notificationManager;
 
