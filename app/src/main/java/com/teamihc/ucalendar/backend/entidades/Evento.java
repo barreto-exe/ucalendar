@@ -399,23 +399,7 @@ public class Evento implements Serializable
         ArrayList<Evento> eventos = new ArrayList<>();
         while (result.leer())
         {
-            Evento e = new Evento();
-            e.idEvento = (int)result.getValor("id_evento");
-            e.nombre = (String) result.getValor("nombre");
-            e.descripcion = (String) result.getValor("descripcion");
-            e.cantidadLikes = (int) result.getValor("cantidad_likes");
-            e.cantidadLikes = (int) result.getValor("cantidad_guardados");
-            e.fechaInicio = Herramientas.parsearFechaTiempoBBDD((String) result.getValor("fecha_inicio"));
-            e.fechaFinal = Herramientas.parsearFechaTiempoBBDD((String) result.getValor("fecha_final"));
-            e.lugar = (String) result.getValor("lugar");
-            e.color = (String) result.getValor("color");
-            e.foto = (String) result.getValor("foto");
-            e.fotoCreador = (String) result.getValor("fotoCreador");
-            e.nombreCreador = (String) result.getValor("nombreCreador");
-            e.tieneLike = (int) result.getValor("tieneLike") == 1;
-            e.tieneGuardado = (int) result.getValor("tieneGuardado") == 1;
-            
-            eventos.add(e);
+            eventos.add(eventoParsear(result));
         }
         
         //Actualizar recycler
@@ -445,6 +429,43 @@ public class Evento implements Serializable
             }
         }
         return fechas;
+    }
+    
+    public static ArrayList<String> obtenerEventosPorDia(Date dia)
+    {
+        String query = "SELECT * FROM eventos WHERE SUBSTR(fecha_inicio,0,11) = ?";
+        SqliteOp op = new SqliteOp(query);
+        op.pasarParametro(new SimpleDateFormat("yyyy-MM-dd").format(dia));
+        DBMatriz resultado = op.consultar();
+        
+        ArrayList<String> eventos = new ArrayList<>();
+        while (resultado.leer())
+        {
+            eventos.add(eventoParsear(resultado).nombre);
+        }
+        
+        return eventos;
+    }
+    
+    public static Evento eventoParsear(DBMatriz lectura)
+    {
+        Evento e = new Evento();
+        e.idEvento = (int)lectura.getValor("id_evento");
+        e.nombre = (String) lectura.getValor("nombre");
+        e.descripcion = (String) lectura.getValor("descripcion");
+        e.cantidadLikes = (int) lectura.getValor("cantidad_likes");
+        e.cantidadLikes = (int) lectura.getValor("cantidad_guardados");
+        e.fechaInicio = Herramientas.parsearFechaTiempoBBDD((String) lectura.getValor("fecha_inicio"));
+        e.fechaFinal = Herramientas.parsearFechaTiempoBBDD((String) lectura.getValor("fecha_final"));
+        e.lugar = (String) lectura.getValor("lugar");
+        e.color = (String) lectura.getValor("color");
+        e.foto = (String) lectura.getValor("foto");
+        e.fotoCreador = (String) lectura.getValor("fotoCreador");
+        e.nombreCreador = (String) lectura.getValor("nombreCreador");
+        e.tieneLike = (int) lectura.getValor("tieneLike") == 1;
+        e.tieneGuardado = (int) lectura.getValor("tieneGuardado") == 1;
+    
+        return e;
     }
     
     @Override

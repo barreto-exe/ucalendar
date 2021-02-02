@@ -72,12 +72,12 @@ public class AgendaFragment extends Fragment implements MuestraEventos
         //Recycler fechas padre
         rvPadre = getActivity().findViewById(R.id.recyclerAgenda);
         
-        //Datos recycler
+        //Datos recycler (offline)
         adapterPadre = new AgendaRVAdapter(this.getActivity());
         rvPadre.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         rvPadre.setAdapter(adapterPadre);
     
-        //Aquí se inicializa ArrayList eventos
+        //Recargar datos (online)
         Evento.obtenerEventos(getActivity(), this, true);
     }
     

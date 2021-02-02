@@ -40,17 +40,13 @@ public class AgendaRVAdapter extends RecyclerView.Adapter<AgendaRVAdapter.Agenda
     public void onBindViewHolder(@NonNull AgendaAdapter holder, int position)
     {
         //Colocar fecha del grupo de eventos
-        Date date = fechasEventos.get(position);
-        holder.txtFechaEvento.setText(Herramientas.formatearDiaFechaCalendario(date));
+        Date fecha = fechasEventos.get(position);
+        holder.txtFechaEvento.setText(Herramientas.formatearDiaFechaAgenda(fecha));
         
-        //Aqui lleno la informacion del evento como tal relacionado a esa fecha, es decir el nombre
-        ArrayList<String> eventos = new ArrayList<>();
-        for(int i = 0; i < 3; i++)
-        {
-            eventos.add("Evento " + Math.random());
-        }
+        //Llenar la informacion de los eventos relacionados a esa fecha
+        ArrayList<String> eventos = Evento.obtenerEventosPorDia(fecha);
         
-        //Inicializo el adapter del recycler hijo
+        //Inicializar el adapter del recycler hijo
         RecyclerHijoAdapter adapterHijo = new RecyclerHijoAdapter(eventos);
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
         holder.rvHijo.setLayoutManager(layoutManager);
