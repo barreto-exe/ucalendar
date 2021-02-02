@@ -1,62 +1,76 @@
 package com.teamihc.ucalendar.adapters;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class AgendaRVAdapter{
-    /*
-        extends RecyclerView.Adapter<AgendaRVAdapter.AgendaAdapter>
-        implements View.OnClickListener{
+import com.teamihc.ucalendar.R;
+import com.teamihc.ucalendar.backend.entidades.Evento;
 
-    // Para almacenar los eventos guardados
-    //private ArrayList<Evento> listaEventosGuardados;
+import java.util.ArrayList;
+
+public class AgendaRVAdapter
+        extends RecyclerView.Adapter<AgendaRVAdapter.AgendaAdapter> {
+
     private CardView cardView;
+    ArrayList<String> listpadre;
+    Activity activity;
 
-    public AgendaRVAdapter(ArrayList<Evento> listaEventosGuardados)
-    {
-        this.listaEventosGuardados = listaEventosGuardados;
+    public AgendaRVAdapter(Activity activity, ArrayList<String> listpadre) {
+        this.activity = activity;
+        this.listpadre = listpadre;
+
     }
 
-    @Override
-    public void onClick(View view) {
-        // Falta programar el cambio de pantalla
-    }
 
     @NonNull
     @Override
-    public AgendaAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
-    {
-        View view =  LayoutInflater.from(parent.getContext()).inflate((R.layout.view_info_evento), parent, false);
-        view.setOnClickListener(this);
+    public AgendaAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate((R.layout.view_recycler_hijo), parent, false);
         return new AgendaAdapter(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull AgendaAdapter holder, int position) {
-        //holder.asignarDatos(listaEventosGuardados.get(position));
+        //Con esto solo lleno la fecha del evento
+        holder.fecha_evento.setText(listpadre.get(position));
+
+        //Aqui lleno la informacion del evento como tal relacionado a esa fecha, es decir el nombre
+        ArrayList<String> listahijo = new ArrayList<>();
+        for (int i = 0; i <= 5; i++) {
+            listahijo.add("Evento " + i);
+        }
+
+        //Inicializo el adapter del recycler hijo
+        RecyclerHijoAdapter adapterHijo = new RecyclerHijoAdapter(listahijo);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
+        holder.rvHijo.setLayoutManager(layoutManager);
+        holder.rvHijo.setAdapter(adapterHijo);
     }
 
     @Override
-    public int getItemCount() { return listaEventosGuardados.size(); }
+    public int getItemCount() {
+        return listpadre.size();
+    }
 
-    public class AgendaAdapter extends RecyclerView.ViewHolder
-    {
+    public class AgendaAdapter extends RecyclerView.ViewHolder {
         private View view;
+        RecyclerView rvHijo;
+        TextView fecha_evento;
 
         public AgendaAdapter(@NonNull View itemView) {
             super(itemView);
             view = itemView;
-            //cardView = (CardView) itemView.findViewById(R.id.info_evento_agenda);
+            rvHijo = itemView.findViewById(R.id.recyclerHijo);
+            fecha_evento = (TextView) itemView.findViewById(R.id.fecha_evento);
         }
-
-        public void asignarDatos(Evento evento)
-        {
-            // Aquí se llena el CardView cuando esté listo uwu
-        }
-    }*/
+    }
 }

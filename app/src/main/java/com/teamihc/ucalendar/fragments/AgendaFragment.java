@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.teamihc.ucalendar.R;
+import com.teamihc.ucalendar.activities.MainActivity;
 import com.teamihc.ucalendar.adapters.AgendaRVAdapter;
 import com.teamihc.ucalendar.adapters.FeedRVAdapter;
 import com.teamihc.ucalendar.backend.entidades.Evento;
@@ -20,76 +21,39 @@ import com.teamihc.ucalendar.backend.entidades.Evento;
 import java.util.ArrayList;
 
 
-public class AgendaFragment extends Fragment
-{
+public class AgendaFragment extends Fragment {
     private SwipeRefreshLayout swipeRefresh;
-    private RecyclerView recyclerView;
-    private AgendaRVAdapter adapter;
-    /*
-    // Para almacenar los eventos guardados
-    private ArrayList<Evento> listaEventosGuardados;
+    private RecyclerView rvPadre;
+    private AgendaRVAdapter adapterPadre;
+    LinearLayoutManager layoutManagerPadre;
+    ArrayList<String> listaRVPadre;
 
-    // Crear un Layout con una imagen de bienvenida para cuando el usuario no tenga guardado ningún evento
-    private LinearLayout bienvenida;
-    */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_agenda, container, false);
         return view;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
-    {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         inicializarComponentes();
     }
 
-    private void inicializarComponentes()
-    {/*
-        // Layout Bienvenida
-        //bienvenida = getView().findViewById(R.id.bienvenida_agenda);
+    private void inicializarComponentes() {
 
-        // RecyclerView
-        recyclerView = getView().findViewById(R.id.recyclerAgenda);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
-        recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
-
-
-        listaEventosGuardado = new ArrayList<Evento>();
-        // Insertar función que carga en la lista los eventos actualizados
-        adapter = new AgendaRVAdapter(listaEventosGuardados);
-        recyclerView.setAdapter(adapter);
-
-        ColocarBienvenida();
-        */
-
-        //Swipe-refresh
-        swipeRefresh = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_refresh_agenda);
-        swipeRefresh.setOnRefreshListener
-                (
-                        new SwipeRefreshLayout.OnRefreshListener()
-                        {
-                            @Override
-                            public void onRefresh()
-                            {
-                                /*  ACTUALIZAR RECYCLER
-                                listaEventosGuardados.clear();
-                                adapter.notifyDataSetChanged();
-
-                                refrescarEventos();
-
-                                adapter = new AgendaRVAdapter(listaEventosGuardados, R.layout.view_info_evento_agenda);
-                                recyclerView.setAdapter(adapter);
-
-                                ColocarBienvenida();
-                                */
-                            }
-                        }
-                );
+        rvPadre = (RecyclerView) getActivity().findViewById(R.id.recyclerAgenda);
+        listaRVPadre = new ArrayList<>();
+        //Aqui se llena la info de la lista padre que posee la fecha del evento
+        for (int i = 0; i <= 6; i++) {
+            listaRVPadre.add("Dia " + i);
+        }
+        //Esto se queda asi
+        adapterPadre = new AgendaRVAdapter(this.getActivity(), listaRVPadre);
+        rvPadre.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+        rvPadre.setAdapter(adapterPadre);
     }
 
     /*
