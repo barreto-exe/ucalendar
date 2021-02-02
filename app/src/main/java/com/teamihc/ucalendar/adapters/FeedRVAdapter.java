@@ -60,11 +60,13 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
         return eventos.size();
     }
     
+    
     public void actualizaInfoEvento(Evento eventoActualizado)
     {
         eventos.set(eventoActualizado.getPosicionLista(), eventoActualizado);
         notifyItemChanged(eventoActualizado.getPosicionLista(), eventoActualizado);
     }
+    
     
     public class FeedAdapter extends RecyclerView.ViewHolder
     {

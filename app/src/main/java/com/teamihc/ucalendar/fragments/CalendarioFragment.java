@@ -32,8 +32,8 @@ public class CalendarioFragment extends Fragment implements MuestraEventos
 {
     //Views
     private CompactCalendarView calendarView;
-    private TextView txtMesActual, calendarioIzquierda, calendarioDerecha;
     private RecyclerView recyclerView;
+    private TextView txtMesActual, calendarioIzquierda, calendarioDerecha;
     
     //Info
     private CalendarioRVAdapter adapter;
@@ -54,12 +54,14 @@ public class CalendarioFragment extends Fragment implements MuestraEventos
         inicializarComponentes();
     }
     
+    @Override
     public void setEventos(ArrayList<Evento> eventos)
     {
         this.eventos = eventos;
         actualizarEventosMostrados();
     }
     
+    @Override
     public void inicializarComponentes()
     {
         //Datos calendario
@@ -129,6 +131,7 @@ public class CalendarioFragment extends Fragment implements MuestraEventos
         Evento.obtenerEventos(getActivity(), this, false);
     }
     
+    @Override
     public void actualizarEventosMostrados()
     {
         this.eventosMesSeleccionado.clear();

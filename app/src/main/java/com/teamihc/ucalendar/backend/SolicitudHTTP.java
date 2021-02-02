@@ -76,6 +76,7 @@ public abstract class SolicitudHTTP
                     try
                     {
                         eventoRespuestaHTTP(respuesta);
+                        eventoPostRespuesta();
                     }
                     catch (Exception e)
                     {
@@ -91,6 +92,8 @@ public abstract class SolicitudHTTP
                 public void onErrorResponse(VolleyError error)
                 {
                     eventoRespuestaErrorHTTP();
+                    eventoPostRespuesta();
+                    
                     //Toast.makeText(context,"Ha ocurrido un error. \n" + error.getMessage(),Toast.LENGTH_SHORT).show();
                     Toast.makeText(context,"Ha ocurrido un error de conexión.",Toast.LENGTH_SHORT).show();
                 }
@@ -111,4 +114,6 @@ public abstract class SolicitudHTTP
     public abstract void eventoRespuestaHTTP(String response);
     
     public abstract void eventoRespuestaErrorHTTP();
+    
+    public abstract void eventoPostRespuesta();
 }

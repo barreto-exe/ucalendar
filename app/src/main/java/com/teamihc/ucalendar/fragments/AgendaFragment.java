@@ -22,16 +22,16 @@ public class AgendaFragment extends Fragment implements MuestraEventos
 {
     //Views
     private SwipeRefreshLayout swipeRefresh;
-    private LinearLayoutManager layoutManagerPadre;
     private RecyclerView rvPadre;
+    private LinearLayoutManager layoutManagerPadre;
     
     //Info
     private AgendaRVAdapter adapterPadre;
     private ArrayList<String> listaRVPadre;
+    private ArrayList<Evento> eventos;
     
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_agenda, container, false);
@@ -48,24 +48,38 @@ public class AgendaFragment extends Fragment implements MuestraEventos
     @Override
     public void setEventos(ArrayList<Evento> eventos)
     {
-    
+        this.eventos = eventos;
     }
     
     @Override
     public void inicializarComponentes()
     {
+        //Swipe-refresh
+        swipeRefresh = getActivity().findViewById(R.id.swipe_refresh);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        {
+            @Override
+            public void onRefresh()
+            {
+                actualizarEventosMostrados();
+            }
+        });
         
-        rvPadre = (RecyclerView) getActivity().findViewById(R.id.recyclerAgenda);
+        //Recycler padre
+        rvPadre = getActivity().findViewById(R.id.recyclerAgenda);
         listaRVPadre = new ArrayList<>();
         //Aqui se llena la info de la lista padre que posee la fecha del evento
         for (int i = 0; i <= 6; i++)
         {
             listaRVPadre.add("Dia " + i);
         }
-        //Esto se queda asi
+        
+        //Datos recycler
         adapterPadre = new AgendaRVAdapter(this.getActivity(), listaRVPadre);
         rvPadre.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         rvPadre.setAdapter(adapterPadre);
+    
+        Evento.obtenerEventos(getActivity(), this, true);
     }
     
     @Override

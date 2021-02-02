@@ -52,6 +52,7 @@ public class CalendarioRVAdapter extends RecyclerView.Adapter<CalendarioRVAdapte
         return eventos.size();
     }
 
+    
     public class CalendarioAdapter extends RecyclerView.ViewHolder
     {
         private View view;

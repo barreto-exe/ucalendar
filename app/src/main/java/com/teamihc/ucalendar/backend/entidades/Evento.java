@@ -183,95 +183,6 @@ public class Evento implements Serializable
     }
     //</editor-fold>
     
-    public static void obtenerEventos(Context context, MuestraEventos muestraEventos, Boolean soloGuardados)
-    {
-        String servicio = "obtener_eventos";
-        if(soloGuardados)
-        {
-            servicio += "_guardados";
-        }
-        
-        SolicitudHTTP solicitud = new SolicitudHTTP(context, servicio)
-        {
-            @Override
-            public void eventoRespuestaHTTP(String respuesta)
-            {
-                //Recibir arreglo de eventos
-                Gson g = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-                Evento[] test = g.fromJson(respuesta, Evento[].class);
-    
-                borrarEventosBBDD();
-                
-                //Convertirlo en lista
-                ArrayList<Evento> listaEventos = new ArrayList<>();
-                for (Evento evento : test)
-                {
-                    listaEventos.add(evento);
-                    
-                    //Refrescar eventos locales
-                    evento.actualizarBBDD();
-    
-                    //Si tiene guardado, refrescar en BBDD local
-                    if(evento.tieneGuardado)
-                    {
-                        evento.guardarInteres();
-                    }
-                }
-    
-                //Actualizar eventos mostrados en el inicio
-                muestraEventos.setEventos(listaEventos);
-            }
-    
-            @Override
-            public void eventoRespuestaErrorHTTP()
-            {
-                //No hay conexión, mostrar sólo los guardados offline
-                obtenerEventosOffline(muestraEventos, soloGuardados);
-            }
-        };
-        solicitud.getParametros().put("id_usuario_sesion", Configuraciones.getIdUsuarioSesion() + "");
-        solicitud.ejecutar();
-    }
-    
-    private static void obtenerEventosOffline(MuestraEventos muestraEventos, Boolean soloGuardados)
-    {
-        //Realizar consulta en BBDD local
-        String query = "SELECT * FROM eventos ";
-        if(soloGuardados)
-        {
-            query += "INNER JOIN guardados g ON (e.id_evento = g.id_evento) ";
-        }
-        query += "ORDER BY id_evento DESC";
-        SqliteOp op = new SqliteOp(query);
-        DBMatriz result = op.consultar();
-        
-        //Leer datos
-        ArrayList<Evento> eventos = new ArrayList<>();
-        while (result.leer())
-        {
-            Evento e = new Evento();
-            e.idEvento = (int)result.getValor("id_evento");
-            e.nombre = (String) result.getValor("nombre");
-            e.descripcion = (String) result.getValor("descripcion");
-            e.cantidadLikes = (int) result.getValor("cantidad_likes");
-            e.cantidadLikes = (int) result.getValor("cantidad_guardados");
-            e.fechaInicio = Herramientas.parsearFechaTiempoBBDD((String) result.getValor("fecha_inicio"));
-            e.fechaFinal = Herramientas.parsearFechaTiempoBBDD((String) result.getValor("fecha_final"));
-            e.lugar = (String) result.getValor("lugar");
-            e.color = (String) result.getValor("color");
-            e.foto = (String) result.getValor("foto");
-            e.fotoCreador = (String) result.getValor("fotoCreador");
-            e.nombreCreador = (String) result.getValor("nombreCreador");
-            e.tieneLike = (int) result.getValor("tieneLike") == 1;
-            e.tieneGuardado = (int) result.getValor("tieneGuardado") == 1;
-            
-            eventos.add(e);
-        }
-        
-        //Actualizar recycler
-        muestraEventos.setEventos(eventos);
-    }
-    
     public void toggleLike(Context context)
     {
         tieneLike ^= true;
@@ -301,11 +212,18 @@ public class Evento implements Serializable
             {
         
             }
+    
+            @Override
+            public void eventoPostRespuesta()
+            {
+        
+            }
         };
         solicitud.getParametros().put("idUsuario", Configuraciones.getIdUsuarioSesion() + "");
         solicitud.getParametros().put("idEvento", idEvento + "");
         solicitud.ejecutar();
     }
+    
     public void toggleGuardar(Context context)
     {
         tieneGuardado ^= true;
@@ -335,6 +253,12 @@ public class Evento implements Serializable
     
             @Override
             public void eventoRespuestaErrorHTTP()
+            {
+        
+            }
+    
+            @Override
+            public void eventoPostRespuesta()
             {
         
             }
@@ -395,6 +319,7 @@ public class Evento implements Serializable
         op.pasarParametro(idEvento);
         op.ejecutar();
     }
+    
     public void actualizarBBDD()
     {
         eliminarBBDD();
@@ -406,7 +331,6 @@ public class Evento implements Serializable
         SqliteOp op = new SqliteOp(query);
         op.ejecutar();
     }
-
     public void crearNotificacion(Context context)
     {
         Calendar c = Calendar.getInstance();
@@ -424,6 +348,102 @@ public class Evento implements Serializable
         edit.commit();
 
         AlarmCreator.setAlarm(getIdEvento(), c.getTimeInMillis(), Notificaciones.getContext(), this);
+    }
+    
+    
+    private static void obtenerEventosOffline(MuestraEventos muestraEventos, Boolean soloGuardados)
+    {
+        //Realizar consulta en BBDD local
+        String query = "SELECT * FROM eventos ";
+        if(soloGuardados)
+        {
+            query += "INNER JOIN guardados g ON (e.id_evento = g.id_evento) ";
+        }
+        query += "ORDER BY id_evento DESC";
+        SqliteOp op = new SqliteOp(query);
+        DBMatriz result = op.consultar();
+        
+        //Leer datos
+        ArrayList<Evento> eventos = new ArrayList<>();
+        while (result.leer())
+        {
+            Evento e = new Evento();
+            e.idEvento = (int)result.getValor("id_evento");
+            e.nombre = (String) result.getValor("nombre");
+            e.descripcion = (String) result.getValor("descripcion");
+            e.cantidadLikes = (int) result.getValor("cantidad_likes");
+            e.cantidadLikes = (int) result.getValor("cantidad_guardados");
+            e.fechaInicio = Herramientas.parsearFechaTiempoBBDD((String) result.getValor("fecha_inicio"));
+            e.fechaFinal = Herramientas.parsearFechaTiempoBBDD((String) result.getValor("fecha_final"));
+            e.lugar = (String) result.getValor("lugar");
+            e.color = (String) result.getValor("color");
+            e.foto = (String) result.getValor("foto");
+            e.fotoCreador = (String) result.getValor("fotoCreador");
+            e.nombreCreador = (String) result.getValor("nombreCreador");
+            e.tieneLike = (int) result.getValor("tieneLike") == 1;
+            e.tieneGuardado = (int) result.getValor("tieneGuardado") == 1;
+            
+            eventos.add(e);
+        }
+        
+        //Actualizar recycler
+        muestraEventos.setEventos(eventos);
+    }
+    
+    public static void obtenerEventos(Context context, MuestraEventos muestraEventos, Boolean soloGuardados)
+    {
+        String servicio = "obtener_eventos";
+        if(soloGuardados)
+        {
+            servicio += "_guardados";
+        }
+        
+        SolicitudHTTP solicitud = new SolicitudHTTP(context, servicio)
+        {
+            @Override
+            public void eventoRespuestaHTTP(String respuesta)
+            {
+                //Recibir arreglo de eventos
+                Gson g = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+                Evento[] test = g.fromJson(respuesta, Evento[].class);
+                
+                borrarEventosBBDD();
+                
+                //Convertirlo en lista
+                ArrayList<Evento> listaEventos = new ArrayList<>();
+                for (Evento evento : test)
+                {
+                    listaEventos.add(evento);
+                    
+                    //Refrescar eventos locales
+                    evento.actualizarBBDD();
+                    
+                    //Si tiene guardado, refrescar en BBDD local
+                    if(evento.tieneGuardado)
+                    {
+                        evento.guardarInteres();
+                    }
+                }
+                
+                //Actualizar eventos mostrados en el inicio
+                muestraEventos.setEventos(listaEventos);
+            }
+            
+            @Override
+            public void eventoRespuestaErrorHTTP()
+            {
+                //No hay conexión, mostrar sólo los guardados offline
+                obtenerEventosOffline(muestraEventos, soloGuardados);
+            }
+            
+            @Override
+            public void eventoPostRespuesta()
+            {
+            
+            }
+        };
+        solicitud.getParametros().put("id_usuario_sesion", Configuraciones.getIdUsuarioSesion() + "");
+        solicitud.ejecutar();
     }
     
     
