@@ -13,6 +13,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.teamihc.ucalendar.R;
 import com.teamihc.ucalendar.adapters.AgendaRVAdapter;
+import com.teamihc.ucalendar.adapters.FeedRVAdapter;
 import com.teamihc.ucalendar.backend.Herramientas;
 import com.teamihc.ucalendar.backend.entidades.Evento;
 
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-public class AgendaFragment extends Fragment
+public class AgendaFragment extends Fragment implements MuestraEventos
 {
     //Views
     private SwipeRefreshLayout swipeRefresh;
@@ -29,7 +30,6 @@ public class AgendaFragment extends Fragment
     
     //Info
     private AgendaRVAdapter adapterPadre;
-    private ArrayList<String> listaRVPadre;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -46,6 +46,16 @@ public class AgendaFragment extends Fragment
         inicializarComponentes();
     }
     
+    @Override
+    public void setEventos(ArrayList<Evento> eventos)
+    {
+        adapterPadre = new AgendaRVAdapter(this.getActivity());
+        rvPadre.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+        rvPadre.setAdapter(adapterPadre);
+        adapterPadre.notifyDataSetChanged();
+    }
+    
+    @Override
     public void inicializarComponentes()
     {
         //Swipe-refresh
@@ -61,18 +71,17 @@ public class AgendaFragment extends Fragment
         
         //Recycler fechas padre
         rvPadre = getActivity().findViewById(R.id.recyclerAgenda);
-        listaRVPadre = new ArrayList<>();
-        for(Date d : Evento.obtenerFechasEventosGuardados())
-        {
-            listaRVPadre.add(Herramientas.formatearDiaFechaCalendario(d));
-        }
         
         //Datos recycler
-        adapterPadre = new AgendaRVAdapter(this.getActivity(), listaRVPadre);
+        adapterPadre = new AgendaRVAdapter(this.getActivity());
         rvPadre.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         rvPadre.setAdapter(adapterPadre);
+    
+        //Aquí se inicializa ArrayList eventos
+        Evento.obtenerEventos(getActivity(), this, true);
     }
     
+    @Override
     public void actualizarEventosMostrados()
     {
         //Mostrar cargar por 1seg
@@ -93,8 +102,8 @@ public class AgendaFragment extends Fragment
             }
         });
         t.start();
-        
-        inicializarComponentes();
+    
+        Evento.obtenerEventos(getActivity(), this, true);
     }
 
     /*

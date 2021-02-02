@@ -7,13 +7,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.teamihc.ucalendar.R;
+import com.teamihc.ucalendar.backend.Herramientas;
 import com.teamihc.ucalendar.backend.entidades.Evento;
-import com.teamihc.ucalendar.fragments.MuestraEventos;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,12 +20,12 @@ import java.util.Date;
 public class AgendaRVAdapter extends RecyclerView.Adapter<AgendaRVAdapter.AgendaAdapter>
 {
     private Activity activity;
-    private ArrayList<String> fechasEventos;
+    private ArrayList<Date> fechasEventos;
     
-    public AgendaRVAdapter(Activity activity, ArrayList<String> fechasEventos)
+    public AgendaRVAdapter(Activity activity)
     {
         this.activity = activity;
-        this.fechasEventos = fechasEventos;
+        this.fechasEventos = Evento.obtenerFechasEventosGuardados();
     }
     
     @NonNull
@@ -40,11 +39,16 @@ public class AgendaRVAdapter extends RecyclerView.Adapter<AgendaRVAdapter.Agenda
     @Override
     public void onBindViewHolder(@NonNull AgendaAdapter holder, int position)
     {
-        //Con esto solo lleno la fecha del evento
-        holder.fecha_evento.setText(fechasEventos.get(position));
+        //Colocar fecha del grupo de eventos
+        Date date = fechasEventos.get(position);
+        holder.txtFechaEvento.setText(Herramientas.formatearDiaFechaCalendario(date));
         
         //Aqui lleno la informacion del evento como tal relacionado a esa fecha, es decir el nombre
         ArrayList<String> eventos = new ArrayList<>();
+        for(int i = 0; i < 3; i++)
+        {
+            eventos.add("Evento " + Math.random());
+        }
         
         //Inicializo el adapter del recycler hijo
         RecyclerHijoAdapter adapterHijo = new RecyclerHijoAdapter(eventos);
@@ -64,14 +68,14 @@ public class AgendaRVAdapter extends RecyclerView.Adapter<AgendaRVAdapter.Agenda
     {
         private View view;
         RecyclerView rvHijo;
-        TextView fecha_evento;
+        TextView txtFechaEvento;
         
         public AgendaAdapter(@NonNull View itemView)
         {
             super(itemView);
             view = itemView;
             rvHijo = itemView.findViewById(R.id.recyclerHijo);
-            fecha_evento = (TextView) itemView.findViewById(R.id.fecha_evento);
+            txtFechaEvento = itemView.findViewById(R.id.txtFechaEvento);
         }
     }
 }
