@@ -3,6 +3,8 @@ package com.teamihc.ucalendar.backend.entidades;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.core.app.NotificationCompat;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.teamihc.ucalendar.R;
@@ -10,6 +12,7 @@ import com.teamihc.ucalendar.backend.Herramientas;
 import com.teamihc.ucalendar.backend.Notificaciones;
 import com.teamihc.ucalendar.backend.SolicitudHTTP;
 import com.teamihc.ucalendar.backend.basedatos.Configuraciones;
+import com.teamihc.ucalendar.backend.basedatos.DBMatriz;
 import com.teamihc.ucalendar.backend.basedatos.SqliteOp;
 import com.teamihc.ucalendar.fragments.MuestraEventos;
 import com.teamihc.ucalendar.notificaciones.AlarmCreator;
@@ -53,6 +56,10 @@ public class Evento implements Serializable
         this.nombreCreador = nombreCreador;
         this.tieneLike = tieneLike;
         this.tieneGuardado = tieneGuardado;
+    }
+    
+    public Evento()
+    {
     }
     
     //<editor-fold desc="Getters & Setters">
@@ -193,16 +200,20 @@ public class Evento implements Serializable
                 Gson g = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                 Evento[] test = g.fromJson(respuesta, Evento[].class);
     
+                borrarEventosBBDD();
+                
                 //Convertirlo en lista
                 ArrayList<Evento> listaEventos = new ArrayList<>();
                 for (Evento evento : test)
                 {
                     listaEventos.add(evento);
                     
+                    //Refrescar eventos locales
+                    evento.actualizarBBDD();
+    
                     //Si tiene guardado, refrescar en BBDD local
                     if(evento.tieneGuardado)
                     {
-                        evento.eliminarBBDD();
                         evento.guardarInteres();
                     }
                 }
@@ -214,11 +225,51 @@ public class Evento implements Serializable
             @Override
             public void eventoRespuestaErrorHTTP()
             {
-            
+                //No hay conexión, mostrar sólo los guardados offline
+                obtenerEventosOffline(muestraEventos, soloGuardados);
             }
         };
         solicitud.getParametros().put("id_usuario_sesion", Configuraciones.getIdUsuarioSesion() + "");
         solicitud.ejecutar();
+    }
+    
+    private static void obtenerEventosOffline(MuestraEventos muestraEventos, Boolean soloGuardados)
+    {
+        //Realizar consulta en BBDD local
+        String query = "SELECT * FROM eventos ";
+        if(soloGuardados)
+        {
+            query += "INNER JOIN guardados g ON (e.id_evento = g.id_evento) ";
+        }
+        query += "ORDER BY id_evento DESC";
+        SqliteOp op = new SqliteOp(query);
+        DBMatriz result = op.consultar();
+        
+        //Leer datos
+        ArrayList<Evento> eventos = new ArrayList<>();
+        while (result.leer())
+        {
+            Evento e = new Evento();
+            e.idEvento = (int)result.getValor("id_evento");
+            e.nombre = (String) result.getValor("nombre");
+            e.descripcion = (String) result.getValor("descripcion");
+            e.cantidadLikes = (int) result.getValor("cantidad_likes");
+            e.cantidadLikes = (int) result.getValor("cantidad_guardados");
+            e.fechaInicio = Herramientas.parsearFechaTiempoBBDD((String) result.getValor("fecha_inicio"));
+            e.fechaFinal = Herramientas.parsearFechaTiempoBBDD((String) result.getValor("fecha_final"));
+            e.lugar = (String) result.getValor("lugar");
+            e.color = (String) result.getValor("color");
+            e.foto = (String) result.getValor("foto");
+            e.fotoCreador = (String) result.getValor("fotoCreador");
+            e.nombreCreador = (String) result.getValor("nombreCreador");
+            e.tieneLike = (int) result.getValor("tieneLike") == 1;
+            e.tieneGuardado = (int) result.getValor("tieneGuardado") == 1;
+            
+            eventos.add(e);
+        }
+        
+        //Actualizar recycler
+        muestraEventos.setEventos(eventos);
     }
     
     public void toggleLike(Context context)
@@ -318,8 +369,8 @@ public class Evento implements Serializable
         String query =
             "INSERT INTO eventos " +
             "(id_evento, nombre, descripcion, fecha_inicio, fecha_final, lugar, color, " +
-            "cantidad_likes, cantidad_guardados, foto, fotoCreador, nombreCreador) " +
-            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?); ";
+            "cantidad_likes, cantidad_guardados, foto, fotoCreador, nombreCreador, tieneLike, tieneGuardado) " +
+            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?); ";
         SqliteOp op = new SqliteOp(query);
         op.pasarParametro(idEvento);
         op.pasarParametro(nombre);
@@ -333,6 +384,8 @@ public class Evento implements Serializable
         op.pasarParametro(foto);
         op.pasarParametro(fotoCreador);
         op.pasarParametro(nombreCreador);
+        op.pasarParametro(tieneLike? 1:0);
+        op.pasarParametro(tieneGuardado? 1:0);
         op.ejecutar();
     }
     public void eliminarBBDD()
@@ -342,7 +395,17 @@ public class Evento implements Serializable
         op.pasarParametro(idEvento);
         op.ejecutar();
     }
-    
+    public void actualizarBBDD()
+    {
+        eliminarBBDD();
+        registrarBBDD();
+    }
+    private static void borrarEventosBBDD()
+    {
+        String query = "DELETE FROM eventos";
+        SqliteOp op = new SqliteOp(query);
+        op.ejecutar();
+    }
 
     public void crearNotificacion(Context context)
     {

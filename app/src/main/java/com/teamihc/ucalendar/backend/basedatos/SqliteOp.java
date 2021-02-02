@@ -1,6 +1,7 @@
 package com.teamihc.ucalendar.backend.basedatos;
 
 import android.content.res.AssetManager;
+import android.util.Log;
 
 import com.teamihc.ucalendar.BuildConfig;
 import com.teamihc.ucalendar.backend.Herramientas;
@@ -42,7 +43,7 @@ public class SqliteOp
      * La versión de la base de datos.
      * Este dato debe ser igual al que está en la tabla v_configuracion.
      */
-    private static final String VERSION_BD = "4";
+    private static final String VERSION_BD = "5";
     /**
      * Representa la ubicación del archivo SQLite con respecto al ejecutable del programa.
      */
@@ -196,6 +197,7 @@ public class SqliteOp
         {
             //Imprimir error en consola
             System.out.println(e.getMessage());
+            Log.e("SqliteOp ejecutar()",e.getMessage());
             return 0;
         }
     }
