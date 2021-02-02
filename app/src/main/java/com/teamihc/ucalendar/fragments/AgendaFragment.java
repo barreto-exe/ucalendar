@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,41 +12,54 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.teamihc.ucalendar.R;
-import com.teamihc.ucalendar.activities.MainActivity;
 import com.teamihc.ucalendar.adapters.AgendaRVAdapter;
-import com.teamihc.ucalendar.adapters.FeedRVAdapter;
 import com.teamihc.ucalendar.backend.entidades.Evento;
 
 import java.util.ArrayList;
 
 
-public class AgendaFragment extends Fragment {
+public class AgendaFragment extends Fragment implements MuestraEventos
+{
+    //Views
     private SwipeRefreshLayout swipeRefresh;
+    private LinearLayoutManager layoutManagerPadre;
     private RecyclerView rvPadre;
+    
+    //Info
     private AgendaRVAdapter adapterPadre;
-    LinearLayoutManager layoutManagerPadre;
-    ArrayList<String> listaRVPadre;
-
+    private ArrayList<String> listaRVPadre;
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_agenda, container, false);
         return view;
     }
-
+    
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
+    {
         super.onViewCreated(view, savedInstanceState);
         inicializarComponentes();
     }
-
-    private void inicializarComponentes() {
-
+    
+    @Override
+    public void setEventos(ArrayList<Evento> eventos)
+    {
+    
+    }
+    
+    @Override
+    public void inicializarComponentes()
+    {
+        
         rvPadre = (RecyclerView) getActivity().findViewById(R.id.recyclerAgenda);
         listaRVPadre = new ArrayList<>();
         //Aqui se llena la info de la lista padre que posee la fecha del evento
-        for (int i = 0; i <= 6; i++) {
+        for (int i = 0; i <= 6; i++)
+        {
             listaRVPadre.add("Dia " + i);
         }
         //Esto se queda asi
@@ -55,9 +67,9 @@ public class AgendaFragment extends Fragment {
         rvPadre.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         rvPadre.setAdapter(adapterPadre);
     }
-
-    /*
-    private void refrescarEventos()
+    
+    @Override
+    public void actualizarEventosMostrados()
     {
         //Mostrar cargar por 1seg
         Thread t = new Thread(new Runnable()
@@ -78,10 +90,10 @@ public class AgendaFragment extends Fragment {
         });
         t.start();
 
-        Evento.obtenerEventos(getActivity(), this);
+        Evento.obtenerEventos(getActivity(), this, true);
     }
-}
 
+    /*
      //Método que verifica si hay evetos guardados o no
        //para mostrar la imagen de bienvenida o el recycler con los eventos
     private void ColocarBienvenida()

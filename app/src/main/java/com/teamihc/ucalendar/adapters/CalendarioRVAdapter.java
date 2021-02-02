@@ -20,12 +20,10 @@ import com.teamihc.ucalendar.backend.entidades.Evento;
 
 import java.util.ArrayList;
 
-public class CalendarioRVAdapter
-        extends RecyclerView.Adapter<CalendarioRVAdapter.CalendarioAdapter>
+public class CalendarioRVAdapter extends RecyclerView.Adapter<CalendarioRVAdapter.CalendarioAdapter>
 {
-
-    private ArrayList<Evento> eventos;
     private CardView cardView;
+    private ArrayList<Evento> eventos;
 
     public CalendarioRVAdapter(ArrayList<Evento> eventos)
     {

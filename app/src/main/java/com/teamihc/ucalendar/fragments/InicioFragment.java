@@ -1,46 +1,31 @@
 package com.teamihc.ucalendar.fragments;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.teamihc.ucalendar.R;
-import com.teamihc.ucalendar.activities.DetallesEventoActivity;
-import com.teamihc.ucalendar.activities.MainActivity;
 import com.teamihc.ucalendar.adapters.FeedRVAdapter;
-import com.teamihc.ucalendar.backend.basedatos.Configuraciones;
 import com.teamihc.ucalendar.backend.entidades.Evento;
 
 import java.util.ArrayList;
 
 public class InicioFragment extends Fragment implements MuestraEventos
 {
+    //Views
     private SwipeRefreshLayout swipeRefresh;
     private RecyclerView recyclerView;
+    
+    //Info
     private FeedRVAdapter adapter;
     public ArrayList<Evento> eventos;
-    
-    public void setEventos(ArrayList<Evento> eventos)
-    {
-        this.eventos = eventos;
-        adapter = new FeedRVAdapter(this.eventos);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-    }
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -57,7 +42,17 @@ public class InicioFragment extends Fragment implements MuestraEventos
         inicializarComponentes();
     }
     
-    private void inicializarComponentes()
+    @Override
+    public void setEventos(ArrayList<Evento> eventos)
+    {
+        this.eventos = eventos;
+        adapter = new FeedRVAdapter(this.eventos);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+    
+    @Override
+    public void inicializarComponentes()
     {
         //Swipe-refresh
         swipeRefresh = getView().findViewById(R.id.swipe_refresh);
@@ -68,7 +63,7 @@ public class InicioFragment extends Fragment implements MuestraEventos
                 @Override
                 public void onRefresh()
                 {
-                    refrescarEventos();
+                    actualizarEventosMostrados();
                 }
             }
         );
@@ -86,7 +81,8 @@ public class InicioFragment extends Fragment implements MuestraEventos
         Evento.obtenerEventos(getActivity(), this, false);
     }
     
-    private void refrescarEventos()
+    @Override
+    public void actualizarEventosMostrados()
     {
         //Mostrar cargar por 1seg
         Thread t = new Thread(new Runnable()

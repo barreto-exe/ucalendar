@@ -13,60 +13,61 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.teamihc.ucalendar.R;
 import com.teamihc.ucalendar.backend.entidades.Evento;
+import com.teamihc.ucalendar.fragments.MuestraEventos;
 
 import java.util.ArrayList;
 
-public class AgendaRVAdapter
-        extends RecyclerView.Adapter<AgendaRVAdapter.AgendaAdapter> {
-
+public class AgendaRVAdapter extends RecyclerView.Adapter<AgendaRVAdapter.AgendaAdapter>
+{
     private CardView cardView;
-    ArrayList<String> listpadre;
-    Activity activity;
-
-    public AgendaRVAdapter(Activity activity, ArrayList<String> listpadre) {
+    private Activity activity;
+    private ArrayList<String> fechasEventos;
+    
+    public AgendaRVAdapter(Activity activity, ArrayList<String> fechasEventos)
+    {
         this.activity = activity;
-        this.listpadre = listpadre;
-
+        this.fechasEventos = fechasEventos;
     }
-
-
+    
     @NonNull
     @Override
-    public AgendaAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AgendaAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    {
         View view = LayoutInflater.from(parent.getContext()).inflate((R.layout.view_recycler_hijo), parent, false);
         return new AgendaAdapter(view);
     }
-
-
+    
     @Override
-    public void onBindViewHolder(@NonNull AgendaAdapter holder, int position) {
+    public void onBindViewHolder(@NonNull AgendaAdapter holder, int position)
+    {
         //Con esto solo lleno la fecha del evento
-        holder.fecha_evento.setText(listpadre.get(position));
-
+        holder.fecha_evento.setText(fechasEventos.get(position));
+        
         //Aqui lleno la informacion del evento como tal relacionado a esa fecha, es decir el nombre
-        ArrayList<String> listahijo = new ArrayList<>();
-        for (int i = 0; i <= 5; i++) {
-            listahijo.add("Evento " + i);
-        }
-
+        ArrayList<String> eventos = new ArrayList<>();
+        
         //Inicializo el adapter del recycler hijo
-        RecyclerHijoAdapter adapterHijo = new RecyclerHijoAdapter(listahijo);
+        RecyclerHijoAdapter adapterHijo = new RecyclerHijoAdapter(eventos);
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
         holder.rvHijo.setLayoutManager(layoutManager);
         holder.rvHijo.setAdapter(adapterHijo);
     }
-
+    
     @Override
-    public int getItemCount() {
-        return listpadre.size();
+    public int getItemCount()
+    {
+        return fechasEventos.size();
     }
-
-    public class AgendaAdapter extends RecyclerView.ViewHolder {
+    
+    
+    public class AgendaAdapter extends RecyclerView.ViewHolder
+    {
         private View view;
         RecyclerView rvHijo;
         TextView fecha_evento;
-
-        public AgendaAdapter(@NonNull View itemView) {
+        
+        public AgendaAdapter(@NonNull View itemView)
+        {
             super(itemView);
             view = itemView;
             rvHijo = itemView.findViewById(R.id.recyclerHijo);

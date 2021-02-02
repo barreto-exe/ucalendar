@@ -30,19 +30,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapter> implements Serializable
 {
     public static FeedRVAdapter feedActual;
-    ArrayList<Evento> eventos;
-    View.OnClickListener listener;
+    private ArrayList<Evento> eventos;
     
     public FeedRVAdapter(ArrayList<Evento> eventos)
     {
         this.eventos = eventos;
         feedActual = this;
-    }
-    
-    public void actualizaInfoEvento(Evento eventoActualizado)
-    {
-        eventos.set(eventoActualizado.getPosicionLista(), eventoActualizado);
-        notifyItemChanged(eventoActualizado.getPosicionLista(), eventoActualizado);
     }
     
     @NonNull
@@ -67,6 +60,11 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
         return eventos.size();
     }
     
+    public void actualizaInfoEvento(Evento eventoActualizado)
+    {
+        eventos.set(eventoActualizado.getPosicionLista(), eventoActualizado);
+        notifyItemChanged(eventoActualizado.getPosicionLista(), eventoActualizado);
+    }
     
     public class FeedAdapter extends RecyclerView.ViewHolder
     {

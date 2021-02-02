@@ -11,6 +11,7 @@ import java.util.ArrayList;
  */
 public interface MuestraEventos
 {
-    public ArrayList<Evento> eventos = null;
     public void setEventos(ArrayList<Evento> eventos);
+    public void inicializarComponentes();
+    public void actualizarEventosMostrados();
 }

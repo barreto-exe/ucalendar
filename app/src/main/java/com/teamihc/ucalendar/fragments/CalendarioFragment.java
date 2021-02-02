@@ -30,44 +30,15 @@ import java.util.Date;
 
 public class CalendarioFragment extends Fragment implements MuestraEventos
 {
+    //Views
     private CompactCalendarView calendarView;
     private TextView txtMesActual, calendarioIzquierda, calendarioDerecha;
     private RecyclerView recyclerView;
+    
+    //Info
     private CalendarioRVAdapter adapter;
     public ArrayList<Evento> eventos, eventosMesSeleccionado = new ArrayList<>();
     
-    public void setEventos(ArrayList<Evento> eventos)
-    {
-        this.eventos = eventos;
-        actualizarEventosMostrados();
-    }
-    
-    private void actualizarEventosMostrados()
-    {
-        this.eventosMesSeleccionado.clear();
-    
-        //Borrar eventos del mes para refrescar
-        calendarView.removeAllEvents();
-    
-        //Indagar eventos
-        for(Evento e : eventos)
-        {
-            //Agregar al adapter sólo si el evento ocurre dentro del mes
-            if(e.getFechaInicio().getMonth() == calendarView.getFirstDayOfCurrentMonth().getMonth())
-            {
-                //Agregar puntito en el calendario con su respectivo color
-                calendarView.addEvent(new Event(Color.parseColor(e.getColor()), e.getFechaInicio().getTime()));
-    
-                //Agregar evento a la lista recycler
-                this.eventosMesSeleccionado.add(e);
-            }
-        }
-    
-        adapter = new CalendarioRVAdapter(this.eventosMesSeleccionado);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -83,7 +54,13 @@ public class CalendarioFragment extends Fragment implements MuestraEventos
         inicializarComponentes();
     }
     
-    private void inicializarComponentes()
+    public void setEventos(ArrayList<Evento> eventos)
+    {
+        this.eventos = eventos;
+        actualizarEventosMostrados();
+    }
+    
+    public void inicializarComponentes()
     {
         //Datos calendario
         txtMesActual = getView().findViewById(R.id.txtMesActual);
@@ -107,11 +84,11 @@ public class CalendarioFragment extends Fragment implements MuestraEventos
             {
                 //Actualizar nombre de mes y año
                 txtMesActual.setText(Herramientas.formatearMesYearCalendario(firstDayOfNewMonth));
-    
+                
                 actualizarEventosMostrados();
             }
         });
-    
+        
         //Botón izquierdo calendario
         calendarioIzquierda = getView().findViewById(R.id.calendarioIzquierda);
         calendarioIzquierda.setText("<");
@@ -142,13 +119,40 @@ public class CalendarioFragment extends Fragment implements MuestraEventos
         recyclerView = getView().findViewById(R.id.eventosDelmes);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
         recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
-
+        
         //Datos Recycler
         eventos = new ArrayList<>();
         adapter = new CalendarioRVAdapter(eventos);
         recyclerView.setAdapter(adapter);
-    
+        
         //Aquí se inicializa ArrayList eventos
         Evento.obtenerEventos(getActivity(), this, false);
+    }
+    
+    public void actualizarEventosMostrados()
+    {
+        this.eventosMesSeleccionado.clear();
+        
+        //Borrar eventos del mes para refrescar
+        calendarView.removeAllEvents();
+        
+        //Indagar eventos
+        for(Evento e : eventos)
+        {
+            //Agregar al adapter sólo si el evento ocurre dentro del mes
+            if(e.getFechaInicio().getMonth() == calendarView.getFirstDayOfCurrentMonth().getMonth())
+            {
+                //Agregar puntito en el calendario con su respectivo color
+                calendarView.addEvent(new Event(Color.parseColor(e.getColor()), e.getFechaInicio().getTime()));
+                
+                //Agregar evento a la lista recycler
+                this.eventosMesSeleccionado.add(e);
+            }
+        }
+        
+        //Actualizar eventos
+        adapter = new CalendarioRVAdapter(this.eventosMesSeleccionado);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 }
