@@ -44,7 +44,7 @@ public class AgendaRVAdapter extends RecyclerView.Adapter<AgendaRVAdapter.Agenda
         holder.txtFechaEvento.setText(Herramientas.formatearDiaFechaAgenda(fecha));
         
         //Llenar la informacion de los eventos relacionados a esa fecha
-        ArrayList<String> eventos = Evento.obtenerEventosPorDia(fecha);
+        ArrayList<Evento> eventos = Evento.obtenerEventosPorDia(fecha);
         
         //Inicializar el adapter del recycler hijo
         RecyclerHijoAdapter adapterHijo = new RecyclerHijoAdapter(eventos);

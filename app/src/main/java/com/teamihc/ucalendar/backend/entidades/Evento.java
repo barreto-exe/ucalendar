@@ -431,17 +431,17 @@ public class Evento implements Serializable
         return fechas;
     }
     
-    public static ArrayList<String> obtenerEventosPorDia(Date dia)
+    public static ArrayList<Evento> obtenerEventosPorDia(Date dia)
     {
         String query = "SELECT * FROM eventos WHERE SUBSTR(fecha_inicio,0,11) = ?";
         SqliteOp op = new SqliteOp(query);
         op.pasarParametro(new SimpleDateFormat("yyyy-MM-dd").format(dia));
         DBMatriz resultado = op.consultar();
         
-        ArrayList<String> eventos = new ArrayList<>();
+        ArrayList<Evento> eventos = new ArrayList<>();
         while (resultado.leer())
         {
-            eventos.add(eventoParsear(resultado).nombre);
+            eventos.add(eventoParsear(resultado));
         }
         
         return eventos;

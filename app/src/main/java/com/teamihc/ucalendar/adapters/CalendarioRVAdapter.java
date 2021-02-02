@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
 import com.teamihc.ucalendar.R;
 import com.teamihc.ucalendar.activities.DetallesEventoActivity;
 import com.teamihc.ucalendar.activities.MainActivity;
@@ -56,8 +55,8 @@ public class CalendarioRVAdapter extends RecyclerView.Adapter<CalendarioRVAdapte
     public class CalendarioAdapter extends RecyclerView.ViewHolder
     {
         private View view;
-        TextView txtFechaEvento, txtNombreEvento;
-        CardView cardColor, cardInfoEventoCalendario;
+        private TextView txtFechaEvento, txtNombreEvento;
+        private CardView cardColor, cardInfoEventoCalendario;
 
         public CalendarioAdapter(@NonNull View itemView)
         {

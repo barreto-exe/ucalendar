@@ -17,7 +17,7 @@ import com.teamihc.ucalendar.backend.entidades.Evento;
 
 import java.util.ArrayList;
 
-public class InicioFragment extends Fragment implements MuestraEventos
+public class FeedFragment extends Fragment implements MuestraEventos
 {
     //Views
     private SwipeRefreshLayout swipeRefresh;
@@ -31,7 +31,7 @@ public class InicioFragment extends Fragment implements MuestraEventos
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_inicio, container, false);
+        View view = inflater.inflate(R.layout.fragment_feed, container, false);
         return view;
     }
     

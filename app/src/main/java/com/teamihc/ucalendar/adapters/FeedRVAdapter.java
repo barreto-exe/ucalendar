@@ -15,7 +15,6 @@ import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.teamihc.ucalendar.R;
 import com.teamihc.ucalendar.activities.DetallesEventoActivity;
 import com.teamihc.ucalendar.activities.MainActivity;
@@ -42,7 +41,7 @@ public class FeedRVAdapter extends RecyclerView.Adapter<FeedRVAdapter.FeedAdapte
     @Override
     public FeedAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_info_evento, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_evento_feed, parent, false);
         return new FeedAdapter(view, this);
     }
     

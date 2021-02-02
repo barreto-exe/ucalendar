@@ -17,7 +17,7 @@ import com.teamihc.ucalendar.R;
 import com.teamihc.ucalendar.backend.basedatos.Configuraciones;
 import com.teamihc.ucalendar.fragments.AgendaFragment;
 import com.teamihc.ucalendar.fragments.CalendarioFragment;
-import com.teamihc.ucalendar.fragments.InicioFragment;
+import com.teamihc.ucalendar.fragments.FeedFragment;
 import com.teamihc.ucalendar.helper.NotificacionHelper;
 
 public class MainActivity extends AppCompatActivity
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity
         
         inicializarComponentes();
         
-        getFragmentManager().beginTransaction().replace(R.id.layout_principal, new InicioFragment()).commit();
+        getFragmentManager().beginTransaction().replace(R.id.layout_principal, new FeedFragment()).commit();
     }
 
     @Override
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity
             {
                 case R.id.nav_home:
                 {
-                    fragment = new InicioFragment();
+                    fragment = new FeedFragment();
                     break;
                 }
                 case R.id.nav_agenda:

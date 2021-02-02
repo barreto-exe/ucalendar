@@ -24,7 +24,7 @@
                 android:text="Jue 2"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -32,15 +32,12 @@
             android:id="@+id/cardColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="4dp"
-            android:padding="20dp"
             app:cardCornerRadius="32dp">
             <TextView
                 android:id="@+id/txtNombreEvento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:fontFamily="@font/roboto"
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:text="Aquí va el nombre del evento, puede ser largo y abarca 2 lineas"

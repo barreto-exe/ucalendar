@@ -1,32 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/eventoAgenda"
+    android:id="@+id/cardInfoEventoAgenda"
+    android:background="#00FFFFFF"
+    android:elevation="0dp"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:layout_margin="5dp"
-    app:cardCornerRadius="10dp">
-
-
-    <LinearLayout
+    android:layout_height="wrap_content">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardColor"
+        android:layout_marginVertical="4dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="32dp">
         <TextView
-            android:id="@+id/nombreEvento"
+            android:id="@+id/txtNombreEvento"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:fontFamily="@font/roboto"
+            android:layout_margin="16dp"
+            android:ellipsize="end"
             android:maxLines="2"
             android:text="Aquí va el nombre del evento, puede ser largo y abarca 2 lineas"
             android:textColor="@color/black"
-            android:textSize="14sp">
-
+            android:textSize="20sp">
         </TextView>
-
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </androidx.cardview.widget.CardView>
