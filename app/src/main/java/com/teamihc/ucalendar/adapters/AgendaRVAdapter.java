@@ -16,6 +16,7 @@ import com.teamihc.ucalendar.backend.entidades.Evento;
 import com.teamihc.ucalendar.fragments.MuestraEventos;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AgendaRVAdapter extends RecyclerView.Adapter<AgendaRVAdapter.AgendaAdapter>
 {

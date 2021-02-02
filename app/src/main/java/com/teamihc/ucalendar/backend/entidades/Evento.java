@@ -18,6 +18,8 @@ import com.teamihc.ucalendar.fragments.MuestraEventos;
 import com.teamihc.ucalendar.notificaciones.AlarmCreator;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -376,12 +378,6 @@ public class Evento implements Serializable
                 //No hay conexión, mostrar sólo los guardados offline
                 obtenerEventosOffline(muestraEventos, soloGuardados);
             }
-            
-            @Override
-            public void eventoPostRespuesta()
-            {
-            
-            }
         };
         solicitud.getParametros().put("id_usuario_sesion", Configuraciones.getIdUsuarioSesion() + "");
         solicitud.ejecutar();
@@ -426,6 +422,30 @@ public class Evento implements Serializable
         muestraEventos.setEventos(eventos);
     }
     
+    public static ArrayList<Date> obtenerFechasEventosGuardados()
+    {
+        String query =
+            "SELECT SUBSTR(fecha_inicio,0,11) AS fecha " +
+            "FROM eventos " +
+            "WHERE tieneGuardado = 1 " +
+            "GROUP BY SUBSTR(fecha_inicio,0,11)";
+        SqliteOp op = new SqliteOp(query);
+        DBMatriz resultado = op.consultar();
+        
+        ArrayList<Date> fechas = new ArrayList<>();
+        while (resultado.leer())
+        {
+            try
+            {
+                fechas.add(new SimpleDateFormat("yyyy-MM-dd").parse((String)resultado.getValor("fecha")));
+            }
+            catch (ParseException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return fechas;
+    }
     
     @Override
     public String toString()
