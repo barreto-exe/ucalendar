@@ -19,7 +19,6 @@ import java.util.ArrayList;
 
 public class AgendaRVAdapter extends RecyclerView.Adapter<AgendaRVAdapter.AgendaAdapter>
 {
-    private CardView cardView;
     private Activity activity;
     private ArrayList<String> fechasEventos;
     

@@ -14,7 +14,7 @@ import com.android.volley.toolbox.Volley;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class SolicitudHTTP
+public class SolicitudHTTP
 {
     private Context context;
     private String nombreServicio;
@@ -111,9 +111,9 @@ public abstract class SolicitudHTTP
         requestQueue.add(stringRequest);
     }
     
-    public abstract void eventoRespuestaHTTP(String response);
+    public void eventoRespuestaHTTP(String response){}
     
-    public abstract void eventoRespuestaErrorHTTP();
+    public void eventoRespuestaErrorHTTP(){}
     
-    public abstract void eventoPostRespuesta();
+    public void eventoPostRespuesta(){}
 }

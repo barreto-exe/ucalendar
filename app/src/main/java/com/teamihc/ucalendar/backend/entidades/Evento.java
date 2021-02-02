@@ -38,7 +38,6 @@ public class Evento implements Serializable
     private String fotoCreador;
     private String nombreCreador;
     private Boolean tieneLike, tieneGuardado;
-    private SharedPreferences settings;
     
     public Evento(int idEvento, String nombre, String descripcion, int cantidadLikes, int cantidadGuardados, Date fechaInicio, Date fechaFinal, String lugar, String color, String foto, String fotoCreador, String nombreCreador, Boolean tieneLike, Boolean tieneGuardado)
     {
@@ -243,26 +242,7 @@ public class Evento implements Serializable
             eliminarGuardado();
         }
     
-        SolicitudHTTP solicitud = new SolicitudHTTP(context, servicio)
-        {
-            @Override
-            public void eventoRespuestaHTTP(String response)
-            {
-                //No hacer nada
-            }
-    
-            @Override
-            public void eventoRespuestaErrorHTTP()
-            {
-        
-            }
-    
-            @Override
-            public void eventoPostRespuesta()
-            {
-        
-            }
-        };
+        SolicitudHTTP solicitud = new SolicitudHTTP(context, servicio);
         solicitud.getParametros().put("idUsuario", Configuraciones.getIdUsuarioSesion() + "");
         solicitud.getParametros().put("idEvento", idEvento + "");
         solicitud.ejecutar();
@@ -351,45 +331,6 @@ public class Evento implements Serializable
     }
     
     
-    private static void obtenerEventosOffline(MuestraEventos muestraEventos, Boolean soloGuardados)
-    {
-        //Realizar consulta en BBDD local
-        String query = "SELECT * FROM eventos ";
-        if(soloGuardados)
-        {
-            query += "INNER JOIN guardados g ON (e.id_evento = g.id_evento) ";
-        }
-        query += "ORDER BY id_evento DESC";
-        SqliteOp op = new SqliteOp(query);
-        DBMatriz result = op.consultar();
-        
-        //Leer datos
-        ArrayList<Evento> eventos = new ArrayList<>();
-        while (result.leer())
-        {
-            Evento e = new Evento();
-            e.idEvento = (int)result.getValor("id_evento");
-            e.nombre = (String) result.getValor("nombre");
-            e.descripcion = (String) result.getValor("descripcion");
-            e.cantidadLikes = (int) result.getValor("cantidad_likes");
-            e.cantidadLikes = (int) result.getValor("cantidad_guardados");
-            e.fechaInicio = Herramientas.parsearFechaTiempoBBDD((String) result.getValor("fecha_inicio"));
-            e.fechaFinal = Herramientas.parsearFechaTiempoBBDD((String) result.getValor("fecha_final"));
-            e.lugar = (String) result.getValor("lugar");
-            e.color = (String) result.getValor("color");
-            e.foto = (String) result.getValor("foto");
-            e.fotoCreador = (String) result.getValor("fotoCreador");
-            e.nombreCreador = (String) result.getValor("nombreCreador");
-            e.tieneLike = (int) result.getValor("tieneLike") == 1;
-            e.tieneGuardado = (int) result.getValor("tieneGuardado") == 1;
-            
-            eventos.add(e);
-        }
-        
-        //Actualizar recycler
-        muestraEventos.setEventos(eventos);
-    }
-    
     public static void obtenerEventos(Context context, MuestraEventos muestraEventos, Boolean soloGuardados)
     {
         String servicio = "obtener_eventos";
@@ -444,6 +385,45 @@ public class Evento implements Serializable
         };
         solicitud.getParametros().put("id_usuario_sesion", Configuraciones.getIdUsuarioSesion() + "");
         solicitud.ejecutar();
+    }
+    
+    private static void obtenerEventosOffline(MuestraEventos muestraEventos, Boolean soloGuardados)
+    {
+        //Realizar consulta en BBDD local
+        String query = "SELECT * FROM eventos ";
+        if(soloGuardados)
+        {
+            query += "INNER JOIN guardados g ON (e.id_evento = g.id_evento) ";
+        }
+        query += "ORDER BY id_evento DESC";
+        SqliteOp op = new SqliteOp(query);
+        DBMatriz result = op.consultar();
+        
+        //Leer datos
+        ArrayList<Evento> eventos = new ArrayList<>();
+        while (result.leer())
+        {
+            Evento e = new Evento();
+            e.idEvento = (int)result.getValor("id_evento");
+            e.nombre = (String) result.getValor("nombre");
+            e.descripcion = (String) result.getValor("descripcion");
+            e.cantidadLikes = (int) result.getValor("cantidad_likes");
+            e.cantidadLikes = (int) result.getValor("cantidad_guardados");
+            e.fechaInicio = Herramientas.parsearFechaTiempoBBDD((String) result.getValor("fecha_inicio"));
+            e.fechaFinal = Herramientas.parsearFechaTiempoBBDD((String) result.getValor("fecha_final"));
+            e.lugar = (String) result.getValor("lugar");
+            e.color = (String) result.getValor("color");
+            e.foto = (String) result.getValor("foto");
+            e.fotoCreador = (String) result.getValor("fotoCreador");
+            e.nombreCreador = (String) result.getValor("nombreCreador");
+            e.tieneLike = (int) result.getValor("tieneLike") == 1;
+            e.tieneGuardado = (int) result.getValor("tieneGuardado") == 1;
+            
+            eventos.add(e);
+        }
+        
+        //Actualizar recycler
+        muestraEventos.setEventos(eventos);
     }
     
     

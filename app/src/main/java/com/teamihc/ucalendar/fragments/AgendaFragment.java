@@ -23,7 +23,6 @@ public class AgendaFragment extends Fragment implements MuestraEventos
     //Views
     private SwipeRefreshLayout swipeRefresh;
     private RecyclerView rvPadre;
-    private LinearLayoutManager layoutManagerPadre;
     
     //Info
     private AgendaRVAdapter adapterPadre;
