@@ -108,7 +108,7 @@ public class SqliteOp
         catch (SQLException e)
         {
             //Imprimir error en consola
-            System.out.println(e.getMessage());
+            Log.e("SqliteOp", e.getMessage());
         }
         
         return conn;
@@ -168,7 +168,7 @@ public class SqliteOp
         catch (SQLException e)
         {
             //Imprimir error en consola
-            System.out.println(e.getMessage());
+            Log.e("SqliteOp", e.getMessage());
             return null;
         }
     }
@@ -196,7 +196,6 @@ public class SqliteOp
         catch (SQLException e)
         {
             //Imprimir error en consola
-            System.out.println(e.getMessage());
             Log.e("SqliteOp ejecutar()",e.getMessage());
             return 0;
         }

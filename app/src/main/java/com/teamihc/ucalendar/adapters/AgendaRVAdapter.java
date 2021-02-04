@@ -41,7 +41,8 @@ public class AgendaRVAdapter extends RecyclerView.Adapter<AgendaRVAdapter.Agenda
     {
         //Colocar fecha del grupo de eventos
         Date fecha = fechasEventos.get(position);
-        holder.txtFechaEvento.setText(Herramientas.formatearDiaFechaAgenda(fecha));
+        holder.txtDiaEvento.setText(Herramientas.formatearDiaAgenda(fecha));
+        holder.txtMesEvento.setText(Herramientas.formatearMesAgenda(fecha));
         
         //Llenar la informacion de los eventos relacionados a esa fecha
         ArrayList<Evento> eventos = Evento.obtenerEventosPorDia(fecha);
@@ -64,14 +65,15 @@ public class AgendaRVAdapter extends RecyclerView.Adapter<AgendaRVAdapter.Agenda
     {
         private View view;
         RecyclerView rvHijo;
-        TextView txtFechaEvento;
+        TextView txtDiaEvento, txtMesEvento;
         
         public AgendaAdapter(@NonNull View itemView)
         {
             super(itemView);
             view = itemView;
             rvHijo = itemView.findViewById(R.id.recyclerHijo);
-            txtFechaEvento = itemView.findViewById(R.id.txtFechaEvento);
+            txtDiaEvento = itemView.findViewById(R.id.txtDiaEvento);
+            txtMesEvento = itemView.findViewById(R.id.txtMesEvento);
         }
     }
 }

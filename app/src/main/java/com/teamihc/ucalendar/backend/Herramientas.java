@@ -107,10 +107,15 @@ public class Herramientas
         return dia.substring(0, 1).toUpperCase() + dia.substring(1);
     }
     
-    public static String formatearDiaFechaAgenda(Date fecha)
+    public static String formatearDiaAgenda(Date fecha)
     {
-        String dia = new SimpleDateFormat("MMM\nE dd").format(fecha);
+        String dia = new SimpleDateFormat("E dd").format(fecha);
         return dia.substring(0, 1).toUpperCase() + dia.substring(1);
+    }
+    public static String formatearMesAgenda(Date fecha)
+    {
+        String mes = new SimpleDateFormat("MMM").format(fecha);
+        return mes.toUpperCase().replace(".","");
     }
     
     public static String formatearHoraFront(Date hora)

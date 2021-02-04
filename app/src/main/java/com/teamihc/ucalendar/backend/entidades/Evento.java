@@ -386,7 +386,7 @@ public class Evento implements Serializable
     private static void obtenerEventosOffline(MuestraEventos muestraEventos, Boolean soloGuardados)
     {
         //Realizar consulta en BBDD local
-        String query = "SELECT * FROM eventos ";
+        String query = "SELECT * FROM eventos e ";
         if(soloGuardados)
         {
             query += "INNER JOIN guardados g ON (e.id_evento = g.id_evento) ";
@@ -454,7 +454,7 @@ public class Evento implements Serializable
         e.nombre = (String) lectura.getValor("nombre");
         e.descripcion = (String) lectura.getValor("descripcion");
         e.cantidadLikes = (int) lectura.getValor("cantidad_likes");
-        e.cantidadLikes = (int) lectura.getValor("cantidad_guardados");
+        e.cantidadGuardados = (int) lectura.getValor("cantidad_guardados");
         e.fechaInicio = Herramientas.parsearFechaTiempoBBDD((String) lectura.getValor("fecha_inicio"));
         e.fechaFinal = Herramientas.parsearFechaTiempoBBDD((String) lectura.getValor("fecha_final"));
         e.lugar = (String) lectura.getValor("lugar");
