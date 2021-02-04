@@ -24,6 +24,8 @@ import java.util.Date;
 
 public class AgendaFragment extends Fragment implements MuestraEventos
 {
+    public static AgendaFragment agendaActual;
+    
     //Views
     private SwipeRefreshLayout swipeRefresh;
     private RecyclerView rvPadre;
@@ -44,6 +46,7 @@ public class AgendaFragment extends Fragment implements MuestraEventos
     {
         super.onViewCreated(view, savedInstanceState);
         inicializarComponentes();
+        agendaActual = this;
     }
     
     @Override
@@ -73,12 +76,10 @@ public class AgendaFragment extends Fragment implements MuestraEventos
         rvPadre = getActivity().findViewById(R.id.recyclerAgenda);
         
         //Datos recycler (offline)
-        adapterPadre = new AgendaRVAdapter(this.getActivity());
-        rvPadre.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-        rvPadre.setAdapter(adapterPadre);
+        setEventos(null);
     
         //Recargar datos (online)
-        Evento.obtenerEventos(getActivity(), this, true);
+        //Evento.obtenerEventos(getActivity(), this, true);
     }
     
     @Override

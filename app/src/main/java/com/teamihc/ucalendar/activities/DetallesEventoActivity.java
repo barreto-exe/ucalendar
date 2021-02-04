@@ -11,10 +11,12 @@ import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.teamihc.ucalendar.R;
+import com.teamihc.ucalendar.adapters.AgendaRVAdapter;
 import com.teamihc.ucalendar.adapters.FeedRVAdapter;
 import com.teamihc.ucalendar.backend.Herramientas;
 import com.teamihc.ucalendar.backend.entidades.Evento;
 import com.teamihc.ucalendar.controls.LikeableImageView;
+import com.teamihc.ucalendar.fragments.AgendaFragment;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -145,6 +147,11 @@ public class DetallesEventoActivity extends AppCompatActivity
         if(FeedRVAdapter.feedActual != null)
         {
             FeedRVAdapter.feedActual.actualizaInfoEvento(evento);
+        }
+        
+        if(AgendaFragment.agendaActual != null)
+        {
+            AgendaFragment.agendaActual.setEventos(null);
         }
     }
 }

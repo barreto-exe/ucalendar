@@ -19,6 +19,7 @@ import java.util.Date;
 
 public class AgendaRVAdapter extends RecyclerView.Adapter<AgendaRVAdapter.AgendaAdapter>
 {
+    public static AgendaRVAdapter agendaActual;
     private Activity activity;
     private ArrayList<Date> fechasEventos;
     
@@ -26,6 +27,7 @@ public class AgendaRVAdapter extends RecyclerView.Adapter<AgendaRVAdapter.Agenda
     {
         this.activity = activity;
         this.fechasEventos = Evento.obtenerFechasEventosGuardados();
+        agendaActual = this;
     }
     
     @NonNull
@@ -45,7 +47,7 @@ public class AgendaRVAdapter extends RecyclerView.Adapter<AgendaRVAdapter.Agenda
         holder.txtMesEvento.setText(Herramientas.formatearMesAgenda(fecha));
         
         //Llenar la informacion de los eventos relacionados a esa fecha
-        ArrayList<Evento> eventos = Evento.obtenerEventosPorDia(fecha);
+        ArrayList<Evento> eventos = Evento.obtenerEventosGuardadosPorDia(fecha);
         
         //Inicializar el adapter del recycler hijo
         RecyclerHijoAdapter adapterHijo = new RecyclerHijoAdapter(eventos);

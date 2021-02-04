@@ -253,18 +253,17 @@ public class Evento implements Serializable
     private void guardarInteres()
     {
         registrarBBDD();
-        
-        String query = "INSERT INTO guardados VALUES (?)";
+    
+        String query =
+            "UPDATE eventos SET tieneGuardado = 1 WHERE id_evento = ?";
         SqliteOp op = new SqliteOp(query);
         op.pasarParametro(idEvento);
         op.ejecutar();
     }
     private void eliminarGuardado()
     {
-        eliminarBBDD();
-        
         String query =
-            "DELETE FROM guardados WHERE id_evento = ?";
+            "UPDATE eventos SET tieneGuardado = 0 WHERE id_evento = ?";
         SqliteOp op = new SqliteOp(query);
         op.pasarParametro(idEvento);
         op.ejecutar();
@@ -350,8 +349,6 @@ public class Evento implements Serializable
                 Gson g = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                 Evento[] test = g.fromJson(respuesta, Evento[].class);
                 
-                borrarEventosBBDD();
-                
                 //Convertirlo en lista
                 ArrayList<Evento> listaEventos = new ArrayList<>();
                 for (Evento evento : test)
@@ -389,7 +386,7 @@ public class Evento implements Serializable
         String query = "SELECT * FROM eventos e ";
         if(soloGuardados)
         {
-            query += "INNER JOIN guardados g ON (e.id_evento = g.id_evento) ";
+            query += "WHERE tieneGuardado = 1 ";
         }
         query += "ORDER BY id_evento DESC";
         SqliteOp op = new SqliteOp(query);
@@ -431,9 +428,13 @@ public class Evento implements Serializable
         return fechas;
     }
     
-    public static ArrayList<Evento> obtenerEventosPorDia(Date dia)
+    public static ArrayList<Evento> obtenerEventosGuardadosPorDia(Date dia)
     {
-        String query = "SELECT * FROM eventos WHERE SUBSTR(fecha_inicio,0,11) = ?";
+        String query =
+                "SELECT * FROM eventos " +
+                "WHERE " +
+                "tieneGuardado = 1 AND " +
+                "SUBSTR(fecha_inicio,0,11) = ?";
         SqliteOp op = new SqliteOp(query);
         op.pasarParametro(new SimpleDateFormat("yyyy-MM-dd").format(dia));
         DBMatriz resultado = op.consultar();

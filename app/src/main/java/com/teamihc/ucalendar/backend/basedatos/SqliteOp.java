@@ -43,7 +43,7 @@ public class SqliteOp
      * La versión de la base de datos.
      * Este dato debe ser igual al que está en la tabla v_configuracion.
      */
-    private static final String VERSION_BD = "5";
+    private static final String VERSION_BD = "6";
     /**
      * Representa la ubicación del archivo SQLite con respecto al ejecutable del programa.
      */
