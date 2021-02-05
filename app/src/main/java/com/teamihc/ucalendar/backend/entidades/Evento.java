@@ -316,9 +316,8 @@ public class Evento implements Serializable
     {
         Calendar c = Calendar.getInstance();
         //c.setTime(getFechaInicio());
+        c.add(Calendar.SECOND,5);
 
-        c.set(Calendar.HOUR_OF_DAY, 14);
-        c.set(Calendar.MINUTE, 19);
 
         SharedPreferences settings = context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = settings.edit();
