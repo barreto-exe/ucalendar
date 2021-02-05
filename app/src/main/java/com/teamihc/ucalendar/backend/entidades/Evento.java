@@ -2,6 +2,7 @@ package com.teamihc.ucalendar.backend.entidades;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
@@ -235,6 +236,7 @@ public class Evento implements Serializable
             cantidadGuardados++;
             servicio = "recibir_guardar";
             guardarInteres();
+            
             crearNotificacion(context);
         }
         else
@@ -243,7 +245,8 @@ public class Evento implements Serializable
             servicio = "recibir_guardar_borrado";
             eliminarGuardado();
         }
-    
+        
+        
         SolicitudHTTP solicitud = new SolicitudHTTP(context, servicio);
         solicitud.getParametros().put("idUsuario", Configuraciones.getIdUsuarioSesion() + "");
         solicitud.getParametros().put("idEvento", idEvento + "");
@@ -314,6 +317,8 @@ public class Evento implements Serializable
     }
     public void crearNotificacion(Context context)
     {
+        Toast.makeText(context, "Recibirás un recordatorio 10 minutos antes de este evento.", Toast.LENGTH_LONG).show();
+    
         Calendar c = Calendar.getInstance();
         //c.setTime(getFechaInicio());
         c.add(Calendar.SECOND,5);
