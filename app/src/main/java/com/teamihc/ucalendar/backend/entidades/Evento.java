@@ -320,15 +320,14 @@ public class Evento implements Serializable
         Toast.makeText(context, "Recibirás un recordatorio 10 minutos antes de este evento.", Toast.LENGTH_LONG).show();
     
         Calendar c = Calendar.getInstance();
-        //c.setTime(getFechaInicio());
-        c.add(Calendar.SECOND,5);
+        c.setTime(getFechaInicio());
 
 
         SharedPreferences settings = context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = settings.edit();
         //SAVE ALARM TIME TO USE IT IN CASE OF REBOOT
         edit.putInt("alarmID", getIdEvento());
-        edit.putLong("alarmTime", c.getTimeInMillis());
+        edit.putLong("alarmTime", c.getTimeInMillis() - 600000);
 
         edit.commit();
 
