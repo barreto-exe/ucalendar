@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardInfoEventoAgenda"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="0dp"
+    android:background="#00FFFFFF">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        app:cardCornerRadius="32dp">
+        <TextView
+            android:id="@+id/txtNombreEvento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Aquí va el nombre del evento, puede ser largo y abarca 2 lineas"
+            android:textColor="@color/black"
+            android:textSize="20sp"></TextView>
+    </androidx.cardview.widget.CardView>
+</androidx.cardview.widget.CardView>

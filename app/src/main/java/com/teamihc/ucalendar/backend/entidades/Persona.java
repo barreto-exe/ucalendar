@@ -7,12 +7,12 @@ import java.util.Date;
 
 public class Persona
 {
-    private String correo;
-    private Date fechaNacimiento;
-    private Sexo sexo;
-    private String rol;
-    private String nombres;
-    private String apellidos;
+    protected String correo;
+    protected Date fechaNacimiento;
+    protected Sexo sexo;
+    protected String rol;
+    protected String nombres;
+    protected String apellidos;
     
     public Persona(String nombres, String apellidos, String correo, Date fechaNacimiento, Sexo sexo, String rol)
     {

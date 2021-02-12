@@ -14,7 +14,6 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
 
-
 import com.teamihc.ucalendar.BuildConfig;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -28,6 +27,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -59,20 +59,18 @@ public class Herramientas
     //</editor-fold>
     
     //<editor-fold desc="Formatos">
-    public static final String FORMATO_FECHA_STRING = "yyyy/MM/dd";
     public static final String FORMATO_FECHA_FRONT_STRING = "dd/MM/yyyy";
-    public static final String FORMATO_TIEMPO_STRING = "HH:mm:ss";
     public static final String FORMATO_TIEMPO_FRONT_STRING = "hh:mm a";
+    public static final String FORMATO_FECHATIEMPO_BBDD_STRING = "yyyy-MM-dd HH:mm:ss";
+    
     public static final String FOMATO_MONEDA_STRING = "###,###,###,##0.00";
     public static final String FOMATO_PORCENTAJE_STRING = "#0.00%";
     public static final String SIMBOLO_BS = "Bs.S";
     public static final String SIMBOLO_D = "$";
     
-    public static SimpleDateFormat FORMATO_FECHA;
     public static SimpleDateFormat FORMATO_FECHA_FRONT;
-    public static SimpleDateFormat FORMATO_TIEMPO;
     public static SimpleDateFormat FORMATO_TIEMPO_FRONT;
-    public static SimpleDateFormat FORMATO_FECHATIEMPO;
+    public static SimpleDateFormat FORMATO_FECHATIEMPO_BBDD;
     
     private static DecimalFormatSymbols simbolos;
     public static DecimalFormat FOMATO_MONEDA;
@@ -80,25 +78,69 @@ public class Herramientas
     
     public static void inicializarFormatos()
     {
-        FORMATO_FECHA = new SimpleDateFormat(FORMATO_FECHA_STRING);
         FORMATO_FECHA_FRONT = new SimpleDateFormat(FORMATO_FECHA_FRONT_STRING);
-        FORMATO_TIEMPO = new SimpleDateFormat(FORMATO_TIEMPO_STRING);
         FORMATO_TIEMPO_FRONT = new SimpleDateFormat(FORMATO_TIEMPO_FRONT_STRING);
-        FORMATO_FECHATIEMPO = new SimpleDateFormat(FORMATO_FECHA_STRING + " " + FORMATO_TIEMPO_STRING);
+        FORMATO_FECHATIEMPO_BBDD = new SimpleDateFormat(FORMATO_FECHATIEMPO_BBDD_STRING);
         
         simbolos = new DecimalFormatSymbols();
         simbolos.setDecimalSeparator(',');
         simbolos.setGroupingSeparator('.');
-        
         FOMATO_MONEDA = new DecimalFormat(FOMATO_MONEDA_STRING, simbolos);
         FOMATO_PORCENTAJE = new DecimalFormat(FOMATO_PORCENTAJE_STRING, simbolos);
     }
     
-    public static String formatearDiaFecha(Date fecha)
+    public static String formatearDiaFechaFront(Date fecha)
     {
         String dia = new SimpleDateFormat("EEEE").format(fecha);
-        return dia.substring(0,1).toUpperCase() + dia.substring(1) + ", " + FORMATO_FECHA_FRONT.format(fecha);
+        return dia.substring(0, 1).toUpperCase() + dia.substring(1) + ", " + FORMATO_FECHA_FRONT.format(fecha);
     }
+    
+    public static String formatearMesYearCalendario(Date fecha)
+    {
+        String dia = new SimpleDateFormat("MMMM yyyy").format(fecha);
+        return dia.substring(0, 1).toUpperCase() + dia.substring(1);
+    }
+    
+    public static String formatearDiaFechaCalendario(Date fecha)
+    {
+        String dia = new SimpleDateFormat("E dd").format(fecha);
+        return dia.substring(0, 1).toUpperCase() + dia.substring(1);
+    }
+    
+    public static String formatearDiaAgenda(Date fecha)
+    {
+        String dia = new SimpleDateFormat("E dd").format(fecha);
+        return dia.substring(0, 1).toUpperCase() + dia.substring(1);
+    }
+    public static String formatearMesAgenda(Date fecha)
+    {
+        String mes = new SimpleDateFormat("MMM").format(fecha);
+        return mes.toUpperCase().replace(".","");
+    }
+    
+    public static String formatearHoraFront(Date hora)
+    {
+        return FORMATO_TIEMPO_FRONT.format(hora);
+    }
+    
+    public static String formatearFechaTiempoBBDD(Date fechaTiempo)
+    {
+        return FORMATO_FECHATIEMPO_BBDD.format(fechaTiempo);
+    }
+    public static Date parsearFechaTiempoBBDD(String fechaTiempo)
+    {
+        try
+        {
+            return FORMATO_FECHATIEMPO_BBDD.parse(fechaTiempo);
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    
     public static String formatearMoneda(float monto)
     {
         if (monto == 0)

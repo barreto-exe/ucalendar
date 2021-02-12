@@ -4,8 +4,9 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,34 +17,73 @@ import com.teamihc.ucalendar.R;
 import com.teamihc.ucalendar.backend.basedatos.Configuraciones;
 import com.teamihc.ucalendar.fragments.AgendaFragment;
 import com.teamihc.ucalendar.fragments.CalendarioFragment;
-import com.teamihc.ucalendar.fragments.InicioFragment;
+import com.teamihc.ucalendar.fragments.FeedFragment;
+import com.teamihc.ucalendar.helper.NotificacionHelper;
 
 public class MainActivity extends AppCompatActivity
 {
     private Toolbar toolbar;
-    Dialog dialog;
-    
+    private Dialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar=findViewById(R.id.topbar);
+        
+        inicializarComponentes();
+        
+        getFragmentManager().beginTransaction().replace(R.id.layout_principal, new FeedFragment()).commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        NotificacionHelper notificacionHelper = new NotificacionHelper(this);
+        notificacionHelper.crearCanales();
+    }
+
+    public void inicializarComponentes()
+    {
+        //Toolbar
+        toolbar = (Toolbar) findViewById(R.id.view_top_bar);
         setSupportActionBar(toolbar);
+        
+        //Bottom bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.nav_bar);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         dialog = new Dialog(this);
-
     }
     
-    public void btnCerrarSesion_click(View v)
+    private void cerrarSesion()
     {
         Configuraciones.setCorreoSesion("");
-        Intent i = new Intent(MainActivity.this, InicioSesion.class);
+        Intent i = new Intent(MainActivity.this, InicioSesionActivity.class);
         startActivity(i);
     }
-
-    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener= new BottomNavigationView.OnNavigationItemSelectedListener() {
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.top_bar, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // Handle item selection
+        switch (item.getItemId())
+        {
+            case R.id.menu_inicio_cerrar_sesion:
+                cerrarSesion();
+                break;
+        }
+        return true;
+    }
+    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener()
+    {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item)
         {
@@ -52,7 +92,7 @@ public class MainActivity extends AppCompatActivity
             {
                 case R.id.nav_home:
                 {
-                    fragment = new InicioFragment();
+                    fragment = new FeedFragment();
                     break;
                 }
                 case R.id.nav_agenda:
