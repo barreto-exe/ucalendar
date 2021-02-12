@@ -421,7 +421,16 @@ public class Evento implements Serializable
         {
             try
             {
-                fechas.add(new SimpleDateFormat("yyyy-MM-dd").parse((String)resultado.getValor("fecha")));
+                Date fecha = new SimpleDateFormat("yyyy-MM-dd").parse((String)resultado.getValor("fecha"));
+                Date hoy = Calendar.getInstance().getTime();
+                
+                //Si fecha agregada es >= que hoy
+                if(fecha.after(hoy)
+                    || (fecha.getYear() == hoy.getYear() && fecha.getMonth() == hoy.getMonth() &&fecha.getDate() == hoy.getDate()))
+                {
+                    //Agregar fecha a eventos guardados
+                    fechas.add(fecha);
+                }
             }
             catch (ParseException e)
             {
