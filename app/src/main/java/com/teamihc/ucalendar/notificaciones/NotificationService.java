@@ -92,8 +92,8 @@ public class NotificationService extends IntentService
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(Notificaciones.getContext(), CHANNEL_ID).
                     setSmallIcon(R.drawable.ucalendar_logo).
-                    setContentTitle(tittle).
-                    setContentText(description).
+                    setContentTitle("Inscripciones PLIUL").
+                    setContentText("Apuesta por tu formación personal, espiritual, ciudadana e incluso profesional con el Programa de Liderazgo Ignaciano Universitario").
                     setPriority(NotificationCompat.PRIORITY_DEFAULT).
                     setCategory(NotificationCompat.CATEGORY_SERVICE).
                     setGroup(KEY_GROUP).
