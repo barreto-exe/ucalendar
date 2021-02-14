@@ -319,7 +319,7 @@ public class Evento implements Serializable
     {
         Toast.makeText(context, "Recibirás un recordatorio 10 minutos antes de este evento.", Toast.LENGTH_LONG).show();
     
-        Calendar c = Calendar.getInstance();
+        /*Calendar c = Calendar.getInstance();
         //c.setTime(getFechaInicio());
         c.add(Calendar.SECOND, 10);
         
@@ -331,7 +331,7 @@ public class Evento implements Serializable
 
         edit.commit();
 
-        AlarmCreator.setAlarm(getIdEvento(), c.getTimeInMillis(), Notificaciones.getContext(), this);
+        AlarmCreator.setAlarm(getIdEvento(), c.getTimeInMillis(), Notificaciones.getContext(), this);*/
     }
     
     
